@@ -26,7 +26,7 @@ function ActivityRow({ icon, bg, text, time }: { icon: string; bg: string; text:
 }
 
 export default function DashboardTab({ onNavigate }: { onNavigate: (t: AdminTab) => void }) {
-  const { data } = useCMS();
+  const { data, loading } = useCMS();
 
   return (
     <div>
@@ -48,29 +48,27 @@ export default function DashboardTab({ onNavigate }: { onNavigate: (t: AdminTab)
             <Btn variant="gold" onClick={() => window.open('/', '_blank')}>🚀 View Live Site</Btn>
           </div>
         </Card>
-        <Card title="Recent Activity">
-          <ActivityRow icon="💼" bg="rgba(47,107,255,.12)" text={<><strong style={{ color: '#fff' }}>{data.projects[0]?.title || 'Project'}</strong> updated</>} time="Just now" />
-          <ActivityRow icon="📝" bg="rgba(200,162,74,.1)" text={<><strong style={{ color: '#fff' }}>Blog post</strong> created</>} time="Today" />
-          <ActivityRow icon="⚡" bg="rgba(34,197,94,.1)" text={<><strong style={{ color: '#fff' }}>Services</strong> section saved</>} time="Yesterday" />
-          <ActivityRow icon="🎨" bg="rgba(47,107,255,.12)" text={<><strong style={{ color: '#fff' }}>Brand colors</strong> confirmed</>} time="This week" />
+        <Card title="Content Snapshot">
+          <ActivityRow icon="💼" bg="rgba(47,107,255,.12)" text={<>Latest project: <strong style={{ color: '#fff' }}>{data.projects[data.projects.length - 1]?.title || '—'}</strong></>} time={`${data.projects.length} total`} />
+          <ActivityRow icon="📝" bg="rgba(200,162,74,.1)" text={<>Latest post: <strong style={{ color: '#fff' }}>{data.blogPosts[data.blogPosts.length - 1]?.title || '—'}</strong></>} time={`${data.blogPosts.filter(p => p.status === 'published').length} published`} />
+          <ActivityRow icon="⭐" bg="rgba(34,197,94,.1)" text={<>Latest testimonial: <strong style={{ color: '#fff' }}>{data.testimonials[data.testimonials.length - 1]?.name || '—'}</strong></>} time={`${data.testimonials.length} total`} />
+          <ActivityRow icon="🎨" bg="rgba(47,107,255,.12)" text={<>Logo: <strong style={{ color: '#fff' }}>{data.logo ? 'Custom logo uploaded' : 'Using default SESCO monogram'}</strong></>} time={data.favicon ? 'Custom favicon set' : 'Default favicon'} />
         </Card>
       </div>
 
       <Card title="System Status">
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(180px,1fr))', gap: 16 }}>
-          <StatusRow label="CMS Storage Active" />
-          <StatusRow label="Live Site Online" />
-          <StatusRow label="All Content Synced" />
+          <StatusRow label={loading ? 'Syncing with Supabase…' : 'Content synced with Supabase'} ok={!loading} />
         </div>
       </Card>
     </div>
   );
 }
 
-function StatusRow({ label }: { label: string }) {
+function StatusRow({ label, ok = true }: { label: string; ok?: boolean }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-      <span style={{ color: '#22c55e' }}>●</span>
+      <span style={{ color: ok ? '#22c55e' : 'var(--gold)' }}>●</span>
       <span style={{ fontSize: '.88rem' }}>{label}</span>
     </div>
   );

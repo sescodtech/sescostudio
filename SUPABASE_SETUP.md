@@ -39,6 +39,78 @@ Click **Run**. You should see "Success. No rows returned."
 
 ---
 
+## STEP 2B — Create the Contact Form Table
+
+Still in the SQL Editor, run this to enable the live "Start a Project" contact form (`/contact`):
+
+```sql
+-- Stores every contact form submission from the public site
+create table contact_submissions (
+  id          bigint generated always as identity primary key,
+  first_name  text not null,
+  last_name   text not null,
+  email       text not null,
+  company     text,
+  service     text,
+  brief       text not null,
+  created_at  timestamptz not null default now()
+);
+
+alter table contact_submissions enable row level security;
+
+-- Anyone (including anonymous site visitors) can submit the form
+create policy "Anyone can submit the contact form"
+  on contact_submissions for insert
+  with check (true);
+
+-- Only you, logged in as admin, can read submissions
+create policy "Authenticated users can read submissions"
+  on contact_submissions for select
+  using (auth.role() = 'authenticated');
+```
+
+Click **Run**. Submissions land in this table — view them directly in the Supabase Table Editor under `contact_submissions`, or in `/admin` → **Form Submissions**.
+
+---
+
+## STEP 2C — Create the Newsletter Signups Table
+
+Powers the newsletter form in the site footer:
+
+```sql
+create table newsletter_signups (
+  id          bigint generated always as identity primary key,
+  email       text not null unique,
+  created_at  timestamptz not null default now()
+);
+
+alter table newsletter_signups enable row level security;
+
+create policy "Anyone can subscribe to the newsletter"
+  on newsletter_signups for insert
+  with check (true);
+
+create policy "Authenticated users can read newsletter signups"
+  on newsletter_signups for select
+  using (auth.role() = 'authenticated');
+
+create policy "Authenticated users can delete newsletter signups"
+  on newsletter_signups for delete
+  using (auth.role() = 'authenticated');
+```
+
+The `unique` constraint on `email` means a repeat signup gets a friendly error instead of a duplicate row.
+
+Also add a delete policy for contact submissions, so the admin Form Submissions tab can remove entries:
+
+```sql
+create policy "Authenticated users can delete submissions"
+  on contact_submissions for delete
+  using (auth.role() = 'authenticated');
+```
+
+---
+
 ## STEP 3 — Set Row Level Security (RLS)
 
 Still in the SQL Editor, run this:

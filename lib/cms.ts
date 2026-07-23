@@ -4,7 +4,6 @@ import { supabase } from '@/lib/supabase';
 export const DEFAULT_CMS: CMSData = {
   logo: null,
   favicon: null,
-  pin: '1234',
   heroHeadline: 'Building Digital Systems\nfor Modern Businesses',
   heroSub:
     'We design, develop, automate, and manage digital solutions that help businesses establish, scale, and grow in the digital world.',
@@ -14,6 +13,43 @@ export const DEFAULT_CMS: CMSData = {
       'SESCO STUDIO exists to give every business — from emerging startups to established enterprises — access to the same level of digital capability that powers the world\'s most successful companies. We build systems, not just designs.',
     vision:
       'To be Africa\'s leading digital innovation studio — recognized globally for building systems that transform how businesses operate, communicate, and grow in the digital age.',
+  },
+  faq: [
+    { id: 1, q: 'How long does a typical project take?', a: 'Most landing pages and brochure sites take 2 weeks. Full digital systems with CMS/admin dashboards typically run 4–8 weeks depending on scope.' },
+    { id: 2, q: 'Do you offer ongoing support after launch?', a: 'Yes — every package includes a support window (30–90 days depending on tier), and we offer ongoing retainers for maintenance, updates, and feature additions.' },
+    { id: 3, q: 'Can you work with my existing brand or codebase?', a: 'Absolutely. We regularly upgrade and extend existing platforms rather than rebuilding from scratch — we always audit first before touching anything.' },
+    { id: 4, q: 'What technologies do you build with?', a: 'Next.js, React, TypeScript, and Tailwind on the frontend; Node.js/Express or Supabase on the backend, with AI integrations where useful.' },
+  ],
+  team: [
+    { id: 1, initials: 'OA', name: 'Olajide Oluwaseyi Ayomide', role: 'Founder & Lead Engineer', bio: 'Full-stack developer, brand designer, and digital strategist with 5+ years building systems for Nigerian businesses. Founder of SESCO STUDIO and Sescohubs.' },
+    { id: 2, initials: 'DS', name: 'Design Systems Unit', role: 'UI/UX & Brand Design', bio: 'A collective of premium designers crafting visual identities, UI systems, and digital experiences that communicate brand value at every touchpoint.' },
+    { id: 3, initials: 'AT', name: 'Automation Team', role: 'AI & Workflow Engineering', bio: 'Specialists in AI integration, workflow automation, and intelligent system design — helping businesses eliminate manual work and scale efficiently.' },
+  ],
+  navigation: {
+    links: [
+      { id: 1, label: 'Home', href: '/' },
+      { id: 2, label: 'About', href: '/about' },
+      { id: 3, label: 'Services', href: '/services' },
+      { id: 4, label: 'Portfolio', href: '/portfolio' },
+      { id: 5, label: 'Case Studies', href: '/case-studies' },
+      { id: 6, label: 'Blog', href: '/blog' },
+    ],
+    ctaLabel: 'Start a Project',
+  },
+  footer: {
+    tagline: 'Building digital systems for modern businesses.\nTechnology · Design · Automation · Growth.',
+    servicesLinks: ['Web Development', 'Branding & Design', 'AI Solutions', 'Social Media', 'Digital Strategy'],
+  },
+  seo: {
+    defaultTitle: 'SESCO STUDIO — Building Digital Systems for Modern Businesses',
+    defaultDescription: 'SESCO STUDIO is a premium digital innovation studio. We build systems, not just designs — web development, branding, AI automation, and digital strategy.',
+    ogImage: null,
+    twitterHandle: '',
+  },
+  siteSettings: {
+    maintenanceMode: false,
+    maintenanceMessage: "We're currently performing scheduled maintenance. Please check back shortly.",
+    analyticsId: '',
   },
   services: [
     {
@@ -121,16 +157,16 @@ export const DEFAULT_CMS: CMSData = {
     },
     {
       id: 6,
-      title: 'Charis MFB System',
-      type: 'Automation',
-      desc: 'Google Apps Script loan & investment reminder system with 5 roles, JWT sessions, Termii SMS, and audit logging.',
-      tags: ['Apps Script', 'Google Sheets', 'Termii SMS'],
-      icon: '🏦',
-      bg: 'linear-gradient(135deg,#0d1a0d,#0B1F3A)',
-      results: '8hrs/week saved',
-      challenge: 'Automate daily loan/investment reminders for a microfinance bank with role-based access and compliance audit logs.',
-      r1: { n: '8hrs', l: 'Saved Weekly' },
-      r2: { n: '₦33M', l: 'Exposure Tracked' },
+      title: 'IOCONSULTS',
+      type: 'Web Development',
+      desc: 'Next.js rebuild of a strategic HR consulting firm\'s website with a custom brand system and a self-contained static holding page.',
+      tags: ['Next.js', 'TypeScript', 'Tailwind CSS'],
+      icon: '💼',
+      bg: 'linear-gradient(135deg,#1a1030,#0B0F1A)',
+      results: 'Full brand relaunch',
+      challenge: 'Rebuild a legacy HR consulting site into a modern Next.js platform with a distinct deep-purple brand identity.',
+      r1: { n: '100%', l: 'Brand Refresh' },
+      r2: { n: '2.0s', l: 'Load Time' },
     },
   ],
   testimonials: [
@@ -152,10 +188,10 @@ export const DEFAULT_CMS: CMSData = {
     },
     {
       id: 3,
-      name: 'Charis Microfinance Bank',
-      role: 'Financial Institution · Automation',
-      initials: 'CM',
-      quote: 'The automation system SESCO built has saved us hours of manual work every day. Their understanding of our compliance needs and attention to detail was outstanding.',
+      name: 'IOCONSULTS',
+      role: 'HR Consulting · Web Platform',
+      initials: 'IO',
+      quote: 'SESCO STUDIO rebuilt our entire web presence from the ground up. The new brand identity and site finally match the caliber of the clients we serve.',
       stars: 5,
     },
   ],
@@ -232,6 +268,7 @@ export const DEFAULT_CMS: CMSData = {
     website: 'sescoconcept.name.ng',
     location: 'Lagos, Nigeria',
     github: 'https://github.com/sescodtech',
+    businessHours: 'Mon–Fri, 9am–6pm (WAT)',
   },
   media: [],
 };

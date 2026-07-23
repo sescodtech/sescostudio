@@ -25,6 +25,7 @@ export default function ProjectsTab() {
     }
   };
   const handleSave = async () => {
+    if (!form.title?.trim()) { toast('Project title is required', 'error'); return; }
     const obj: Project = {
       id: editing?.id || Date.now(),
       title: form.title || '', type: form.type || '', desc: form.desc || '',

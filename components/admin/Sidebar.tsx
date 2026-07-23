@@ -1,9 +1,9 @@
 'use client';
-import { LayoutDashboard, Palette, Home, User, Zap, MessageSquare, Phone, Briefcase, ClipboardList, FileText, Image as ImageIcon, Settings, LogOut } from 'lucide-react';
+import { LayoutDashboard, Palette, Home, User, Zap, MessageSquare, Phone, Briefcase, ClipboardList, FileText, Image as ImageIcon, Settings, LogOut, HelpCircle, Users, Menu, PanelBottom, Search, Sliders, Inbox } from 'lucide-react';
 import LogoMark from '@/components/ui/LogoMark';
 import { useAdminAuth } from '@/lib/AdminAuthContext';
 
-export type AdminTab = 'dashboard' | 'logo' | 'homepage' | 'about' | 'services' | 'testimonials' | 'contact-info' | 'projects' | 'casestudies' | 'blog' | 'media' | 'settings';
+export type AdminTab = 'dashboard' | 'logo' | 'homepage' | 'about' | 'services' | 'testimonials' | 'faq' | 'team' | 'contact-info' | 'projects' | 'casestudies' | 'blog' | 'media' | 'navigation' | 'footer' | 'seo' | 'site-settings' | 'submissions' | 'settings';
 
 const NAV_GROUPS: Array<{ section: string; items: Array<{ id: AdminTab; label: string; icon: React.ReactNode }> }> = [
   { section: 'Overview', items: [{ id: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard size={16} /> }] },
@@ -13,6 +13,8 @@ const NAV_GROUPS: Array<{ section: string; items: Array<{ id: AdminTab; label: s
     { id: 'about', label: 'About', icon: <User size={16} /> },
     { id: 'services', label: 'Services', icon: <Zap size={16} /> },
     { id: 'testimonials', label: 'Testimonials', icon: <MessageSquare size={16} /> },
+    { id: 'faq', label: 'FAQ', icon: <HelpCircle size={16} /> },
+    { id: 'team', label: 'Team', icon: <Users size={16} /> },
     { id: 'contact-info', label: 'Contact Info', icon: <Phone size={16} /> },
   ]},
   { section: 'Portfolio', items: [
@@ -21,7 +23,16 @@ const NAV_GROUPS: Array<{ section: string; items: Array<{ id: AdminTab; label: s
   ]},
   { section: 'Publishing', items: [{ id: 'blog', label: 'Blog Posts', icon: <FileText size={16} /> }] },
   { section: 'Media', items: [{ id: 'media', label: 'Media Library', icon: <ImageIcon size={16} /> }] },
-  { section: 'System', items: [{ id: 'settings', label: 'Settings', icon: <Settings size={16} /> }] },
+  { section: 'Structure', items: [
+    { id: 'navigation', label: 'Navigation', icon: <Menu size={16} /> },
+    { id: 'footer', label: 'Footer', icon: <PanelBottom size={16} /> },
+  ]},
+  { section: 'Leads', items: [{ id: 'submissions', label: 'Form Submissions', icon: <Inbox size={16} /> }] },
+  { section: 'System', items: [
+    { id: 'seo', label: 'SEO', icon: <Search size={16} /> },
+    { id: 'site-settings', label: 'Site Settings', icon: <Sliders size={16} /> },
+    { id: 'settings', label: 'Data & Security', icon: <Settings size={16} /> },
+  ]},
 ];
 
 export default function Sidebar({ active, onChange }: { active: AdminTab; onChange: (tab: AdminTab) => void }) {

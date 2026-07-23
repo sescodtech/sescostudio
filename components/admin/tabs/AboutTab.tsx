@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useCMS } from '@/lib/CMSContext';
 import { useToast } from '@/components/admin/ToastContext';
 import { Card, Field, Textarea, Input, Btn } from '@/components/admin/ui';
@@ -7,15 +7,17 @@ import { Card, Field, Textarea, Input, Btn } from '@/components/admin/ui';
 export default function AboutTab() {
   const { data, save } = useCMS();
   const { toast } = useToast();
+  const [prevAbout, setPrevAbout] = useState(data.about);
   const [missionTitle, setMissionTitle] = useState(data.about.missionTitle);
   const [missionDesc, setMissionDesc] = useState(data.about.missionDesc);
   const [vision, setVision] = useState(data.about.vision);
 
-  useEffect(() => {
+  if (data.about !== prevAbout) {
+    setPrevAbout(data.about);
     setMissionTitle(data.about.missionTitle);
     setMissionDesc(data.about.missionDesc);
     setVision(data.about.vision);
-  }, [data.about]);
+  }
 
   const handleSave = async () => {
     try {

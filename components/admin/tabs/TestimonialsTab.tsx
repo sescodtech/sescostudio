@@ -25,6 +25,7 @@ export default function TestimonialsTab() {
     }
   };
   const handleSave = async () => {
+    if (!form.name?.trim() || !form.quote?.trim()) { toast('Name and quote are required', 'error'); return; }
     const obj: Testimonial = {
       id: editing?.id || Date.now(),
       name: form.name || '', initials: form.initials || '', role: form.role || '',

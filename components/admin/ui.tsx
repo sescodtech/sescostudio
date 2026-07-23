@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useRef, useState } from 'react';
 
 export function Card({ title, action, children }: { title: string; action?: React.ReactNode; children: React.ReactNode }) {
   return (
@@ -78,4 +78,34 @@ export function Td({ children, title = false }: { children: React.ReactNode; tit
 }
 export function Tr({ children }: { children: React.ReactNode }) {
   return <tr>{children}</tr>;
+}
+
+export function UploadZone({ preview, icon, label, hint, onFile }: { preview: string | null; icon: string; label: string; hint: string; onFile: (dataUrl: string) => void }) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [drag, setDrag] = useState(false);
+
+  const readFile = (file: File) => {
+    const reader = new FileReader();
+    reader.onload = e => onFile(e.target?.result as string);
+    reader.readAsDataURL(file);
+  };
+
+  return (
+    <div
+      onClick={() => inputRef.current?.click()}
+      onDragOver={e => { e.preventDefault(); setDrag(true); }}
+      onDragLeave={() => setDrag(false)}
+      onDrop={e => { e.preventDefault(); setDrag(false); const f = e.dataTransfer.files[0]; if (f) readFile(f); }}
+      style={{ border: `2px dashed ${drag ? 'var(--blue)' : 'var(--border)'}`, borderRadius: 12, padding: 40, textAlign: 'center', cursor: 'pointer', transition: 'border-color .3s,background .3s', background: drag ? 'rgba(47,107,255,.08)' : 'transparent' }}
+    >
+      <input ref={inputRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={e => { const f = e.target.files?.[0]; if (f) readFile(f); }} />
+      {preview ? (
+        <img src={preview} alt="preview" style={{ maxHeight: 120, margin: '0 auto 16px', objectFit: 'contain' }} />
+      ) : (
+        <span style={{ fontSize: '2.5rem', marginBottom: 12, display: 'block' }}>{icon}</span>
+      )}
+      <p style={{ color: 'var(--gray)', fontSize: '.88rem', marginBottom: 8 }}>{label}</p>
+      <p style={{ color: 'var(--gray2)', fontSize: '.75rem' }}>{hint}</p>
+    </div>
+  );
 }

@@ -25,6 +25,7 @@ export default function BlogTab() {
     }
   };
   const handleSave = async () => {
+    if (!form.title?.trim()) { toast('Post title is required', 'error'); return; }
     const obj: BlogPost = {
       id: editing?.id || Date.now(),
       title: form.title || '', cat: form.cat || '', date: form.date || 'Jun 2025',

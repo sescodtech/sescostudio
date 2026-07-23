@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { useCMS } from '@/lib/CMSContext';
 import { useToast } from '@/components/admin/ToastContext';
 import { Card, Field, Input, Btn } from '@/components/admin/ui';
@@ -7,9 +7,13 @@ import { Card, Field, Input, Btn } from '@/components/admin/ui';
 export function ContactInfoTabImpl() {
   const { data, save } = useCMS();
   const { toast } = useToast();
+  const [prevContact, setPrevContact] = useState(data.contact);
   const [form, setForm] = useState(data.contact);
 
-  useEffect(() => setForm(data.contact), [data.contact]);
+  if (data.contact !== prevContact) {
+    setPrevContact(data.contact);
+    setForm(data.contact);
+  }
 
   const handleSave = async () => {
     try {
@@ -22,7 +26,7 @@ export function ContactInfoTabImpl() {
 
   return (
     <Card title="Contact Information" action={<Btn variant="primary" size="sm" onClick={handleSave}>Save Changes</Btn>}>
-      <Field label="Email Address"><Input value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} /></Field>
+      <Field label="Email Address"><Input type="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} /></Field>
       <Field label="Website URL"><Input value={form.website} onChange={e => setForm({ ...form, website: e.target.value })} /></Field>
       <Field label="Location"><Input value={form.location} onChange={e => setForm({ ...form, location: e.target.value })} /></Field>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
@@ -41,15 +45,23 @@ export function ContactInfoTabImpl() {
 export function CaseStudiesTabImpl() {
   const { data, save } = useCMS();
   const { toast } = useToast();
-  const [drafts, setDrafts] = useState<Record<number, { challenge: string; r1n: string; r1l: string; r2n: string; r2l: string }>>({});
+  const [prevProjects, setPrevProjects] = useState(data.projects);
+  const [drafts, setDrafts] = useState<Record<number, { challenge: string; r1n: string; r1l: string; r2n: string; r2l: string }>>(() => {
+    const init: Record<number, { challenge: string; r1n: string; r1l: string; r2n: string; r2l: string }> = {};
+    data.projects.forEach(p => {
+      init[p.id] = { challenge: p.challenge || '', r1n: p.r1?.n || '', r1l: p.r1?.l || '', r2n: p.r2?.n || '', r2l: p.r2?.l || '' };
+    });
+    return init;
+  });
 
-  useEffect(() => {
+  if (data.projects !== prevProjects) {
+    setPrevProjects(data.projects);
     const init: typeof drafts = {};
     data.projects.forEach(p => {
       init[p.id] = { challenge: p.challenge || '', r1n: p.r1?.n || '', r1l: p.r1?.l || '', r2n: p.r2?.n || '', r2l: p.r2?.l || '' };
     });
     setDrafts(init);
-  }, [data.projects]);
+  }
 
   const handleSaveAll = async () => {
     const next = data.projects.map(p => {
@@ -170,21 +182,7 @@ export function MediaTabImpl() {
 export function SettingsTabImpl() {
   const { data, save, reset } = useCMS();
   const { toast } = useToast();
-  const [curPin, setCurPin] = useState('');
-  const [newPin, setNewPin] = useState('');
   const importRef = useRef<HTMLInputElement>(null);
-
-  const savePIN = async () => {
-    if (curPin !== (data.pin || '1234')) { toast('Current PIN incorrect', 'error'); return; }
-    if (newPin.length < 4) { toast('PIN must be at least 4 digits', 'error'); return; }
-    try {
-      await save({ pin: newPin });
-      setCurPin(''); setNewPin('');
-      toast('PIN updated');
-    } catch {
-      toast('Failed to save — check your connection', 'error');
-    }
-  };
 
   const exportData = () => {
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
@@ -221,13 +219,9 @@ export function SettingsTabImpl() {
 
   return (
     <div>
-      <Card title="Security" action={<Btn variant="primary" size="sm" onClick={savePIN}>Update PIN</Btn>}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-          <Field label="Current PIN"><Input type="password" value={curPin} onChange={e => setCurPin(e.target.value)} placeholder="Current PIN" /></Field>
-          <Field label="New PIN"><Input type="password" value={newPin} onChange={e => setNewPin(e.target.value)} placeholder="New PIN (4–6 digits)" /></Field>
-        </div>
-        <p style={{ color: 'var(--gray2)', fontSize: '.78rem', marginTop: 4 }}>
-          This PIN gates the dashboard UI only. The data itself is protected by Supabase Row Level Security — see SUPABASE_SETUP.md.
+      <Card title="Security">
+        <p style={{ color: 'var(--gray)', fontSize: '.85rem' }}>
+          Admin access is managed by Supabase Auth (email + password) — see <strong style={{ color: 'var(--gray2)' }}>SUPABASE_SETUP.md</strong> to add or remove admin users. Content is protected by Supabase Row Level Security policies.
         </p>
       </Card>
 
@@ -241,7 +235,7 @@ export function SettingsTabImpl() {
       </Card>
 
       <Card title="Site Preferences">
-        <p style={{ color: 'var(--gray)', fontSize: '.85rem' }}>Particle background, scroll reveal animations, and footer branding toggles are configured directly in code for this build — request changes here if you'd like them surfaced in the dashboard.</p>
+        <p style={{ color: 'var(--gray)', fontSize: '.85rem' }}>Particle background, scroll reveal animations, and footer branding toggles are configured directly in code for this build — request changes here if you&apos;d like them surfaced in the dashboard.</p>
       </Card>
     </div>
   );

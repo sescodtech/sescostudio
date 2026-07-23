@@ -14,12 +14,20 @@ import CaseStudiesTab from '@/components/admin/tabs/CaseStudiesTab';
 import BlogTab from '@/components/admin/tabs/BlogTab';
 import MediaTab from '@/components/admin/tabs/MediaTab';
 import SettingsTab from '@/components/admin/tabs/SettingsTab';
+import FAQTab from '@/components/admin/tabs/FAQTab';
+import TeamTab from '@/components/admin/tabs/TeamTab';
+import NavigationTab from '@/components/admin/tabs/NavigationTab';
+import FooterTab from '@/components/admin/tabs/FooterTab';
+import SEOTab from '@/components/admin/tabs/SEOTab';
+import SiteSettingsTab from '@/components/admin/tabs/SiteSettingsTab';
+import SubmissionsTab from '@/components/admin/tabs/SubmissionsTab';
 
 const TITLES: Record<AdminTab, string> = {
   dashboard: 'Dashboard', logo: 'Logo & Favicon', homepage: 'Homepage', about: 'About Section',
-  services: 'Services', testimonials: 'Testimonials', 'contact-info': 'Contact Info',
+  services: 'Services', testimonials: 'Testimonials', faq: 'FAQ', team: 'Team', 'contact-info': 'Contact Info',
   projects: 'Portfolio Projects', casestudies: 'Case Studies', blog: 'Blog Posts',
-  media: 'Media Library', settings: 'Settings',
+  media: 'Media Library', navigation: 'Navigation', footer: 'Footer', seo: 'SEO',
+  'site-settings': 'Site Settings', submissions: 'Form Submissions', settings: 'Data & Security',
 };
 
 function DashboardInner() {
@@ -33,11 +41,18 @@ function DashboardInner() {
       case 'about': return <AboutTab />;
       case 'services': return <ServicesTab />;
       case 'testimonials': return <TestimonialsTab />;
+      case 'faq': return <FAQTab />;
+      case 'team': return <TeamTab />;
       case 'contact-info': return <ContactInfoTab />;
       case 'projects': return <ProjectsTab />;
       case 'casestudies': return <CaseStudiesTab />;
       case 'blog': return <BlogTab />;
       case 'media': return <MediaTab />;
+      case 'navigation': return <NavigationTab />;
+      case 'footer': return <FooterTab />;
+      case 'seo': return <SEOTab />;
+      case 'site-settings': return <SiteSettingsTab />;
+      case 'submissions': return <SubmissionsTab />;
       case 'settings': return <SettingsTab />;
       default: return null;
     }

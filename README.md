@@ -14,7 +14,7 @@ A complete Next.js 16 + TypeScript + Tailwind CSS website and admin CMS for SESC
 - `/contact` — Contact form + info
 
 **Admin CMS** (`/admin`)
-- PIN-protected dashboard (default PIN: `1234`, change in Settings)
+- Supabase Auth-protected dashboard (email + password — see `SUPABASE_SETUP.md` to create your admin account)
 - Logo & favicon upload (replaces site-wide branding without code changes)
 - Homepage, About, Contact info editors
 - Full CRUD for Services, Projects, Testimonials, Blog Posts, Case Studies
@@ -28,7 +28,8 @@ A complete Next.js 16 + TypeScript + Tailwind CSS website and admin CMS for SESC
 - **Styling:** Tailwind CSS v4 + custom CSS tokens
 - **Animation:** Framer Motion
 - **Icons:** lucide-react
-- **Data layer:** localStorage-backed CMS context (see "Going to production" below)
+- **Data layer:** Supabase-backed CMS context (single JSONB document), with `localStorage` used only as an instant first-paint cache — see `SUPABASE_SETUP.md`
+- **Auth:** Supabase Auth (email + password) gates `/admin`
 
 ## Brand System
 
@@ -43,7 +44,7 @@ npm install
 npm run dev
 ```
 
-Visit `http://localhost:3000` for the site and `http://localhost:3000/admin` for the CMS (PIN: `1234`).
+Follow `SUPABASE_SETUP.md` first to create your Supabase project, `.env.local`, and admin account. Then visit `http://localhost:3000` for the site and `http://localhost:3000/admin` for the CMS (sign in with the Supabase Auth account you created).
 
 ## Project Structure
 
@@ -73,14 +74,15 @@ To install your official logo:
 
 The `LogoMark` component automatically prefers the uploaded image over the SVG fallback wherever it's used.
 
-## Going to Production: Supabase/Firebase Migration
+## Current Backend: Supabase
 
-This build uses `localStorage` for the CMS data layer so it works immediately with zero backend setup. To move to a real backend (as specified in the original brief):
+This build is already wired to Supabase — see `SUPABASE_SETUP.md` for the full setup guide. In short:
 
-1. Swap `lib/cms.ts`'s `getCMSData`/`saveCMSData` for Supabase or Firebase calls — the `CMSData` shape in `types/cms.ts` maps directly to a single-document/table schema
-2. Replace `AdminAuthContext`'s PIN check with Supabase Auth or Firebase Auth (email+password or magic link)
-3. For image uploads (logo, favicon, media library, project/blog images), swap the `FileReader`-to-base64 pattern for Supabase Storage or Firebase Storage upload calls, storing the returned public URL instead of a data URI
-4. Add API routes under `app/api/...` if you want server-side validation before writes, or use Supabase's client-side RLS policies directly
+- CMS content lives in a single `sesco_cms` row (`content` JSONB column), read by the public site and written by the admin dashboard, protected by Row Level Security (public read, authenticated write)
+- Admin login is Supabase Auth (email + password)
+- `localStorage` is used only as an instant first-paint cache; Supabase is always the source of truth
+
+**Known limitation to address next:** logo, favicon, and media library images are currently stored as base64 data URIs directly inside the `content` JSONB blob (via `FileReader`), not Supabase Storage. This works but means every page load fetches the whole CMS document including every embedded image. Moving these to Supabase Storage buckets (storing public URLs instead of data URIs) is recommended before the media library grows large.
 
 ## Notes
 

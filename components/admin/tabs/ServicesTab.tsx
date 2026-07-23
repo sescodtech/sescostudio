@@ -25,6 +25,7 @@ export default function ServicesTab() {
     }
   };
   const handleSave = async () => {
+    if (!form.title?.trim()) { toast('Title is required', 'error'); return; }
     const obj: Service = {
       id: editing?.id || Date.now(),
       tag: form.tag || '', icon: form.icon || '🌐', title: form.title || '',

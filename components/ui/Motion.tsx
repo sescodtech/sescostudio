@@ -1,6 +1,6 @@
 'use client';
 import { motion, useInView } from 'framer-motion';
-import { useRef, type ReactElement } from 'react';
+import { useRef } from 'react';
 
 interface RevealProps {
   children: React.ReactNode;
@@ -42,16 +42,6 @@ export function RevealRight({ children, delay = 0, className = '' }: RevealProps
   const inView = useInView(ref, { once: true, margin: '-40px' });
   return (
     <motion.div ref={ref} initial={{ opacity: 0, x: 32 }} animate={inView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.65, delay, ease: [0.4, 0, 0.2, 1] }} className={className}>
-      {children}
-    </motion.div>
-  );
-}
-
-export function ScaleIn({ children, delay = 0, className = '' }: RevealProps) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-30px' });
-  return (
-    <motion.div ref={ref} initial={{ opacity: 0, scale: 0.92 }} animate={inView ? { opacity: 1, scale: 1 } : {}} transition={{ duration: 0.55, delay, ease: [0.4, 0, 0.2, 1] }} className={className}>
       {children}
     </motion.div>
   );

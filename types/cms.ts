@@ -45,16 +45,45 @@ export interface BlogPost {
   readTime?: string;
 }
 
+export interface FAQ {
+  id: number;
+  q: string;
+  a: string;
+}
+
+export interface TeamMember {
+  id: number;
+  initials: string;
+  name: string;
+  role: string;
+  bio: string;
+}
+
+export interface NavLink {
+  id: number;
+  label: string;
+  href: string;
+}
+
 export interface CMSData {
   logo: string | null;
   favicon: string | null;
-  pin: string;
   heroHeadline: string;
   heroSub: string;
   services: Service[];
   projects: Project[];
   testimonials: Testimonial[];
   blogPosts: BlogPost[];
+  faq: FAQ[];
+  team: TeamMember[];
+  navigation: {
+    links: NavLink[];
+    ctaLabel: string;
+  };
+  footer: {
+    tagline: string;
+    servicesLinks: string[];
+  };
   contact: {
     email: string;
     website: string;
@@ -64,11 +93,23 @@ export interface CMSData {
     linkedin?: string;
     instagram?: string;
     github?: string;
+    businessHours?: string;
   };
   about: {
     missionTitle: string;
     missionDesc: string;
     vision: string;
+  };
+  seo: {
+    defaultTitle: string;
+    defaultDescription: string;
+    ogImage: string | null;
+    twitterHandle?: string;
+  };
+  siteSettings: {
+    maintenanceMode: boolean;
+    maintenanceMessage: string;
+    analyticsId?: string;
   };
   media: Array<{ url: string; name: string; type: string }>;
 }
