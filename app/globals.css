@@ -154,6 +154,7 @@ a, button { transition: color .2s var(--ease), background-color .2s var(--ease),
 .foot-link:hover { color: #fff; }
 
 .portfolio-card:hover .portfolio-card-overlay { opacity: 1; }
+.media-item:hover .media-item-overlay { opacity: 1; }
 
 @keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.6)} }
 .pulse-dot { animation: pulse-dot 2s infinite; }

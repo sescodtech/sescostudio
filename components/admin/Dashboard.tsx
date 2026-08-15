@@ -21,13 +21,16 @@ import FooterTab from '@/components/admin/tabs/FooterTab';
 import SEOTab from '@/components/admin/tabs/SEOTab';
 import SiteSettingsTab from '@/components/admin/tabs/SiteSettingsTab';
 import SubmissionsTab from '@/components/admin/tabs/SubmissionsTab';
+import UsersTab from '@/components/admin/tabs/UsersTab';
+import { NotificationsProvider } from '@/components/admin/NotificationsContext';
+import NotificationsBell from '@/components/admin/NotificationsBell';
 
 const TITLES: Record<AdminTab, string> = {
   dashboard: 'Dashboard', logo: 'Logo & Favicon', homepage: 'Homepage', about: 'About Section',
   services: 'Services', testimonials: 'Testimonials', faq: 'FAQ', team: 'Team', 'contact-info': 'Contact Info',
   projects: 'Portfolio Projects', casestudies: 'Case Studies', blog: 'Blog Posts',
   media: 'Media Library', navigation: 'Navigation', footer: 'Footer', seo: 'SEO',
-  'site-settings': 'Site Settings', submissions: 'Form Submissions', settings: 'Data & Security',
+  'site-settings': 'Site Settings', submissions: 'Form Submissions', users: 'Users & Roles', settings: 'Data & Security',
 };
 
 function DashboardInner() {
@@ -53,6 +56,7 @@ function DashboardInner() {
       case 'seo': return <SEOTab />;
       case 'site-settings': return <SiteSettingsTab />;
       case 'submissions': return <SubmissionsTab />;
+      case 'users': return <UsersTab />;
       case 'settings': return <SettingsTab />;
       default: return null;
     }
@@ -64,12 +68,15 @@ function DashboardInner() {
       <main style={{ flex: 1, marginLeft: 240, display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
         <div style={{ height: 60, background: 'rgba(17,24,39,.8)', backdropFilter: 'blur(20px)', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 28px', position: 'sticky', top: 0, zIndex: 50 }}>
           <span style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 700, fontSize: '1rem' }}>{TITLES[tab]}</span>
-          <div
-            onClick={() => window.open('/', '_blank')}
-            style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '7px 14px', borderRadius: 6, background: 'rgba(47,107,255,.12)', border: '1px solid rgba(47,107,255,.28)', color: 'var(--blue)', fontFamily: 'Montserrat,sans-serif', fontSize: '.62rem', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', cursor: 'pointer' }}
-          >
-            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e', display: 'inline-block' }} className="pulse-dot" />
-            View Live Site
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+            <NotificationsBell />
+            <div
+              onClick={() => window.open('/', '_blank')}
+              style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '7px 14px', borderRadius: 6, background: 'rgba(47,107,255,.12)', border: '1px solid rgba(47,107,255,.28)', color: 'var(--blue)', fontFamily: 'Montserrat,sans-serif', fontSize: '.62rem', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', cursor: 'pointer' }}
+            >
+              <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e', display: 'inline-block' }} className="pulse-dot" />
+              View Live Site
+            </div>
           </div>
         </div>
         <div style={{ padding: 28, flex: 1 }}>
@@ -83,7 +90,9 @@ function DashboardInner() {
 export default function Dashboard() {
   return (
     <ToastProvider>
-      <DashboardInner />
+      <NotificationsProvider>
+        <DashboardInner />
+      </NotificationsProvider>
     </ToastProvider>
   );
 }

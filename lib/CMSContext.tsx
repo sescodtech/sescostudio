@@ -2,6 +2,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { CMSData } from '@/types/cms';
 import { getCMSData, fetchCMSData, saveCMSData, resetCMSData } from '@/lib/cms';
+import { emitNotification } from '@/lib/notificationBus';
 
 interface CMSContextType {
   data: CMSData;
@@ -33,7 +34,16 @@ export function CMSProvider({ children }: { children: React.ReactNode }) {
   const save = async (partial: Partial<CMSData>) => {
     const next = { ...data, ...partial };
     setData(next); // optimistic UI update
-    await saveCMSData(next);
+    try {
+      await saveCMSData(next);
+    } catch (err) {
+      const isMediaChange = 'media' in partial || 'logo' in partial || 'favicon' in partial;
+      emitNotification({
+        type: isMediaChange ? 'upload_failed' : 'save_failed',
+        message: isMediaChange ? 'An upload failed to save to Supabase' : 'A content save failed to sync to Supabase',
+      });
+      throw err;
+    }
   };
 
   const reset = async () => {

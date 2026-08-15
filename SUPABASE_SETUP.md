@@ -111,6 +111,106 @@ create policy "Authenticated users can delete submissions"
 
 ---
 
+## STEP 2D — Roles & Permissions (RBAC)
+
+Powers the Users & Roles tab in `/admin`. Roles are checked in the admin UI (which tabs/buttons appear) — see the note inside the Users tab about what this does and doesn't harden at the database level.
+
+```sql
+create table user_roles (
+  user_id     uuid primary key references auth.users(id) on delete cascade,
+  role        text not null check (role in ('super_admin','admin','editor','author','developer','marketing')),
+  created_at  timestamptz not null default now()
+);
+
+alter table user_roles enable row level security;
+
+create policy "Users can read their own role"
+  on user_roles for select
+  using (auth.uid() = user_id);
+
+-- Assigns (or updates) a role. Only a Super Admin can call this — except
+-- the very first call ever, which lets a brand-new user claim Super Admin
+-- for themselves so the system isn't locked with zero admins.
+create or replace function assign_role(target_email text, new_role text)
+returns void
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  existing_count int;
+  target_id uuid;
+begin
+  select count(*) into existing_count from user_roles;
+
+  if existing_count = 0 then
+    if target_email <> (select email from auth.users where id = auth.uid()) then
+      raise exception 'First role assignment must be for your own account';
+    end if;
+    target_id := auth.uid();
+  else
+    if not exists (select 1 from user_roles where user_id = auth.uid() and role = 'super_admin') then
+      raise exception 'Only Super Admins can assign roles';
+    end if;
+    select id into target_id from auth.users where email = target_email;
+    if target_id is null then
+      raise exception 'No user found with that email — create their login in Supabase Authentication first';
+    end if;
+  end if;
+
+  insert into user_roles (user_id, role) values (target_id, new_role)
+  on conflict (user_id) do update set role = excluded.role;
+end;
+$$;
+
+grant execute on function assign_role(text, text) to authenticated;
+
+-- Lists everyone who currently has a role. Super Admin only.
+create or replace function list_admin_users()
+returns table(user_id uuid, email text, role text)
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  if not exists (select 1 from user_roles where user_id = auth.uid() and role = 'super_admin') then
+    raise exception 'Only Super Admins can list users';
+  end if;
+  return query
+    select u.id, u.email::text, r.role
+    from user_roles r join auth.users u on u.id = r.user_id
+    order by r.role, u.email;
+end;
+$$;
+
+grant execute on function list_admin_users() to authenticated;
+
+-- Removes a user's role. Super Admin only; cannot remove your own row
+-- (prevents accidentally locking yourself out).
+create or replace function remove_role(target_user_id uuid)
+returns void
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+  if not exists (select 1 from user_roles where user_id = auth.uid() and role = 'super_admin') then
+    raise exception 'Only Super Admins can remove roles';
+  end if;
+  if target_user_id = auth.uid() then
+    raise exception 'You cannot remove your own access from here';
+  end if;
+  delete from user_roles where user_id = target_user_id;
+end;
+$$;
+
+grant execute on function remove_role(uuid) to authenticated;
+```
+
+After running this, open `/admin` → **Users & Roles** and click **Claim Super Admin** — you'll be the first user, so this is safe and expected.
+
+---
+
 ## STEP 3 — Set Row Level Security (RLS)
 
 Still in the SQL Editor, run this:

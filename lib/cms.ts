@@ -49,7 +49,9 @@ export const DEFAULT_CMS: CMSData = {
   siteSettings: {
     maintenanceMode: false,
     maintenanceMessage: "We're currently performing scheduled maintenance. Please check back shortly.",
-    analyticsId: '',
+    ga4Id: '',
+    gtmId: '',
+    clarityId: '',
   },
   services: [
     {

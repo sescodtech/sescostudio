@@ -2,6 +2,8 @@
 import { useState } from 'react';
 import { useCMS } from '@/lib/CMSContext';
 import { useToast } from '@/components/admin/ToastContext';
+import { useAdminAuth } from '@/lib/AdminAuthContext';
+import { usePermissions } from '@/lib/permissions';
 import { Card, Table, Tr, Td, Badge, Btn, Field, Input, Textarea, Select } from '@/components/admin/ui';
 import Modal from '@/components/admin/Modal';
 import { BlogPost } from '@/types/cms';
@@ -9,9 +11,14 @@ import { BlogPost } from '@/types/cms';
 export default function BlogTab() {
   const { data, save } = useCMS();
   const { toast } = useToast();
+  const { user } = useAdminAuth();
+  const { can } = usePermissions();
   const [modalOpen, setModalOpen] = useState(false);
   const [editing, setEditing] = useState<BlogPost | null>(null);
   const [form, setForm] = useState<Partial<BlogPost>>({});
+
+  const canManageAll = can('manage_blog_all');
+  const canOwn = (p: BlogPost) => canManageAll || (can('create_blog') && p.authorEmail === user?.email);
 
   const openAdd = () => { setEditing(null); setForm({ title: '', cat: '', date: 'Jun 2025', excerpt: '', icon: '📝', status: 'draft' }); setModalOpen(true); };
   const openEdit = (p: BlogPost) => { setEditing(p); setForm(p); setModalOpen(true); };
@@ -33,6 +40,7 @@ export default function BlogTab() {
       status: (form.status as 'published' | 'draft') || 'draft',
       bg: editing?.bg || 'linear-gradient(135deg,#0B0F1A,#161D2F)',
       readTime: editing?.readTime || '5 min read',
+      authorEmail: editing?.authorEmail || user?.email,
     };
     const next = editing ? data.blogPosts.map(p => p.id === editing.id ? obj : p) : [...data.blogPosts, obj];
     try {
@@ -46,20 +54,27 @@ export default function BlogTab() {
 
   return (
     <>
-      <Card title="Blog Posts" action={<Btn variant="primary" size="sm" onClick={openAdd}>+ New Post</Btn>}>
+      <Card title="Blog Posts" action={(canManageAll || can('create_blog')) && <Btn variant="primary" size="sm" onClick={openAdd}>+ New Post</Btn>}>
+        {!canManageAll && can('create_blog') && (
+          <p style={{ color: 'var(--gray)', fontSize: '.82rem', marginBottom: 16 }}>You can create posts and edit your own — posts by other authors are shown but locked.</p>
+        )}
         <Table headers={['#', 'Title', 'Category', 'Date', 'Status', 'Actions']}>
           {data.blogPosts.map((p, i) => (
             <Tr key={p.id}>
               <Td>{i + 1}</Td>
-              <Td title>{p.title}</Td>
+              <Td title>{p.title}{p.authorEmail && !canManageAll && <span style={{ color: 'var(--gray2)', fontSize: '.72rem' }}> — {p.authorEmail === user?.email ? 'you' : p.authorEmail}</span>}</Td>
               <Td><Badge>{p.cat}</Badge></Td>
               <Td>{p.date}</Td>
               <Td><Badge color={p.status === 'published' ? 'green' : 'gold'}>{p.status}</Badge></Td>
               <Td>
-                <div style={{ display: 'flex', gap: 6 }}>
-                  <Btn variant="outline" size="sm" onClick={() => openEdit(p)}>Edit</Btn>
-                  <Btn variant="danger" size="sm" onClick={() => remove(p.id)}>Delete</Btn>
-                </div>
+                {canOwn(p) ? (
+                  <div style={{ display: 'flex', gap: 6 }}>
+                    <Btn variant="outline" size="sm" onClick={() => openEdit(p)}>Edit</Btn>
+                    {canManageAll && <Btn variant="danger" size="sm" onClick={() => remove(p.id)}>Delete</Btn>}
+                  </div>
+                ) : (
+                  <span style={{ color: 'var(--gray2)', fontSize: '.78rem' }}>—</span>
+                )}
               </Td>
             </Tr>
           ))}

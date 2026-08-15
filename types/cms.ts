@@ -43,6 +43,7 @@ export interface BlogPost {
   status: 'published' | 'draft';
   content?: string;
   readTime?: string;
+  authorEmail?: string;
 }
 
 export interface FAQ {
@@ -109,7 +110,9 @@ export interface CMSData {
   siteSettings: {
     maintenanceMode: boolean;
     maintenanceMessage: string;
-    analyticsId?: string;
+    ga4Id?: string;
+    gtmId?: string;
+    clarityId?: string;
   };
   media: Array<{ url: string; name: string; type: string }>;
 }

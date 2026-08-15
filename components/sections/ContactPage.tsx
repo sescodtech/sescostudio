@@ -5,7 +5,7 @@ import { useCMS } from '@/lib/CMSContext';
 import { submitContactForm } from '@/lib/contact';
 import { Reveal, RevealLeft, RevealRight } from '@/components/ui/Motion';
 
-const SERVICES = ['Web Development', 'Branding & Design', 'AI Automation', 'Social Media Management', 'Full Digital System', 'Other'];
+const SERVICES = ['General Enquiry', 'Website Development', 'Branding', 'UI/UX Design', 'Automation', 'AI Solutions', 'Data Analysis', 'Digital Marketing', 'Consultation', 'Quote Request', 'Technical Support'];
 
 export default function ContactPage() {
   const { data } = useCMS();

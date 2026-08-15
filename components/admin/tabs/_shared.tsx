@@ -3,6 +3,7 @@ import { useState, useRef } from 'react';
 import { useCMS } from '@/lib/CMSContext';
 import { useToast } from '@/components/admin/ToastContext';
 import { Card, Field, Input, Btn } from '@/components/admin/ui';
+import { usePermissions } from '@/lib/permissions';
 
 export function ContactInfoTabImpl() {
   const { data, save } = useCMS();
@@ -109,9 +110,14 @@ export function CaseStudiesTabImpl() {
 export function MediaTabImpl() {
   const { data, save } = useCMS();
   const { toast } = useToast();
+  const { can } = usePermissions();
   const inputRef = useRef<HTMLInputElement>(null);
+  const replaceRef = useRef<HTMLInputElement>(null);
   const [drag, setDrag] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [search, setSearch] = useState('');
+  const [typeFilter, setTypeFilter] = useState('all');
+  const [replaceIdx, setReplaceIdx] = useState<number | null>(null);
 
   const handleFiles = (files: FileList) => {
     const arr = Array.from(files);
@@ -144,14 +150,40 @@ export function MediaTabImpl() {
     next.splice(idx, 1);
     try {
       await save({ media: next });
+      toast('Image removed');
     } catch {
       toast('Failed to remove — check your connection', 'error');
     }
   };
 
+  const startReplace = (idx: number) => { setReplaceIdx(idx); replaceRef.current?.click(); };
+  const handleReplace = (file: File) => {
+    if (replaceIdx === null) return;
+    const reader = new FileReader();
+    reader.onload = async e => {
+      const next = [...data.media];
+      next[replaceIdx] = { url: e.target?.result as string, name: file.name, type: file.type };
+      try {
+        await save({ media: next });
+        toast('Image replaced');
+      } catch {
+        toast('Failed to replace — check your connection', 'error');
+      } finally {
+        setReplaceIdx(null);
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const types = Array.from(new Set(data.media.map(m => m.type.split('/')[0] || 'file')));
+  const filtered = data.media
+    .map((m, i) => ({ ...m, idx: i }))
+    .filter(m => (typeFilter === 'all' || m.type.startsWith(typeFilter)) && m.name.toLowerCase().includes(search.toLowerCase()));
+
   return (
     <Card title="Media Library" action={<Btn variant="primary" size="sm" onClick={() => inputRef.current?.click()} disabled={uploading}>{uploading ? 'Uploading…' : '+ Upload'}</Btn>}>
       <input ref={inputRef} type="file" accept="image/*" multiple style={{ display: 'none' }} onChange={e => e.target.files && handleFiles(e.target.files)} />
+      <input ref={replaceRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={e => { const f = e.target.files?.[0]; if (f) handleReplace(f); e.target.value = ''; }} />
       <div
         onClick={() => inputRef.current?.click()}
         onDragOver={e => { e.preventDefault(); setDrag(true); }}
@@ -163,14 +195,33 @@ export function MediaTabImpl() {
         <p style={{ color: 'var(--gray)', fontSize: '.88rem' }}>Click or drag images to upload</p>
         <p style={{ color: 'var(--gray2)', fontSize: '.75rem' }}>PNG, JPG, WebP, SVG — Multiple files supported</p>
       </div>
+
+      {data.media.length > 0 && (
+        <div style={{ display: 'flex', gap: 10, marginBottom: 16, flexWrap: 'wrap' }}>
+          <Input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search by filename…" style={{ maxWidth: 240 }} />
+          <select value={typeFilter} onChange={e => setTypeFilter(e.target.value)} className="form-input" style={{ width: 'auto', padding: '10px 14px' }}>
+            <option value="all">All types</option>
+            {types.map(t => <option key={t} value={t}>{t}</option>)}
+          </select>
+        </div>
+      )}
+
       {!data.media.length ? (
         <p style={{ color: 'var(--gray)', fontSize: '.88rem' }}>No media uploaded yet.</p>
+      ) : filtered.length === 0 ? (
+        <p style={{ color: 'var(--gray)', fontSize: '.88rem' }}>No files match your search.</p>
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(120px,1fr))', gap: 12 }}>
-          {data.media.map((m, i) => (
-            <div key={i} style={{ aspectRatio: '1', borderRadius: 8, overflow: 'hidden', border: '1px solid var(--border)', position: 'relative' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(130px,1fr))', gap: 12 }}>
+          {filtered.map(m => (
+            <div key={m.idx} className="media-item" style={{ aspectRatio: '1', borderRadius: 8, overflow: 'hidden', border: '1px solid var(--border)', position: 'relative' }}>
               <img src={m.url} alt={m.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-              <button onClick={() => removeMedia(i)} style={{ position: 'absolute', top: 4, right: 4, width: 20, height: 20, background: 'rgba(239,68,68,.85)', borderRadius: 4, border: 'none', color: '#fff', fontSize: '.65rem', cursor: 'pointer' }}>✕</button>
+              <div className="media-item-overlay" style={{ position: 'absolute', inset: 0, background: 'rgba(11,15,26,.82)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 6, opacity: 0, transition: 'opacity .2s' }}>
+                <p style={{ color: '#fff', fontSize: '.68rem', padding: '0 8px', textAlign: 'center', wordBreak: 'break-all', maxHeight: 32, overflow: 'hidden' }}>{m.name}</p>
+                <div style={{ display: 'flex', gap: 6 }}>
+                  <button onClick={() => startReplace(m.idx)} title="Replace" style={{ width: 24, height: 24, background: 'var(--blue)', borderRadius: 5, border: 'none', color: '#fff', fontSize: '.65rem', cursor: 'pointer' }}>⟳</button>
+                  {can('manage_media_delete') && <button onClick={() => removeMedia(m.idx)} title="Delete" style={{ width: 24, height: 24, background: 'rgba(239,68,68,.9)', borderRadius: 5, border: 'none', color: '#fff', fontSize: '.65rem', cursor: 'pointer' }}>✕</button>}
+                </div>
+              </div>
             </div>
           ))}
         </div>
