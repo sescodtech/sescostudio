@@ -89,13 +89,10 @@ export default function Footer() {
           </div>
         </div>
 
-        <div style={{ borderTop: '1px solid var(--border)', paddingTop: 24, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
+        <div style={{ borderTop: '1px solid var(--border)', paddingTop: 24, display: 'flex', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap', gap: 12 }}>
           <p style={{ color: 'var(--gray)', fontSize: '.78rem' }}>
             © {new Date().getFullYear()} <span style={{ color: 'var(--blue)' }}>SESCO STUDIO</span>. All rights reserved.
           </p>
-          <div style={{ display: 'flex', gap: 24 }}>
-            <Link href="/admin" className="foot-link">Admin</Link>
-          </div>
         </div>
       </div>
     </footer>

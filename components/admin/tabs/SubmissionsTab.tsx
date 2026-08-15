@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useToast } from '@/components/admin/ToastContext';
+import { usePermissions } from '@/lib/permissions';
 import { Card, Table, Tr, Td, Btn } from '@/components/admin/ui';
 
 interface ContactRow {
@@ -22,6 +23,7 @@ interface NewsletterRow {
 
 export default function SubmissionsTab() {
   const { toast } = useToast();
+  const { can } = usePermissions();
   const [tab, setTab] = useState<'contact' | 'newsletter'>('contact');
   const [contacts, setContacts] = useState<ContactRow[] | null>(null);
   const [newsletter, setNewsletter] = useState<NewsletterRow[] | null>(null);
@@ -49,7 +51,7 @@ export default function SubmissionsTab() {
   const deleteRow = async (table: 'contact_submissions' | 'newsletter_signups', id: number) => {
     if (!confirm('Delete this submission?')) return;
     const { error } = await supabase.from(table).delete().eq('id', id);
-    if (error) { toast('Failed to delete', 'error'); return; }
+    if (error) { toast('Only Super Admin can delete submissions', 'error'); return; }
     if (table === 'contact_submissions') setContacts(prev => prev?.filter(r => r.id !== id) ?? null);
     else setNewsletter(prev => prev?.filter(r => r.id !== id) ?? null);
     toast('Submission deleted');
@@ -82,7 +84,7 @@ export default function SubmissionsTab() {
                 <Td><a href={`mailto:${r.email}`} style={{ color: 'var(--blue)' }}>{r.email}</a></Td>
                 <Td>{r.service || '—'}</Td>
                 <Td>{r.brief.length > 50 ? r.brief.slice(0, 50) + '…' : r.brief}</Td>
-                <Td><Btn variant="danger" size="sm" onClick={() => deleteRow('contact_submissions', r.id)}>Delete</Btn></Td>
+                <Td>{can('delete_submissions') && <Btn variant="danger" size="sm" onClick={() => deleteRow('contact_submissions', r.id)}>Delete</Btn>}</Td>
               </Tr>
             ))}
           </Table>
@@ -96,7 +98,7 @@ export default function SubmissionsTab() {
               <Tr key={r.id}>
                 <Td>{new Date(r.created_at).toLocaleDateString()}</Td>
                 <Td title>{r.email}</Td>
-                <Td><Btn variant="danger" size="sm" onClick={() => deleteRow('newsletter_signups', r.id)}>Delete</Btn></Td>
+                <Td>{can('delete_submissions') && <Btn variant="danger" size="sm" onClick={() => deleteRow('newsletter_signups', r.id)}>Delete</Btn>}</Td>
               </Tr>
             ))}
           </Table>

@@ -218,7 +218,7 @@ export function MediaTabImpl() {
               <div className="media-item-overlay" style={{ position: 'absolute', inset: 0, background: 'rgba(11,15,26,.82)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 6, opacity: 0, transition: 'opacity .2s' }}>
                 <p style={{ color: '#fff', fontSize: '.68rem', padding: '0 8px', textAlign: 'center', wordBreak: 'break-all', maxHeight: 32, overflow: 'hidden' }}>{m.name}</p>
                 <div style={{ display: 'flex', gap: 6 }}>
-                  <button onClick={() => startReplace(m.idx)} title="Replace" style={{ width: 24, height: 24, background: 'var(--blue)', borderRadius: 5, border: 'none', color: '#fff', fontSize: '.65rem', cursor: 'pointer' }}>⟳</button>
+                  {can('manage_media_delete') && <button onClick={() => startReplace(m.idx)} title="Replace" style={{ width: 24, height: 24, background: 'var(--blue)', borderRadius: 5, border: 'none', color: '#fff', fontSize: '.65rem', cursor: 'pointer' }}>⟳</button>}
                   {can('manage_media_delete') && <button onClick={() => removeMedia(m.idx)} title="Delete" style={{ width: 24, height: 24, background: 'rgba(239,68,68,.9)', borderRadius: 5, border: 'none', color: '#fff', fontSize: '.65rem', cursor: 'pointer' }}>✕</button>}
                 </div>
               </div>
