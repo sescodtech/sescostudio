@@ -70,7 +70,7 @@ const STEPS = [
 ];
 export function ProcessSection() {
   return (
-    <section className="section">
+    <section className="section section-light">
       <div className="container" style={{ maxWidth: 1100 }}>
         <div style={{ textAlign: 'center', marginBottom: 64 }}>
           <Reveal><p className="section-label centered">How We Work</p></Reveal>
@@ -150,7 +150,7 @@ export function PortfolioPreview() {
   const { data } = useCMS();
   const featured = data.projects.slice(0, 3);
   return (
-    <section className="section">
+    <section className="section section-light">
       <div className="container">
         <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: 20, marginBottom: 48 }}>
           <div>

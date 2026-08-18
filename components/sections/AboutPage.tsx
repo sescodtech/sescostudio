@@ -49,7 +49,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="section">
+      <section className="section section-light">
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: 52 }}>
             <Reveal><p className="section-label centered">Core Values</p></Reveal>

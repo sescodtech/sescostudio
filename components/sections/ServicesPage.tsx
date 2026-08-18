@@ -44,7 +44,7 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <section className="section" style={{ paddingTop: 'clamp(24px,4vw,40px)' }}>
+      <section className="section section-light" style={{ paddingTop: 'clamp(24px,4vw,40px)' }}>
         <div className="container">
           <StaggerGrid style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(300px,1fr))', gap: 22 }}>
             {data.services.map((svc, i) => (
@@ -81,12 +81,11 @@ export default function ServicesPage() {
             {PRICING.map(p => (
               <StaggerItem key={p.tier}>
                 <div
-                  className="card-hover"
+                  className={`card-hover${p.featured ? ' pricing-card-featured' : ''}`}
                   style={{
                     background: p.featured ? 'linear-gradient(135deg,rgba(47,107,255,.1),rgba(11,15,26,0))' : 'var(--navy2)',
                     border: `1px solid ${p.featured ? 'rgba(47,107,255,.45)' : 'var(--border)'}`,
                     borderRadius: 'var(--radius-md)', padding: p.featured ? '48px 40px' : 40, textAlign: 'center', position: 'relative', overflow: 'hidden', height: '100%',
-                    transform: p.featured ? 'scale(1.04)' : undefined,
                     boxShadow: p.featured ? 'var(--shadow-blue)' : undefined,
                     zIndex: p.featured ? 1 : undefined,
                   }}

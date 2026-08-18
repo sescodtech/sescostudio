@@ -72,7 +72,7 @@ export default function ContactPage() {
 
           <RevealRight delay={0.15}>
             <form onSubmit={handleSubmit} className="card" style={{ padding: 40 }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 20 }}>
+              <div className="form-grid-2" style={{ marginBottom: 20 }}>
                 <div>
                   <label className="form-label" htmlFor="first-name">First Name</label>
                   <input id="first-name" className="form-input" value={form.first} onChange={e => setForm({ ...form, first: e.target.value })} placeholder="Olajide" required />

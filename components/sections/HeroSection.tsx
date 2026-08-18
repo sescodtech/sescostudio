@@ -1,7 +1,6 @@
 'use client';
 import { motion } from 'framer-motion';
 import { ArrowRight, ChevronDown, Briefcase, Clock3, Smile, Globe2 } from 'lucide-react';
-import LogoMark from '@/components/ui/LogoMark';
 import Button from '@/components/ui/Button';
 import { useCMS } from '@/lib/CMSContext';
 
@@ -22,16 +21,6 @@ export default function HeroSection() {
       <div className="glow-blue" aria-hidden="true" style={{ position: 'absolute', top: '-5%', left: '50%', transform: 'translateX(-50%)', width: 800, height: 500, pointerEvents: 'none' }} />
 
       <div style={{ position: 'relative', zIndex: 2, maxWidth: 880 }}>
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
-          className="animate-float"
-          style={{ marginBottom: 32, display: 'inline-block', filter: 'drop-shadow(0 0 24px rgba(47,107,255,.5))' }}
-        >
-          <LogoMark size="xl" showWordmark={false} />
-        </motion.div>
-
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}

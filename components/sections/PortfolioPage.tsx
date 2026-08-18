@@ -28,7 +28,7 @@ export default function PortfolioPage() {
         </div>
       </section>
 
-      <section className="section" style={{ paddingTop: 'clamp(16px,3vw,24px)' }}>
+      <section className="section section-light" style={{ paddingTop: 'clamp(16px,3vw,24px)' }}>
         <div className="container">
           <Reveal>
             <div role="group" aria-label="Filter projects by type" style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 48 }}>

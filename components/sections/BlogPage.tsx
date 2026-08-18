@@ -22,7 +22,7 @@ export default function BlogPage() {
         </div>
       </section>
 
-      <section className="section" style={{ paddingTop: 'clamp(16px,3vw,24px)' }}>
+      <section className="section section-light" style={{ paddingTop: 'clamp(16px,3vw,24px)' }}>
         <div className="container">
           <Reveal>
             <div role="group" aria-label="Filter posts by category" style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 48 }}>

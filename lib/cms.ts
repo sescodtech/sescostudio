@@ -269,6 +269,7 @@ export const DEFAULT_CMS: CMSData = {
     email: 'sescodtech@gmail.com',
     website: 'sescoconcept.name.ng',
     location: 'Lagos, Nigeria',
+    whatsapp: '+2348140112803',
     github: 'https://github.com/sescodtech',
     businessHours: 'Mon–Fri, 9am–6pm (WAT)',
   },

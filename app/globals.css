@@ -11,6 +11,7 @@
   --gray:   #A7B0C0;
   --gray2:  #4B5563;
   --border: rgba(167,176,192,.1);
+  --surface-light: #F5F7FB;
   --blue-a: rgba(47,107,255,.12);
   --blue-b: rgba(47,107,255,.28);
   --gold-a: rgba(200,162,74,.12);
@@ -63,6 +64,24 @@ a, button { transition: color .2s var(--ease), background-color .2s var(--ease),
 .section { padding-block: var(--section-y); position: relative; }
 .section-alt { background: var(--navy2); }
 
+/* Light/neutral section variant — breaks up the all-navy rhythm without
+   touching brand colours. Redefines the same CSS custom properties that
+   every component already reads its text/surface colours from (--white,
+   --gray, --navy2/3, --border), so headings, body copy and nested "card"
+   surfaces automatically flip to legible dark-on-light without per-component
+   edits. --blue and --gold stay untouched since they already read well on
+   a light surface. */
+.section-light {
+  background: var(--surface-light);
+  --white: var(--navy);
+  --gray: #4B5563;
+  --gray2: #6B7280;
+  --navy2: #EEF1F7;
+  --navy3: #E5E9F2;
+  --border: rgba(11,15,26,.1);
+}
+.section-light .grid-overlay { opacity: .5; }
+
 .grid-overlay {
   position: absolute; inset: 0;
   background-image: linear-gradient(rgba(47,107,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(47,107,255,.04) 1px,transparent 1px);
@@ -89,6 +108,10 @@ a, button { transition: color .2s var(--ease), background-color .2s var(--ease),
   transition: transform .35s var(--ease), border-color .35s var(--ease), box-shadow .35s var(--ease);
 }
 .card-hover:hover { transform: translateY(-6px); border-color: var(--blue-b); box-shadow: var(--shadow-blue); }
+.pricing-card-featured { transform: scale(1.04); }
+@media (max-width: 720px) {
+  .pricing-card-featured { transform: none; }
+}
 
 /* Buttons */
 .btn {
@@ -143,6 +166,10 @@ a, button { transition: color .2s var(--ease), background-color .2s var(--ease),
 .form-input:hover { border-color: rgba(167,176,192,.25); }
 .form-input:focus { border-color: var(--blue); background: var(--navy3); }
 .form-label { font-family: 'Montserrat',sans-serif; font-size: .62rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--gray); margin-bottom: 8px; display: block; }
+.form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 480px) {
+  .form-grid-2 { grid-template-columns: 1fr; }
+}
 .soc-icon { transition: border-color .2s var(--ease), color .2s var(--ease), transform .2s var(--ease); }
 .soc-icon:hover { border-color: var(--blue-b); color: var(--blue); transform: translateY(-2px); }
 
@@ -163,3 +190,27 @@ a, button { transition: color .2s var(--ease), background-color .2s var(--ease),
 @keyframes slide-up { from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none} }
 .animate-slide-up { animation: slide-up .7s cubic-bezier(.4,0,.2,1) forwards; }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* Floating WhatsApp button — fixed bottom-right, sits below the mobile-menu
+   overlay (z-index 199) so it's never visible on top of it. */
+.floating-whatsapp-btn {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 150;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1F1F1F;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-lg);
+  text-decoration: none;
+  transition: transform .25s var(--ease), box-shadow .25s var(--ease), background .25s var(--ease);
+}
+.floating-whatsapp-btn:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 20px 40px rgba(37,211,102,.28); }
+@media (max-width: 720px) {
+  .floating-whatsapp-btn { right: 16px; bottom: 16px; width: 50px; height: 50px; }
+}

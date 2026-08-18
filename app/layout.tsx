@@ -4,6 +4,7 @@ import { CMSProvider } from '@/lib/CMSContext';
 import FaviconSync from '@/components/ui/FaviconSync';
 import MaintenanceGate from '@/components/ui/MaintenanceGate';
 import AnalyticsScripts from '@/components/ui/AnalyticsScripts';
+import FloatingWhatsApp from '@/components/ui/FloatingWhatsApp';
 import { supabase } from '@/lib/supabase';
 import { DEFAULT_CMS } from '@/lib/cms';
 
@@ -48,6 +49,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <FaviconSync />
           <AnalyticsScripts />
           <MaintenanceGate>{children}</MaintenanceGate>
+          <FloatingWhatsApp />
         </CMSProvider>
       </body>
     </html>

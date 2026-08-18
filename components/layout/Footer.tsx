@@ -42,7 +42,7 @@ export default function Footer() {
           ) : (
             <form onSubmit={handleSubscribe} style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
               <label htmlFor="newsletter-email" className="sr-only">Email address</label>
-              <input id="newsletter-email" type="email" required value={email} onChange={e => setEmail(e.target.value)} placeholder="you@company.com" className="form-input" style={{ width: 220 }} />
+              <input id="newsletter-email" type="email" required value={email} onChange={e => setEmail(e.target.value)} placeholder="you@company.com" className="form-input" style={{ width: '100%', maxWidth: 260, flex: '1 1 200px' }} />
               <button type="submit" disabled={status === 'submitting'} className="btn btn-primary btn-sm">
                 {status === 'submitting' ? 'Joining…' : <>Subscribe <ArrowRight size={13} /></>}
               </button>
