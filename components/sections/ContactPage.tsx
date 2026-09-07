@@ -128,7 +128,7 @@ function InfoItem({ icon, label, value, href, last }: { icon: React.ReactNode; l
       <div style={{ width: 40, height: 40, background: 'rgba(47,107,255,.12)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--blue)', flexShrink: 0 }} aria-hidden="true">{icon}</div>
       <div>
         <div style={{ fontFamily: 'Montserrat,sans-serif', fontSize: '.6rem', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--gray)', marginBottom: 2 }}>{label}</div>
-        <div style={{ fontSize: '.95rem', color: '#fff' }}>{value}</div>
+        <div style={{ fontSize: '.95rem', color: 'var(--white)' }}>{value}</div>
       </div>
     </div>
   );

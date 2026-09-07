@@ -1,6 +1,8 @@
 'use client';
 import { useCMS } from '@/lib/CMSContext';
 import { Reveal, StaggerGrid, StaggerItem } from '@/components/ui/Motion';
+import { ExternalLink } from 'lucide-react';
+import { getProjectLiveLink } from '@/lib/projectLinks';
 
 export default function CaseStudiesPage() {
   const { data } = useCMS();
@@ -29,8 +31,13 @@ export default function CaseStudiesPage() {
                     <p style={{ fontFamily: 'Montserrat,sans-serif', fontSize: '.58rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 8 }}>{p.type}</p>
                     <h3 style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 700, fontSize: '1.2rem', marginBottom: 10 }}>{p.title}</h3>
                     <p style={{ color: 'var(--gray)', fontSize: '.88rem', lineHeight: 1.7, marginBottom: 18 }}>
-                      <strong style={{ color: '#fff' }}>Challenge: </strong>{p.challenge}
+                      <strong style={{ color: 'inherit' }}>Challenge: </strong>{p.challenge}
                     </p>
+                    {getProjectLiveLink(p.title, p.link) && (
+                      <a href={getProjectLiveLink(p.title, p.link)} target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-sm" style={{ marginBottom: 18 }}>
+                        Visit Live Project <ExternalLink size={13} />
+                      </a>
+                    )}
                     <div style={{ display: 'flex', gap: 24, paddingTop: 18, borderTop: '1px solid var(--border)' }}>
                       {p.r1 && (
                         <div>

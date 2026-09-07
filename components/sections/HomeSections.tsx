@@ -1,9 +1,10 @@
 'use client';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import { useCMS } from '@/lib/CMSContext';
 import { Reveal, RevealLeft, RevealRight, StaggerGrid, StaggerItem, MetricBar } from '@/components/ui/Motion';
 import Button from '@/components/ui/Button';
+import { getProjectLiveLink } from '@/lib/projectLinks';
 
 /* ─── TRUSTED BY ─── */
 const CLIENTS = ['Andus International', 'IOCONSULTS', 'Mercy Hub', 'Emunahh', 'Deon Auto', 'Olajide Property'];
@@ -148,7 +149,7 @@ export function WhySection() {
 /* ─── PORTFOLIO PREVIEW ─── */
 export function PortfolioPreview() {
   const { data } = useCMS();
-  const featured = data.projects.slice(0, 3);
+  const featured = data.projects.filter(p => getProjectLiveLink(p.title, p.link)).slice(0, 3);
   return (
     <section className="section section-light">
       <div className="container">
@@ -162,22 +163,26 @@ export function PortfolioPreview() {
         <StaggerGrid style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: 20 }}>
           {featured.map(p => (
             <StaggerItem key={p.id}>
-              <Link href="/case-studies" className="card card-hover portfolio-card" style={{ overflow: 'hidden', display: 'block', textDecoration: 'none', color: 'inherit' }}>
+              <div className="card card-hover portfolio-card" style={{ overflow: 'hidden', background: '#fff', borderColor: 'rgba(11,15,26,.09)', color: '#0B0F1A' }}>
                 <div style={{ aspectRatio: '16/9', background: p.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2.2rem', position: 'relative' }}>
                   <span aria-hidden="true">{p.icon}</span>
-                  <div style={{ position: 'absolute', top: 10, left: 10, background: 'rgba(11,15,26,.85)', backdropFilter: 'blur(10px)', border: '1px solid var(--border)', borderRadius: 100, padding: '3px 10px', fontFamily: 'Montserrat,sans-serif', fontSize: '.58rem', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--gray)' }}>{p.type}</div>
-                  <div className="portfolio-card-overlay" style={{ position: 'absolute', inset: 0, background: 'rgba(11,15,26,.82)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, opacity: 0, transition: 'opacity .3s var(--ease)', fontFamily: 'Montserrat,sans-serif', fontSize: '.68rem', fontWeight: 600, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--blue)' }}>
-                    View Case Study <ArrowRight size={14} />
-                  </div>
+                  <div style={{ position: 'absolute', top: 10, left: 10, background: 'rgba(11,15,26,.85)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,.12)', borderRadius: 100, padding: '3px 10px', fontFamily: 'Montserrat,sans-serif', fontSize: '.58rem', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: '#D9DFEA' }}>{p.type}</div>
                 </div>
                 <div style={{ padding: 22 }}>
-                  <h3 style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 700, fontSize: '1rem', marginBottom: 6 }}>{p.title}</h3>
-                  <p style={{ color: 'var(--gray)', fontSize: '.85rem', lineHeight: 1.6, marginBottom: 10 }}>{p.desc}</p>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
-                    {p.tags.slice(0,3).map(t => <span key={t} className="badge">{t}</span>)}
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 8 }}>
+                    <h3 style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 800, fontSize: '1rem' }}>{p.title}</h3>
+                    {getProjectLiveLink(p.title, p.link) && <span className="live-label"><span /> Live</span>}
+                  </div>
+                  <p style={{ color: '#596273', fontSize: '.85rem', lineHeight: 1.6, marginBottom: 12 }}>{p.desc}</p>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: 16 }}>
+                    {p.tags.slice(0,3).map(t => <span key={t} className="portfolio-tag">{t}</span>)}
+                  </div>
+                  <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+                    {getProjectLiveLink(p.title, p.link) && <a href={getProjectLiveLink(p.title, p.link)} target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-sm">Visit <ExternalLink size={12} /></a>}
+                    <Link href="/case-studies" className="btn btn-outline btn-sm" style={{ color: '#0B0F1A', borderColor: 'rgba(11,15,26,.12)' }}>Case Study <ArrowRight size={12} /></Link>
                   </div>
                 </div>
-              </Link>
+              </div>
             </StaggerItem>
           ))}
         </StaggerGrid>

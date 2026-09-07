@@ -100,7 +100,7 @@ export default function Footer() {
 }
 
 function ColTitle({ children }: { children: React.ReactNode }) {
-  return <p style={{ fontFamily: 'Montserrat,sans-serif', fontSize: '.62rem', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: '#fff', marginBottom: 18 }}>{children}</p>;
+  return <p style={{ fontFamily: 'Montserrat,sans-serif', fontSize: '.62rem', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--white)', marginBottom: 18 }}>{children}</p>;
 }
 function SocIcon({ href, icon, label }: { href: string; icon: React.ReactNode; label: string }) {
   return (

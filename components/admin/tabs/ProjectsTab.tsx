@@ -13,7 +13,7 @@ export default function ProjectsTab() {
   const [editing, setEditing] = useState<Project | null>(null);
   const [form, setForm] = useState<Partial<Project> & { tagsStr?: string }>({});
 
-  const openAdd = () => { setEditing(null); setForm({ title: '', type: '', desc: '', icon: '🌐', results: '', tagsStr: '', bg: 'linear-gradient(135deg,#0B0F1A,#161D2F)' }); setModalOpen(true); };
+  const openAdd = () => { setEditing(null); setForm({ title: '', type: '', desc: '', icon: '🌐', results: '', tagsStr: '', link: '', bg: 'linear-gradient(135deg,#0B0F1A,#161D2F)' }); setModalOpen(true); };
   const openEdit = (p: Project) => { setEditing(p); setForm({ ...p, tagsStr: p.tags.join(', ') }); setModalOpen(true); };
   const remove = async (id: number) => {
     if (!confirm('Delete this project?')) return;
@@ -32,6 +32,7 @@ export default function ProjectsTab() {
       icon: form.icon || '🌐', results: form.results || '',
       tags: (form.tagsStr || '').split(',').map(t => t.trim()).filter(Boolean),
       bg: form.bg || 'linear-gradient(135deg,#0B0F1A,#161D2F)',
+      link: form.link?.trim() || undefined,
       challenge: editing?.challenge, r1: editing?.r1, r2: editing?.r2,
     };
     const next = editing ? data.projects.map(p => p.id === editing.id ? obj : p) : [...data.projects, obj];
@@ -77,6 +78,7 @@ export default function ProjectsTab() {
           <Field label="Key Results"><Input value={form.results || ''} onChange={e => setForm({ ...form, results: e.target.value })} /></Field>
         </div>
         <Field label="Technologies (comma separated)"><Input value={form.tagsStr || ''} onChange={e => setForm({ ...form, tagsStr: e.target.value })} /></Field>
+        <Field label="Live Project URL"><Input value={form.link || ''} placeholder="https://example.com" onChange={e => setForm({ ...form, link: e.target.value })} /></Field>
         <Field label="Background CSS"><Input value={form.bg || ''} onChange={e => setForm({ ...form, bg: e.target.value })} /></Field>
         <Btn variant="primary" style={{ width: '100%', justifyContent: 'center' }} onClick={handleSave}>{editing ? 'Save Changes' : 'Add Project'}</Btn>
       </Modal>
