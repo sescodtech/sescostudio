@@ -95,7 +95,6 @@ export const DEFAULT_CMS: CMSData = {
     {
       id: 1,
       title: 'Mercy Hub',
-      link: 'https://mercy-hub.vercel.app',
       type: 'E-Commerce',
       desc: 'Full-stack Nigerian e-commerce platform with Next.js 15, Paystack integration, PWA support, and a React Native mobile app.',
       tags: ['Next.js', 'MongoDB', 'Paystack', 'React Native', 'Expo'],
@@ -109,7 +108,6 @@ export const DEFAULT_CMS: CMSData = {
     {
       id: 2,
       title: 'Andus International',
-      link: 'https://andusinternationalng.com',
       type: 'Web Development',
       desc: 'Multi-sector conglomerate website with Node.js backend, React admin dashboard, MongoDB Atlas, and CAC registration form.',
       tags: ['Next.js', 'Node.js', 'MongoDB', 'Vercel'],
@@ -136,7 +134,6 @@ export const DEFAULT_CMS: CMSData = {
     {
       id: 4,
       title: 'Sescohubs VTU',
-      link: 'https://sescoconcept.name.ng',
       type: 'E-Commerce',
       desc: 'Consumer-facing Virtual Top-Up platform with React/TypeScript frontend, Node.js backend, and multi-provider failover.',
       tags: ['React', 'TypeScript', 'Node.js', 'Paystack'],
@@ -150,7 +147,6 @@ export const DEFAULT_CMS: CMSData = {
     {
       id: 5,
       title: 'Olajide Property',
-      link: 'https://olajide-property.vercel.app',
       type: 'Real Estate',
       desc: 'Next.js real estate listing platform with Supabase RLS across 6 tables, PKCE auth, and custom SMTP via Resend.',
       tags: ['Next.js', 'Supabase', 'Resend', 'PostgreSQL'],

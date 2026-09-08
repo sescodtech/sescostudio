@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { useCMS } from '@/lib/CMSContext';
 import { useToast } from '@/components/admin/ToastContext';
-import { Card, Table, Tr, Td, Badge, Btn, Field, Input, Textarea } from '@/components/admin/ui';
+import { Card, Table, Tr, Td, Badge, Btn, Field, Input, Textarea, UploadZone } from '@/components/admin/ui';
 import Modal from '@/components/admin/Modal';
 import { Project } from '@/types/cms';
 
@@ -13,7 +13,7 @@ export default function ProjectsTab() {
   const [editing, setEditing] = useState<Project | null>(null);
   const [form, setForm] = useState<Partial<Project> & { tagsStr?: string }>({});
 
-  const openAdd = () => { setEditing(null); setForm({ title: '', type: '', desc: '', icon: '🌐', results: '', tagsStr: '', bg: 'linear-gradient(135deg,#0B0F1A,#161D2F)' }); setModalOpen(true); };
+  const openAdd = () => { setEditing(null); setForm({ title: '', type: '', desc: '', icon: '', preview: null as any, results: '', tagsStr: '', bg: 'linear-gradient(135deg,#0B0F1A,#161D2F)' }); setModalOpen(true); };
   const openEdit = (p: Project) => { setEditing(p); setForm({ ...p, tagsStr: p.tags.join(', ') }); setModalOpen(true); };
   const remove = async (id: number) => {
     if (!confirm('Delete this project?')) return;
@@ -33,6 +33,7 @@ export default function ProjectsTab() {
       tags: (form.tagsStr || '').split(',').map(t => t.trim()).filter(Boolean),
       bg: form.bg || 'linear-gradient(135deg,#0B0F1A,#161D2F)',
       challenge: editing?.challenge, r1: editing?.r1, r2: editing?.r2,
+      link: form.link?.trim() || undefined, preview: form.preview || undefined,
     };
     const next = editing ? data.projects.map(p => p.id === editing.id ? obj : p) : [...data.projects, obj];
     try {
@@ -73,7 +74,9 @@ export default function ProjectsTab() {
         </div>
         <Field label="Description"><Textarea value={form.desc || ''} onChange={e => setForm({ ...form, desc: e.target.value })} /></Field>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-          <Field label="Icon (emoji)"><Input value={form.icon || ''} onChange={e => setForm({ ...form, icon: e.target.value })} /></Field>
+          <Field label="Project Preview"><UploadZone preview={form.preview || null} icon="▣" label="Upload website screenshot / preview" hint="PNG, JPG or WebP · Recommended 16:10 or 16:9" onFile={url => setForm({ ...form, preview: url })} /></Field>
+          <Field label="Live Website URL"><Input value={form.link || ''} onChange={e => setForm({ ...form, link: e.target.value })} placeholder="https://clientwebsite.com" /></Field>
+          <Field label="Icon (optional)"><Input value={form.icon || ''} onChange={e => setForm({ ...form, icon: e.target.value })} /></Field>
           <Field label="Key Results"><Input value={form.results || ''} onChange={e => setForm({ ...form, results: e.target.value })} /></Field>
         </div>
         <Field label="Technologies (comma separated)"><Input value={form.tagsStr || ''} onChange={e => setForm({ ...form, tagsStr: e.target.value })} /></Field>

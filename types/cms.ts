@@ -21,6 +21,7 @@ export interface Project {
   r1?: { n: string; l: string };
   r2?: { n: string; l: string };
   link?: string;
+  preview?: string;
 }
 
 export interface Testimonial {

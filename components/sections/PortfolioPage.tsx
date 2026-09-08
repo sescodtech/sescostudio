@@ -73,10 +73,7 @@ export default function PortfolioPage() {
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: 14 }}>
                         {p.tags.map(t => <span key={t} className="badge">{t}</span>)}
                       </div>
-                      <div className="portfolio-actions">
-                        {p.link ? <a href={p.link} target="_blank" rel="noopener noreferrer" className="portfolio-visit-btn">Visit Website <span aria-hidden="true">↗</span></a> : null}
-                        <Link href="/case-studies" className="learn-more-link btn btn-ghost" style={{ padding: 0 }}>View Case Study <ArrowRight size={12} /></Link>
-                      </div>
+                      <div className="portfolio-actions">{p.link && <a href={p.link} target="_blank" rel="noopener noreferrer" className="portfolio-visit-btn">Visit Website ↗</a>}<Link href="/case-studies" className="learn-more-link btn btn-ghost" style={{ padding: 0 }}>View Case Study <ArrowRight size={12} /></Link></div>
                     </div>
                   </div>
                 </motion.div>
