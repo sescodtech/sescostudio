@@ -4,9 +4,9 @@ import { supabase } from '@/lib/supabase';
 export const DEFAULT_CMS: CMSData = {
   logo: null,
   favicon: null,
-  heroHeadline: 'Digital Systems\nBuilt for Business.',
+  heroHeadline: 'Building Digital Systems\nfor Modern Businesses',
   heroSub:
-    'We design, develop, automate, and support digital systems for ambitious businesses, corporate teams, financial services, and growing enterprises.',
+    'We design, develop, automate, and manage digital solutions that help businesses establish, scale, and grow in the digital world.',
   about: {
     missionTitle: 'Building Systems That Drive Real Business Growth',
     missionDesc:
@@ -271,7 +271,6 @@ export const DEFAULT_CMS: CMSData = {
     location: 'Lagos, Nigeria',
     whatsapp: '+2348140112803',
     github: 'https://github.com/sescodtech',
-    github2: '',
     businessHours: 'Mon–Fri, 9am–6pm (WAT)',
   },
   media: [],

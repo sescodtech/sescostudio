@@ -150,7 +150,7 @@ export function PortfolioPreview() {
   const { data } = useCMS();
   const featured = data.projects.slice(0, 3);
   return (
-    <section className="section section-light">
+    <section className="section selected-work-section">
       <div className="container">
         <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: 20, marginBottom: 48 }}>
           <div>
@@ -162,7 +162,7 @@ export function PortfolioPreview() {
         <StaggerGrid style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: 20 }}>
           {featured.map(p => (
             <StaggerItem key={p.id}>
-              <Link href="/case-studies" className="card card-hover portfolio-card" style={{ overflow: 'hidden', display: 'block', textDecoration: 'none', color: 'inherit' }}>
+              <Link href="/case-studies" className="card card-hover portfolio-card selected-work-card" style={{ overflow: 'hidden', display: 'block', textDecoration: 'none', color: 'inherit' }}>
                 <div style={{ aspectRatio: '16/9', background: p.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2.2rem', position: 'relative' }}>
                   <span aria-hidden="true">{p.icon}</span>
                   <div style={{ position: 'absolute', top: 10, left: 10, background: 'rgba(11,15,26,.85)', backdropFilter: 'blur(10px)', border: '1px solid var(--border)', borderRadius: 100, padding: '3px 10px', fontFamily: 'Montserrat,sans-serif', fontSize: '.58rem', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--gray)' }}>{p.type}</div>
@@ -181,6 +181,14 @@ export function PortfolioPreview() {
             </StaggerItem>
           ))}
         </StaggerGrid>
+        <div className="portfolio-more-work" style={{ marginTop: 46 }}>
+          <div>
+            <p className="section-label">More Work</p>
+            <h3>Our portfolio is a selection, not the full story.</h3>
+            <p>{data.siteSettings.portfolioNote || 'We have delivered additional websites, digital platforms, business systems, and custom solutions that are not included in this public showcase. Our portfolio represents a selection of work, not everything we have built.'}</p>
+          </div>
+          <Button href="/contact" variant="primary">Discuss Your Project <ArrowRight size={14} /></Button>
+        </div>
       </div>
     </section>
   );

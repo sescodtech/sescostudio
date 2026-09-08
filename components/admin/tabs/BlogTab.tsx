@@ -20,7 +20,7 @@ export default function BlogTab() {
   const canManageAll = can('manage_blog_all');
   const canOwn = (p: BlogPost) => canManageAll || (can('create_blog') && p.authorEmail === user?.email);
 
-  const openAdd = () => { setEditing(null); setForm({ title: '', cat: '', date: 'Sep 2026', excerpt: '', content: '', icon: '📝', status: 'draft' }); setModalOpen(true); };
+  const openAdd = () => { setEditing(null); setForm({ title: '', cat: '', date: 'Jun 2025', excerpt: '', icon: '📝', status: 'draft' }); setModalOpen(true); };
   const openEdit = (p: BlogPost) => { setEditing(p); setForm(p); setModalOpen(true); };
   const remove = async (id: number) => {
     if (!confirm('Delete this post?')) return;
@@ -36,7 +36,7 @@ export default function BlogTab() {
     const obj: BlogPost = {
       id: editing?.id || Date.now(),
       title: form.title || '', cat: form.cat || '', date: form.date || 'Jun 2025',
-      excerpt: form.excerpt || '', content: form.content || '', icon: form.icon || '📝',
+      excerpt: form.excerpt || '', icon: form.icon || '📝',
       status: (form.status as 'published' | 'draft') || 'draft',
       bg: editing?.bg || 'linear-gradient(135deg,#0B0F1A,#161D2F)',
       readTime: editing?.readTime || '5 min read',
@@ -69,7 +69,7 @@ export default function BlogTab() {
               <Td>
                 {canOwn(p) ? (
                   <div style={{ display: 'flex', gap: 6 }}>
-                    {p.status === 'published' && <a href={`/blog/${p.id}`} target="_blank" rel="noopener noreferrer" style={{ display:'inline-flex', alignItems:'center', padding:'7px 14px', borderRadius:7, border:'1px solid var(--border)', color:'#fff', fontFamily:'Montserrat,sans-serif', fontSize:'.6rem', fontWeight:600, letterSpacing:'.08em', textTransform:'uppercase', textDecoration:'none' }}>View</a>}<Btn variant="outline" size="sm" onClick={() => openEdit(p)}>Edit</Btn>
+                    <Btn variant="outline" size="sm" onClick={() => openEdit(p)}>Edit</Btn>
                     {canManageAll && <Btn variant="danger" size="sm" onClick={() => remove(p.id)}>Delete</Btn>}
                   </div>
                 ) : (
@@ -88,7 +88,6 @@ export default function BlogTab() {
           <Field label="Date"><Input value={form.date || ''} onChange={e => setForm({ ...form, date: e.target.value })} /></Field>
         </div>
         <Field label="Excerpt / Summary"><Textarea value={form.excerpt || ''} onChange={e => setForm({ ...form, excerpt: e.target.value })} /></Field>
-        <Field label="Article Content"><Textarea value={form.content || ''} onChange={e => setForm({ ...form, content: e.target.value })} placeholder="Write the full article here. Use blank lines between paragraphs." style={{ minHeight: 240 }} /></Field>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
           <Field label="Icon (emoji)"><Input value={form.icon || ''} onChange={e => setForm({ ...form, icon: e.target.value })} /></Field>
           <Field label="Status">

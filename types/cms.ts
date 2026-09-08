@@ -21,9 +21,6 @@ export interface Project {
   r1?: { n: string; l: string };
   r2?: { n: string; l: string };
   link?: string;
-  accessType?: 'public' | 'client' | 'nda' | 'private';
-  accessLabel?: string;
-  featured?: boolean;
 }
 
 export interface Testimonial {
@@ -97,7 +94,6 @@ export interface CMSData {
     linkedin?: string;
     instagram?: string;
     github?: string;
-    github2?: string;
     businessHours?: string;
   };
   about: {
@@ -117,6 +113,7 @@ export interface CMSData {
     ga4Id?: string;
     gtmId?: string;
     clarityId?: string;
+    portfolioNote?: string;
   };
   media: Array<{ url: string; name: string; type: string }>;
 }

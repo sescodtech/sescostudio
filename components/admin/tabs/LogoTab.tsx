@@ -50,7 +50,7 @@ export default function LogoTab() {
           </div>
           <div>
             <p style={{ fontFamily: 'Montserrat,sans-serif', fontSize: '.6rem', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--gray)', marginBottom: 8 }}>Favicon</p>
-            <UploadZone preview={currentFav} icon="🔖" label="Upload favicon" hint="PNG, SVG or ICO · square 64×64+ recommended" onFile={url => { setPendingFav(url); setClearFav(false); }} />
+            <UploadZone preview={currentFav} icon="🔖" label="Upload favicon" hint="ICO, PNG · 32×32 or 64×64 recommended" onFile={url => { setPendingFav(url); setClearFav(false); }} />
             {currentFav && <Btn variant="outline" size="sm" style={{ marginTop: 10, width: '100%', justifyContent: 'center' }} onClick={removeFav}>Remove Favicon</Btn>}
           </div>
         </div>

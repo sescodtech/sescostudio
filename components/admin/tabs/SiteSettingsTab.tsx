@@ -16,6 +16,7 @@ export default function SiteSettingsTab() {
   const [ga4Id, setGa4Id] = useState(data.siteSettings.ga4Id || '');
   const [gtmId, setGtmId] = useState(data.siteSettings.gtmId || '');
   const [clarityId, setClarityId] = useState(data.siteSettings.clarityId || '');
+  const [portfolioNote, setPortfolioNote] = useState(data.siteSettings.portfolioNote || 'We have delivered additional websites, digital platforms, business systems, and custom solutions that are not included in this public showcase. Our portfolio represents a selection of work, not everything we have built.');
 
   if (data.siteSettings !== prevSettings) {
     setPrevSettings(data.siteSettings);
@@ -24,6 +25,7 @@ export default function SiteSettingsTab() {
     setGa4Id(data.siteSettings.ga4Id || '');
     setGtmId(data.siteSettings.gtmId || '');
     setClarityId(data.siteSettings.clarityId || '');
+    setPortfolioNote(data.siteSettings.portfolioNote || 'We have delivered additional websites, digital platforms, business systems, and custom solutions that are not included in this public showcase. Our portfolio represents a selection of work, not everything we have built.');
   }
 
   const handleSaveMaintenance = async () => {
@@ -38,6 +40,15 @@ export default function SiteSettingsTab() {
       toast('Failed to save — check your connection', 'error');
     }
   };
+  const handleSavePortfolio = async () => {
+    try {
+      await save({ siteSettings: { ...data.siteSettings, portfolioNote } });
+      toast('Portfolio statement updated');
+    } catch {
+      toast('Failed to save — check your connection', 'error');
+    }
+  };
+
   const handleSaveAnalytics = async () => {
     try {
       await save({ siteSettings: { ...data.siteSettings, ga4Id, gtmId, clarityId } });
@@ -60,6 +71,12 @@ export default function SiteSettingsTab() {
           <Field label="Maintenance Message"><Textarea value={maintenanceMessage} onChange={e => setMaintenanceMessage(e.target.value)} style={{ minHeight: 70 }} /></Field>
         </Card>
       )}
+
+
+      <Card title="Portfolio Presentation" action={<Btn variant="primary" size="sm" onClick={handleSavePortfolio}>Save</Btn>}>
+        <p style={{ color: 'var(--gray)', fontSize: '.82rem', lineHeight: 1.7, marginBottom: 14 }}>Use this statement to explain that the public portfolio is a curated selection. It does not restrict or hide any existing project.</p>
+        <Field label="Additional Work Statement"><Textarea value={portfolioNote} onChange={e => setPortfolioNote(e.target.value)} style={{ minHeight: 120 }} /></Field>
+      </Card>
 
       {can('manage_analytics') && (
         <Card title="Analytics" action={<Btn variant="primary" size="sm" onClick={handleSaveAnalytics}>Save</Btn>}>

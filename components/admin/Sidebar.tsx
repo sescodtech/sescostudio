@@ -1,4 +1,5 @@
 'use client';
+import { useState } from 'react';
 import { LayoutDashboard, Palette, Home, User, Zap, MessageSquare, Phone, Briefcase, ClipboardList, FileText, Image as ImageIcon, Settings, LogOut, HelpCircle, Users, Menu, PanelBottom, Search, Sliders, Inbox, ShieldCheck } from 'lucide-react';
 import LogoMark from '@/components/ui/LogoMark';
 import { useAdminAuth } from '@/lib/AdminAuthContext';
@@ -40,6 +41,7 @@ const NAV_GROUPS: Array<{ section: string; items: Array<{ id: AdminTab; label: s
 
 export default function Sidebar({ active, onChange }: { active: AdminTab; onChange: (tab: AdminTab) => void }) {
   const { logout, user, role } = useAdminAuth();
+  const [open, setOpen] = useState(false);
   const { can } = usePermissions();
   const displayEmail = user?.email ?? 'Admin';
   const initials = displayEmail.slice(0, 2).toUpperCase();
@@ -48,8 +50,15 @@ export default function Sidebar({ active, onChange }: { active: AdminTab; onChan
     .map(group => ({ ...group, items: group.items.filter(item => !item.requires || can(item.requires)) }))
     .filter(group => group.items.length > 0);
 
-  return (
-    <aside style={{ width: 240, flexShrink: 0, background: 'var(--navy3)', borderRight: '1px solid var(--border)', display: 'flex', flexDirection: 'column', position: 'fixed', top: 0, left: 0, bottom: 0, zIndex: 100, overflowY: 'auto' }}>
+  const choose = (tab: AdminTab) => { onChange(tab); setOpen(false); };
+
+  return <>
+    <button className="admin-mobile-menu" onClick={() => setOpen(v => !v)} aria-label={open ? 'Close admin menu' : 'Open admin menu'} aria-expanded={open}>
+      <Menu size={20} />
+      <span>SESCO CMS</span>
+    </button>
+    {open && <button className="admin-mobile-backdrop" aria-label="Close menu" onClick={() => setOpen(false)} />}
+    <aside className={`admin-sidebar ${open ? 'is-open' : ''}`} style={{ width: 240, flexShrink: 0, background: 'var(--navy3)', borderRight: '1px solid var(--border)', display: 'flex', flexDirection: 'column', position: 'fixed', top: 0, left: 0, bottom: 0, zIndex: 100, overflowY: 'auto' }}>
       <div style={{ padding: '24px 20px', display: 'flex', alignItems: 'center', gap: 10, borderBottom: '1px solid var(--border)' }}>
         <LogoMark size="sm" showWordmark={false} />
         <span style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 700, fontSize: '.95rem' }}>SESCO <span style={{ color: 'var(--blue)' }}>CMS</span></span>
@@ -61,7 +70,7 @@ export default function Sidebar({ active, onChange }: { active: AdminTab; onChan
           {group.items.map(item => (
             <div
               key={item.id}
-              onClick={() => onChange(item.id)}
+              onClick={() => choose(item.id)}
               style={{
                 display: 'flex', alignItems: 'center', gap: 10, padding: '10px 12px', borderRadius: 8, cursor: 'pointer',
                 fontSize: '.88rem', margin: '2px 8px', transition: 'background .2s,color .2s',
@@ -90,5 +99,5 @@ export default function Sidebar({ active, onChange }: { active: AdminTab; onChan
         </div>
       </div>
     </aside>
-  );
+  </>;
 }

@@ -23,7 +23,6 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 
   return {
-    metadataBase: new URL('https://sescoconcept.name.ng'),
     title: seo.defaultTitle,
     description: seo.defaultDescription,
     keywords: ['SESCO STUDIO', 'web development', 'branding', 'AI automation', 'Nigeria'],
@@ -32,11 +31,6 @@ export async function generateMetadata(): Promise<Metadata> {
       description: seo.defaultDescription,
       type: 'website',
       images: seo.ogImage ? [seo.ogImage] : undefined,
-    },
-    icons: {
-      icon: '/icon',
-      shortcut: '/icon',
-      apple: '/icon',
     },
     twitter: {
       card: 'summary_large_image',
@@ -48,19 +42,9 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const organization = {
-    '@context': 'https://schema.org',
-    '@type': 'Organization',
-    name: 'SESCO STUDIO',
-    url: 'https://sescoconcept.name.ng',
-    description: DEFAULT_CMS.seo.defaultDescription,
-    areaServed: ['Nigeria', 'Africa'],
-    knowsAbout: ['Web development', 'Digital systems', 'Software applications', 'AI automation', 'Brand design', 'Digital strategy'],
-  };
   return (
     <html lang="en">
       <body>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organization) }} />
         <CMSProvider>
           <FaviconSync />
           <AnalyticsScripts />

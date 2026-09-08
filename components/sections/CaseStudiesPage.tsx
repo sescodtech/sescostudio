@@ -1,7 +1,6 @@
 'use client';
 import { useCMS } from '@/lib/CMSContext';
 import { Reveal, StaggerGrid, StaggerItem } from '@/components/ui/Motion';
-import { ExternalLink, LockKeyhole } from 'lucide-react';
 
 export default function CaseStudiesPage() {
   const { data } = useCMS();
@@ -49,9 +48,6 @@ export default function CaseStudiesPage() {
                           <div style={{ fontFamily: 'Montserrat,sans-serif', fontSize: '.58rem', fontWeight: 600, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--gray)' }}>{p.r2.l}</div>
                         </div>
                       )}
-                    </div>
-                    <div style={{ marginTop:18, paddingTop:16, borderTop:'1px solid var(--border)' }}>
-                      {p.link && p.accessType !== 'nda' && p.accessType !== 'private' ? <a href={p.link} target="_blank" rel="noopener noreferrer" className="learn-more-link btn btn-ghost" style={{padding:0}}>Open {p.accessType === 'client' ? 'Client Portal' : 'Live Project'} <ExternalLink size={12}/></a> : <span style={{fontSize:'.72rem',color:'var(--gray)',display:'inline-flex',alignItems:'center',gap:5}}><LockKeyhole size={12}/> {p.accessLabel || 'Restricted project — details available on request'}</span>}
                     </div>
                   </div>
                 </div>

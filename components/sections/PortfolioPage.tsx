@@ -1,7 +1,7 @@
 'use client';
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
-import { ArrowRight, ExternalLink, LockKeyhole } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { useCMS } from '@/lib/CMSContext';
 import { Reveal } from '@/components/ui/Motion';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -28,7 +28,7 @@ export default function PortfolioPage() {
         </div>
       </section>
 
-      <section className="section section-light" style={{ paddingTop: 'clamp(16px,3vw,24px)' }}>
+      <section className="section selected-work-section portfolio-list-section" style={{ paddingTop: 'clamp(16px,3vw,24px)' }}>
         <div className="container">
           <Reveal>
             <div role="group" aria-label="Filter projects by type" style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 48 }}>
@@ -61,7 +61,7 @@ export default function PortfolioPage() {
                   exit={{ opacity: 0, scale: 0.9 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <div className="card card-hover" style={{ overflow: 'hidden' }}>
+                  <div className="card card-hover selected-work-card" style={{ overflow: 'hidden' }}>
                     <div style={{ aspectRatio: '4/3', background: p.bg, position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2.5rem' }}>
                       <span aria-hidden="true">{p.icon}</span>
                       <div style={{ position: 'absolute', top: 10, left: 10, background: 'rgba(11,15,26,.85)', backdropFilter: 'blur(10px)', border: '1px solid var(--border)', borderRadius: 100, padding: '3px 10px', fontFamily: 'Montserrat,sans-serif', fontSize: '.58rem', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--gray)' }}>{p.type}</div>
@@ -70,20 +70,23 @@ export default function PortfolioPage() {
                       <p style={{ fontFamily: 'Montserrat,sans-serif', fontSize: '.6rem', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 8 }}>{p.type}</p>
                       <h3 style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 700, fontSize: '1rem', marginBottom: 6 }}>{p.title}</h3>
                       <p style={{ color: 'var(--blue)', fontSize: '.85rem', marginBottom: 10 }}>{p.results}</p>
-                      <div style={{ marginBottom: 14 }}><span className="badge" style={{ color: p.accessType === 'nda' || p.accessType === 'private' ? 'var(--gold)' : p.accessType === 'client' ? 'var(--blue)' : '#16a34a', borderColor: p.accessType === 'nda' || p.accessType === 'private' ? 'rgba(200,162,74,.28)' : undefined }}>{p.accessLabel || (p.accessType === 'nda' ? 'NDA / Confidential' : p.accessType === 'client' ? 'Client application' : p.accessType === 'private' ? 'Private project' : 'Live project')}</span></div>
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: 14 }}>
                         {p.tags.map(t => <span key={t} className="badge">{t}</span>)}
                       </div>
-                      <div style={{ display:'flex', gap:14, alignItems:'center', flexWrap:'wrap' }}>
-                        <Link href="/case-studies" className="learn-more-link btn btn-ghost" style={{ padding: 0 }}>View Case Study <ArrowRight size={12} /></Link>
-                        {p.link && p.accessType !== 'nda' && p.accessType !== 'private' ? <a href={p.link} target="_blank" rel="noopener noreferrer" className="learn-more-link btn btn-ghost" style={{ padding:0 }}>Open {p.accessType === 'client' ? 'Portal' : 'Live Site'} <ExternalLink size={12}/></a> : <span style={{fontSize:'.7rem',color:'var(--gray)',display:'inline-flex',alignItems:'center',gap:5}}><LockKeyhole size={12}/> Access restricted</span>}
-                      </div>
+                      <Link href="/case-studies" className="learn-more-link btn btn-ghost" style={{ padding: 0, color: '#fff' }}>View Case Study <ArrowRight size={12} /></Link>
                     </div>
                   </div>
                 </motion.div>
               ))}
             </AnimatePresence>
           </motion.div>
+          <div className="portfolio-more-work" style={{ marginTop: 56 }}>
+            <div>
+              <p className="section-label">Beyond This Showcase</p>
+              <h2>There is more work behind the scenes.</h2>
+              <p>{data.siteSettings.portfolioNote || 'We have delivered additional websites, digital platforms, business systems, and custom solutions that are not included in this public showcase. Our portfolio represents a selection of work, not everything we have built.'}</p>
+            </div>
+          </div>
         </div>
       </section>
     </>

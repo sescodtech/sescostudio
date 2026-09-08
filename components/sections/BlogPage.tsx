@@ -1,7 +1,5 @@
 'use client';
 import { useState, useMemo } from 'react';
-import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
 import { useCMS } from '@/lib/CMSContext';
 import { Reveal, StaggerGrid, StaggerItem } from '@/components/ui/Motion';
 
@@ -46,10 +44,9 @@ export default function BlogPage() {
                   <p style={{ fontFamily: 'Montserrat,sans-serif', fontSize: '.6rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--blue)', marginBottom: 10 }}>{featured.cat}</p>
                   <h2 style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 800, fontSize: 'var(--fs-2xl)', marginBottom: 12, lineHeight: 1.3 }}>{featured.title}</h2>
                   <p style={{ color: 'var(--gray)', fontSize: '.92rem', lineHeight: 1.7, marginBottom: 16 }}>{featured.excerpt}</p>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 12, fontSize: '.78rem', color: 'var(--gray2)', marginBottom: 18 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12, fontSize: '.78rem', color: 'var(--gray2)' }}>
                     <span>{featured.date}</span><span aria-hidden="true">·</span><span>{featured.readTime || '5 min read'}</span>
                   </div>
-                  <Link href={`/blog/${featured.id}`} className="learn-more-link btn btn-ghost" style={{ padding: 0, alignSelf: 'flex-start' }}>Read Article <ArrowRight size={12} /></Link>
                 </div>
                 <div style={{ background: featured.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '3rem', minHeight: 220 }}>
                   <span aria-hidden="true">{featured.icon}</span>
@@ -67,10 +64,9 @@ export default function BlogPage() {
                     <p style={{ fontFamily: 'Montserrat,sans-serif', fontSize: '.58rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--blue)', marginBottom: 8 }}>{p.cat}</p>
                     <h3 style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 700, fontSize: '1rem', marginBottom: 8, lineHeight: 1.4 }}>{p.title}</h3>
                     <p style={{ color: 'var(--gray)', fontSize: '.85rem', lineHeight: 1.65, marginBottom: 14 }}>{p.excerpt}</p>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 12, fontSize: '.75rem', color: 'var(--gray2)', marginBottom: 14 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 12, fontSize: '.75rem', color: 'var(--gray2)' }}>
                       <span>{p.date}</span><span aria-hidden="true">·</span><span>{p.readTime || '5 min read'}</span>
                     </div>
-                    <Link href={`/blog/${p.id}`} className="learn-more-link btn btn-ghost" style={{ padding: 0 }}>Read Article <ArrowRight size={12} /></Link>
                   </div>
                 </div>
               </StaggerItem>
