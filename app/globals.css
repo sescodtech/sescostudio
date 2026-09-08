@@ -216,7 +216,8 @@ a, button { transition: color .2s var(--ease), background-color .2s var(--ease),
 }
 
 
-/* Portfolio direct-access action */
-.portfolio-visit-btn { background: var(--blue) !important; color: #fff !important; border: 1px solid var(--blue) !important; font-weight: 700 !important; }
-.portfolio-visit-btn:hover { background: var(--gold) !important; border-color: var(--gold) !important; color: #07111F !important; }
-.portfolio-no-live { font-size: .72rem; color: var(--gray); font-style: italic; }
+/* Direct live-site portfolio action: high-contrast and impossible to confuse with the card background. */
+.portfolio-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:10px}
+.portfolio-visit-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:10px 16px;border-radius:8px;background:#FFFFFF!important;color:#0B5ED7!important;border:2px solid #FFFFFF!important;text-decoration:none!important;font-family:'Montserrat',sans-serif;font-size:.68rem;font-weight:800;letter-spacing:.03em;line-height:1;box-shadow:0 5px 18px rgba(0,0,0,.18);transition:all .2s ease}
+.portfolio-visit-btn:hover{background:var(--gold)!important;color:#07111F!important;border-color:var(--gold)!important;transform:translateY(-2px);box-shadow:0 8px 24px rgba(184,148,63,.25)}
+.portfolio-actions .learn-more-link{color:#fff!important}

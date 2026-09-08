@@ -73,14 +73,8 @@ export default function PortfolioPage() {
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: 14 }}>
                         {p.tags.map(t => <span key={t} className="badge">{t}</span>)}
                       </div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap', marginTop: 4 }}>
-                        {p.link ? (
-                          <a href={p.link} target="_blank" rel="noopener noreferrer" className="btn btn-primary portfolio-visit-btn" style={{ display: 'inline-flex', alignItems: 'center', gap: 7, padding: '9px 14px', textDecoration: 'none' }}>
-                            Visit Website <span aria-hidden="true">↗</span>
-                          </a>
-                        ) : (
-                          <span className="portfolio-no-live">Live URL not published</span>
-                        )}
+                      <div className="portfolio-actions">
+                        {p.link ? <a href={p.link} target="_blank" rel="noopener noreferrer" className="portfolio-visit-btn">Visit Website <span aria-hidden="true">↗</span></a> : null}
                         <Link href="/case-studies" className="learn-more-link btn btn-ghost" style={{ padding: 0 }}>View Case Study <ArrowRight size={12} /></Link>
                       </div>
                     </div>
