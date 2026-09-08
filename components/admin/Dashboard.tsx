@@ -65,8 +65,8 @@ function DashboardInner() {
   return (
     <div style={{ display: 'flex', minHeight: '100vh' }}>
       <Sidebar active={tab} onChange={setTab} />
-      <main className="admin-main" style={{ flex: 1, marginLeft: 240, display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-        <div className="admin-topbar" style={{ height: 60, background: 'rgba(17,24,39,.8)', backdropFilter: 'blur(20px)', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 28px', position: 'sticky', top: 0, zIndex: 50 }}>
+      <main style={{ flex: 1, marginLeft: 240, display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+        <div style={{ height: 60, background: 'rgba(17,24,39,.8)', backdropFilter: 'blur(20px)', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 28px', position: 'sticky', top: 0, zIndex: 50 }}>
           <span style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 700, fontSize: '1rem' }}>{TITLES[tab]}</span>
           <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
             <NotificationsBell />
@@ -79,7 +79,7 @@ function DashboardInner() {
             </div>
           </div>
         </div>
-        <div className="admin-content" style={{ padding: 28, flex: 1, minWidth: 0 }}>
+        <div style={{ padding: 28, flex: 1 }}>
           {renderTab()}
         </div>
       </main>

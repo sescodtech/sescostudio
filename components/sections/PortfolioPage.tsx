@@ -28,7 +28,7 @@ export default function PortfolioPage() {
         </div>
       </section>
 
-      <section className="section selected-work-section portfolio-list-section" style={{ paddingTop: 'clamp(16px,3vw,24px)' }}>
+      <section className="section section-light" style={{ paddingTop: 'clamp(16px,3vw,24px)' }}>
         <div className="container">
           <Reveal>
             <div role="group" aria-label="Filter projects by type" style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 48 }}>
@@ -61,7 +61,7 @@ export default function PortfolioPage() {
                   exit={{ opacity: 0, scale: 0.9 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <div className="card card-hover selected-work-card" style={{ overflow: 'hidden' }}>
+                  <div className="card card-hover" style={{ overflow: 'hidden' }}>
                     <div style={{ aspectRatio: '4/3', background: p.bg, position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2.5rem' }}>
                       <span aria-hidden="true">{p.icon}</span>
                       <div style={{ position: 'absolute', top: 10, left: 10, background: 'rgba(11,15,26,.85)', backdropFilter: 'blur(10px)', border: '1px solid var(--border)', borderRadius: 100, padding: '3px 10px', fontFamily: 'Montserrat,sans-serif', fontSize: '.58rem', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--gray)' }}>{p.type}</div>
@@ -73,9 +73,15 @@ export default function PortfolioPage() {
                       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: 14 }}>
                         {p.tags.map(t => <span key={t} className="badge">{t}</span>)}
                       </div>
-                      <div style={{ display: 'flex', gap: 16, alignItems: 'center', flexWrap: 'wrap' }}>
-                        {p.link && <a href={p.link} target="_blank" rel="noopener noreferrer" className="learn-more-link btn btn-primary" style={{ padding: '9px 14px' }}>Visit Website ↗</a>}
-                        <Link href="/case-studies" className="learn-more-link btn btn-ghost" style={{ padding: 0, color: '#fff' }}>View Case Study <ArrowRight size={12} /></Link>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap', marginTop: 4 }}>
+                        {p.link ? (
+                          <a href={p.link} target="_blank" rel="noopener noreferrer" className="btn btn-primary portfolio-visit-btn" style={{ display: 'inline-flex', alignItems: 'center', gap: 7, padding: '9px 14px', textDecoration: 'none' }}>
+                            Visit Website <span aria-hidden="true">↗</span>
+                          </a>
+                        ) : (
+                          <span className="portfolio-no-live">Live URL not published</span>
+                        )}
+                        <Link href="/case-studies" className="learn-more-link btn btn-ghost" style={{ padding: 0 }}>View Case Study <ArrowRight size={12} /></Link>
                       </div>
                     </div>
                   </div>
@@ -83,13 +89,6 @@ export default function PortfolioPage() {
               ))}
             </AnimatePresence>
           </motion.div>
-          <div className="portfolio-more-work" style={{ marginTop: 56 }}>
-            <div>
-              <p className="section-label">Beyond This Showcase</p>
-              <h2>There is more work behind the scenes.</h2>
-              <p>{data.siteSettings.portfolioNote || 'We have delivered additional websites, digital platforms, business systems, and custom solutions that are not included in this public showcase. Our portfolio represents a selection of work, not everything we have built.'}</p>
-            </div>
-          </div>
         </div>
       </section>
     </>

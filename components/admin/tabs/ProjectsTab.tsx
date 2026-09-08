@@ -55,7 +55,7 @@ export default function ProjectsTab() {
               <Td title>{p.title}</Td>
               <Td><Badge>{p.type}</Badge></Td>
               <Td><span style={{ color: '#22c55e' }}>{p.results || '—'}</span></Td>
-              <Td>{p.link ? <a href={p.link} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--blue)', fontSize: '.75rem' }}>Visit ↗</a> : <span style={{ color: 'var(--gray)' }}>—</span>}</Td>
+              <Td>{p.link ? <a href={p.link} target="_blank" rel="noopener noreferrer" style={{ color: 'var(--blue)' }}>Visit ↗</a> : '—'}</Td>
               <Td>
                 <div style={{ display: 'flex', gap: 6 }}>
                   <Btn variant="outline" size="sm" onClick={() => openEdit(p)}>Edit</Btn>
@@ -77,7 +77,7 @@ export default function ProjectsTab() {
           <Field label="Icon (emoji)"><Input value={form.icon || ''} onChange={e => setForm({ ...form, icon: e.target.value })} /></Field>
           <Field label="Key Results"><Input value={form.results || ''} onChange={e => setForm({ ...form, results: e.target.value })} /></Field>
         </div>
-        <Field label="Live Website URL"><Input value={form.link || ''} onChange={e => setForm({ ...form, link: e.target.value })} placeholder="https://yourwebsite.com" /></Field>
+        <Field label="Live Website URL"><Input value={form.link || ''} onChange={e => setForm({ ...form, link: e.target.value })} placeholder="https://example.com" /></Field>
         <Field label="Technologies (comma separated)"><Input value={form.tagsStr || ''} onChange={e => setForm({ ...form, tagsStr: e.target.value })} /></Field>
         <Field label="Background CSS"><Input value={form.bg || ''} onChange={e => setForm({ ...form, bg: e.target.value })} /></Field>
         <Btn variant="primary" style={{ width: '100%', justifyContent: 'center' }} onClick={handleSave}>{editing ? 'Save Changes' : 'Add Project'}</Btn>

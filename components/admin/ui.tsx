@@ -63,14 +63,14 @@ export function Badge({ children, color = 'blue' }: { children: React.ReactNode;
 
 export function Table({ headers, children }: { headers: string[]; children: React.ReactNode }) {
   return (
-    <div className="admin-table-scroll"><table style={{ width: '100%', borderCollapse: 'collapse' }}>
+    <table style={{ width: '100%', borderCollapse: 'collapse' }}>
       <thead>
         <tr>
           {headers.map(h => <th key={h} style={{ fontFamily: 'Montserrat,sans-serif', fontSize: '.58rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--gray)', padding: '10px 14px', textAlign: 'left', borderBottom: '1px solid var(--border)', whiteSpace: 'nowrap' }}>{h}</th>)}
         </tr>
       </thead>
       <tbody>{children}</tbody>
-    </table></div>
+    </table>
   );
 }
 export function Td({ children, title = false }: { children: React.ReactNode; title?: boolean }) {

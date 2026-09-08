@@ -113,7 +113,6 @@ export interface CMSData {
     ga4Id?: string;
     gtmId?: string;
     clarityId?: string;
-    portfolioNote?: string;
   };
   media: Array<{ url: string; name: string; type: string }>;
 }
