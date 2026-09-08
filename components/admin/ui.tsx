@@ -42,7 +42,7 @@ export function Btn({ variant = 'primary', size = 'md', children, ...rest }: { v
     primary: { background: 'var(--blue)', color: '#fff' },
     outline: { background: 'transparent', color: '#fff', border: '1px solid var(--border)' },
     danger: { background: 'rgba(239,68,68,.1)', color: '#ef4444', border: '1px solid rgba(239,68,68,.2)' },
-    gold: { background: 'linear-gradient(135deg,#C8A24A,#e8c060)', color: '#0B0F1A' },
+    gold: { background: 'linear-gradient(135deg,#C9A227,#e8c060)', color: '#081426' },
   };
   const sizing = size === 'sm' ? { padding: '7px 14px', fontSize: '.6rem' } : { padding: '10px 20px', fontSize: '.65rem' };
   return (

@@ -32,8 +32,8 @@ export default function LogoTab() {
   const removeFav = () => { setPendingFav(null); setClearFav(true); };
 
   const swatches = [
-    { name: 'Deep Navy', hex: '#0B0F1A' }, { name: 'Electric Blue', hex: '#2F6BFF' },
-    { name: 'Premium Gold', hex: '#C8A24A' }, { name: 'Gray', hex: '#A7B0C0' },
+    { name: 'Deep Navy', hex: '#081426' }, { name: 'Electric Blue', hex: '#2F6BFF' },
+    { name: 'Premium Gold', hex: '#C9A227' }, { name: 'Gray', hex: '#A7B0C0' },
   ];
 
   const currentLogo = clearLogo ? null : (pendingLogo || data.logo);

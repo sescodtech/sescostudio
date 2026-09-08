@@ -28,15 +28,15 @@ export default function LogoMark({ size = 'md', showWordmark = true, className =
           <circle cx={cx} cy={cx} r={s.r1} stroke="#2F6BFF" strokeWidth="2"/>
           {size === 'xl' && (
             <>
-              <circle cx={cx} cy={cx} r={s.r2} stroke="#C8A24A" strokeWidth=".9" strokeDasharray="4 3" opacity=".7"/>
-              <circle cx={cx} cy={cx} r={s.r3} fill="#0B0F1A" stroke="rgba(47,107,255,.2)" strokeWidth="1"/>
+              <circle cx={cx} cy={cx} r={s.r2} stroke="#C9A227" strokeWidth=".9" strokeDasharray="4 3" opacity=".7"/>
+              <circle cx={cx} cy={cx} r={s.r3} fill="#081426" stroke="rgba(47,107,255,.2)" strokeWidth="1"/>
               <text x={cx} y={cx + 8} textAnchor="middle" fontFamily="Plus Jakarta Sans,sans-serif" fontWeight="800" fontSize={s.textSize} fill="#fff" letterSpacing="-1">SS</text>
-              <text x={cx} y={cx + 22} textAnchor="middle" fontFamily="Montserrat,sans-serif" fontWeight="700" fontSize="5.5" fill="#C8A24A" letterSpacing="3.5">STUDIO</text>
+              <text x={cx} y={cx + 22} textAnchor="middle" fontFamily="Montserrat,sans-serif" fontWeight="700" fontSize="5.5" fill="#C9A227" letterSpacing="3.5">STUDIO</text>
             </>
           )}
           {size !== 'xl' && (
             <>
-              <circle cx={cx} cy={cx} r={s.r2} stroke="#C8A24A" strokeWidth=".8" strokeDasharray="3 2"/>
+              <circle cx={cx} cy={cx} r={s.r2} stroke="#C9A227" strokeWidth=".8" strokeDasharray="3 2"/>
               <text x={cx} y={cx + 4} textAnchor="middle" fontFamily="Plus Jakarta Sans,sans-serif" fontWeight="800" fontSize={s.textSize} fill="#fff">SS</text>
             </>
           )}

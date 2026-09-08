@@ -13,12 +13,13 @@ export default function BlogPage() {
 
   return (
     <>
-      <section style={{ padding: '160px 5% 60px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+      <section className="page-hero">
         <div className="grid-overlay" aria-hidden="true" />
-        <div style={{ position: 'relative', zIndex: 2 }}>
+        <div className="page-hero-glow" aria-hidden="true" />
+        <div className="container page-hero-content">
           <Reveal><p className="section-label centered">Insights</p></Reveal>
-          <Reveal delay={0.1}><h1 style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 800, fontSize: 'var(--fs-5xl)', letterSpacing: '-.025em', marginBottom: 20 }}>The SESCO Blog</h1></Reveal>
-          <Reveal delay={0.2}><p style={{ color: 'var(--gray)', fontSize: 'var(--fs-lg)', lineHeight: 1.8, maxWidth: 540, margin: '0 auto' }}>Thoughts on technology, design systems, AI automation, and building digital businesses in the modern era.</p></Reveal>
+          <Reveal delay={0.1}><h1>The SESCO <span>Blog</span></h1></Reveal>
+          <Reveal delay={0.2}><p>Thoughts on technology, design systems, AI automation, and building digital businesses in the modern era.</p></Reveal>
         </div>
       </section>
 

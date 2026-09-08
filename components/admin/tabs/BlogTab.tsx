@@ -38,7 +38,7 @@ export default function BlogTab() {
       title: form.title || '', cat: form.cat || '', date: form.date || 'Jun 2025',
       excerpt: form.excerpt || '', icon: form.icon || '📝',
       status: (form.status as 'published' | 'draft') || 'draft',
-      bg: editing?.bg || 'linear-gradient(135deg,#0B0F1A,#161D2F)',
+      bg: editing?.bg || 'linear-gradient(135deg,#081426,#14243A)',
       readTime: editing?.readTime || '5 min read',
       authorEmail: editing?.authorEmail || user?.email,
     };

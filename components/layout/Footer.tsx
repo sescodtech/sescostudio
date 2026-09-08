@@ -60,7 +60,8 @@ export default function Footer() {
               {c.twitter && <SocIcon href={c.twitter} label="Twitter / X" icon={<span style={{fontSize:'.85rem'}} aria-hidden="true">𝕏</span>}/>}
               {c.linkedin && <SocIcon href={c.linkedin} label="LinkedIn" icon={<span style={{fontSize:'.75rem',fontWeight:700}} aria-hidden="true">in</span>}/>}
               {c.instagram && <SocIcon href={c.instagram} label="Instagram" icon={<span style={{fontSize:'.85rem'}} aria-hidden="true">◎</span>}/>}
-              <SocIcon href={c.github || 'https://github.com/sescodtech'} label="GitHub" icon={<Github size={14} aria-hidden="true"/>}/>
+              <SocIcon href={c.github || 'https://github.com/sescodtech'} label="GitHub" icon={<Github size={14} aria-hidden="true" />} />
+              {c.github2 && <SocIcon href={c.github2} label="GitHub 2" icon={<Github size={14} aria-hidden="true" />} />}
             </div>
           </div>
 
@@ -100,7 +101,7 @@ export default function Footer() {
 }
 
 function ColTitle({ children }: { children: React.ReactNode }) {
-  return <p style={{ fontFamily: 'Montserrat,sans-serif', fontSize: '.62rem', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--white)', marginBottom: 18 }}>{children}</p>;
+  return <p style={{ fontFamily: 'Montserrat,sans-serif', fontSize: '.62rem', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: '#fff', marginBottom: 18 }}>{children}</p>;
 }
 function SocIcon({ href, icon, label }: { href: string; icon: React.ReactNode; label: string }) {
   return (

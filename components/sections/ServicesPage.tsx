@@ -12,7 +12,7 @@ function FAQItem({ q, a }: { q: string; a: string }) {
       <button
         onClick={() => setOpen(o => !o)}
         aria-expanded={open}
-        style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, padding: '18px 22px', background: 'none', border: 'none', color: 'var(--white)', textAlign: 'left', cursor: 'pointer', fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 700, fontSize: '.95rem' }}
+        style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, padding: '18px 22px', background: 'none', border: 'none', color: '#fff', textAlign: 'left', cursor: 'pointer', fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 700, fontSize: '.95rem' }}
       >
         {q}
         <ChevronDown size={16} color="var(--gray)" aria-hidden="true" style={{ flexShrink: 0, transform: open ? 'rotate(180deg)' : 'none', transition: 'transform .25s var(--ease)' }} />
@@ -35,12 +35,13 @@ export default function ServicesPage() {
 
   return (
     <>
-      <section style={{ padding: '160px 5% 80px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
+      <section className="page-hero">
         <div className="grid-overlay" aria-hidden="true" />
-        <div style={{ position: 'relative', zIndex: 2 }}>
+        <div className="page-hero-glow" aria-hidden="true" />
+        <div className="container page-hero-content">
           <Reveal><p className="section-label centered">What We Do</p></Reveal>
-          <Reveal delay={0.1}><h1 style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 800, fontSize: 'var(--fs-5xl)', letterSpacing: '-.025em', marginBottom: 20 }}>Our Services</h1></Reveal>
-          <Reveal delay={0.2}><p style={{ color: 'var(--gray)', fontSize: 'var(--fs-lg)', lineHeight: 1.8, maxWidth: 560, margin: '0 auto' }}>Full-spectrum digital capabilities — from concept to deployment. We handle every layer of your digital infrastructure.</p></Reveal>
+          <Reveal delay={0.1}><h1>Digital capabilities that <span>move business forward.</span></h1></Reveal>
+          <Reveal delay={0.2}><p>Full-spectrum digital capabilities — from concept to deployment. We handle every layer of your digital infrastructure.</p></Reveal>
         </div>
       </section>
 
@@ -90,7 +91,7 @@ export default function ServicesPage() {
                     zIndex: p.featured ? 1 : undefined,
                   }}
                 >
-                  {p.featured && <div style={{ position: 'absolute', top: 0, right: 0, background: 'var(--blue)', color: 'var(--white)', fontFamily: 'Montserrat,sans-serif', fontSize: '.58rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', padding: '4px 12px', borderBottomLeftRadius: 8 }}>Most Popular</div>}
+                  {p.featured && <div style={{ position: 'absolute', top: 0, right: 0, background: 'var(--blue)', color: '#fff', fontFamily: 'Montserrat,sans-serif', fontSize: '.58rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', padding: '4px 12px', borderBottomLeftRadius: 8 }}>Most Popular</div>}
                   <p style={{ fontFamily: 'Montserrat,sans-serif', fontSize: '.62rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 8 }}>{p.tier}</p>
                   <p style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 800, fontSize: 'var(--fs-3xl)', marginBottom: 4 }}>Custom</p>
                   <p style={{ color: 'var(--gray)', fontSize: '.8rem', marginBottom: 24 }}>{p.tag}</p>

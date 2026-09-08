@@ -1,10 +1,9 @@
 'use client';
-import { ArrowRight, ExternalLink } from 'lucide-react';
+import { ArrowRight, ExternalLink, LockKeyhole } from 'lucide-react';
 import Link from 'next/link';
 import { useCMS } from '@/lib/CMSContext';
 import { Reveal, RevealLeft, RevealRight, StaggerGrid, StaggerItem, MetricBar } from '@/components/ui/Motion';
 import Button from '@/components/ui/Button';
-import { getProjectLiveLink } from '@/lib/projectLinks';
 
 /* ─── TRUSTED BY ─── */
 const CLIENTS = ['Andus International', 'IOCONSULTS', 'Mercy Hub', 'Emunahh', 'Deon Auto', 'Olajide Property'];
@@ -149,42 +148,37 @@ export function WhySection() {
 /* ─── PORTFOLIO PREVIEW ─── */
 export function PortfolioPreview() {
   const { data } = useCMS();
-  const featured = data.projects.filter(p => getProjectLiveLink(p.title, p.link)).slice(0, 3);
+  const featured = data.projects.slice(0, 3);
+  const liveLinks: Record<string, string> = {
+    'Mercy Hub': 'https://mercy-hub.vercel.app',
+    'Andus International': 'https://andusinternationalng.com',
+    'Olajide Property': 'https://olajide-property.vercel.app',
+  };
   return (
     <section className="section section-light">
       <div className="container">
         <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: 20, marginBottom: 48 }}>
-          <div>
-            <Reveal><p className="section-label">Selected Work</p></Reveal>
-            <Reveal delay={0.1}><h2 style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 800, fontSize: 'var(--fs-4xl)', letterSpacing: '-.02em' }}>Our Projects</h2></Reveal>
-          </div>
+          <div><Reveal><p className="section-label">Selected Work</p></Reveal><Reveal delay={0.1}><h2 style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 800, fontSize: 'var(--fs-4xl)', letterSpacing: '-.02em' }}>Our Projects</h2></Reveal></div>
           <Reveal delay={0.2}><Button href="/portfolio" variant="outline" size="sm">View All <ArrowRight size={13} /></Button></Reveal>
         </div>
         <StaggerGrid style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: 20 }}>
-          {featured.map(p => (
-            <StaggerItem key={p.id}>
-              <div className="card card-hover portfolio-card" style={{ overflow: 'hidden', background: '#fff', borderColor: 'rgba(11,15,26,.09)', color: '#0B0F1A' }}>
-                <div style={{ aspectRatio: '16/9', background: p.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2.2rem', position: 'relative' }}>
-                  <span aria-hidden="true">{p.icon}</span>
-                  <div style={{ position: 'absolute', top: 10, left: 10, background: 'rgba(11,15,26,.85)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,.12)', borderRadius: 100, padding: '3px 10px', fontFamily: 'Montserrat,sans-serif', fontSize: '.58rem', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: '#D9DFEA' }}>{p.type}</div>
-                </div>
-                <div style={{ padding: 22 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginBottom: 8 }}>
-                    <h3 style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 800, fontSize: '1rem' }}>{p.title}</h3>
-                    {getProjectLiveLink(p.title, p.link) && <span className="live-label"><span /> Live</span>}
-                  </div>
-                  <p style={{ color: '#596273', fontSize: '.85rem', lineHeight: 1.6, marginBottom: 12 }}>{p.desc}</p>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: 16 }}>
-                    {p.tags.slice(0,3).map(t => <span key={t} className="portfolio-tag">{t}</span>)}
-                  </div>
-                  <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                    {getProjectLiveLink(p.title, p.link) && <a href={getProjectLiveLink(p.title, p.link)} target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-sm">Visit <ExternalLink size={12} /></a>}
-                    <Link href="/case-studies" className="btn btn-outline btn-sm" style={{ color: '#0B0F1A', borderColor: 'rgba(11,15,26,.12)' }}>Case Study <ArrowRight size={12} /></Link>
+          {featured.map(p => {
+            const confidential = p.visibility === 'confidential' || p.accessType === 'private_demo';
+            const link = p.link || liveLinks[p.title];
+            return <StaggerItem key={p.id}>
+              <article className="card card-hover portfolio-card-pro">
+                <div className="portfolio-visual" style={{ background: p.bg }}><span className="portfolio-icon" aria-hidden="true">{p.icon}</span><span className={`portfolio-status ${confidential ? 'gold' : ''}`}>{confidential ? <><LockKeyhole size={12}/> NDA / Confidential</> : <><ExternalLink size={12}/> {p.accessType === 'client_app' ? 'Client Application' : 'Live Project'}</>}</span></div>
+                <div className="portfolio-copy">
+                  <div className="portfolio-type">{p.type}</div><h2>{p.title}</h2><p>{p.desc}</p>
+                  <div className="portfolio-tags">{p.tags.slice(0,3).map(t => <span key={t}>{t}</span>)}</div>
+                  <div className="portfolio-actions">
+                    <Link href={`/case-studies#project-${p.id}`} className="portfolio-case-link">View case study <ArrowRight size={14}/></Link>
+                    {link && !confidential ? <a href={link} target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-sm">Visit <ExternalLink size={12}/></a> : <Link href="/contact" className="btn btn-outline btn-sm">{confidential ? 'Request Access' : 'Details'} <ArrowRight size={12}/></Link>}
                   </div>
                 </div>
-              </div>
-            </StaggerItem>
-          ))}
+              </article>
+            </StaggerItem>;
+          })}
         </StaggerGrid>
       </div>
     </section>

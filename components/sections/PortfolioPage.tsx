@@ -1,110 +1,83 @@
 'use client';
-import { useMemo, useState } from 'react';
+import { useState, useMemo } from 'react';
 import Link from 'next/link';
-import { ArrowRight, ExternalLink, Globe2 } from 'lucide-react';
+import { ArrowUpRight, LockKeyhole, ExternalLink, ShieldCheck } from 'lucide-react';
 import { useCMS } from '@/lib/CMSContext';
-import { Reveal } from '@/components/ui/Motion';
-import { motion, AnimatePresence } from 'framer-motion';
-import { getProjectLiveLink } from '@/lib/projectLinks';
+import { Reveal, StaggerGrid, StaggerItem } from '@/components/ui/Motion';
+
+const LIVE_LINKS: Record<string, string> = {
+  'Mercy Hub': 'https://mercy-hub.vercel.app',
+  'Andus International': 'https://andusinternationalng.com',
+  'Olajide Property': 'https://olajide-property.vercel.app',
+  'IOCONSULTS': '',
+  'FinLens Analyzer': '',
+  'Sescohubs VTU': '',
+};
+
+function accessMeta(p: { visibility?: 'public' | 'confidential'; accessType?: 'live' | 'client_app' | 'private_demo' | 'none'; link?: string }) {
+  if (p.visibility === 'confidential' || p.accessType === 'private_demo') return { label: 'Confidential / NDA', icon: <LockKeyhole size={13} />, tone: 'gold' as const };
+  if (p.accessType === 'client_app') return { label: 'Client Web Application', icon: <ShieldCheck size={13} />, tone: 'blue' as const };
+  if (p.link || p.accessType === 'live') return { label: 'Live Project', icon: <ExternalLink size={13} />, tone: 'blue' as const };
+  return { label: 'Selected Work', icon: <ShieldCheck size={13} />, tone: 'blue' as const };
+}
 
 export default function PortfolioPage() {
   const { data } = useCMS();
   const [filter, setFilter] = useState('all');
-
-  const types = useMemo(() => {
-    const unique = Array.from(new Set(data.projects.map(p => p.type)));
-    return ['all', ...unique];
-  }, [data.projects]);
-
+  const types = useMemo(() => ['all', ...Array.from(new Set(data.projects.map(p => p.type)))], [data.projects]);
   const filtered = filter === 'all' ? data.projects : data.projects.filter(p => p.type === filter);
 
   return (
     <>
-      <section className="portfolio-hero" style={{ padding: '150px 5% 72px', position: 'relative', overflow: 'hidden' }}>
+      <section className="page-hero">
         <div className="grid-overlay" aria-hidden="true" />
-        <div className="glow-blue" aria-hidden="true" style={{ position: 'absolute', top: -120, left: '55%', width: 720, height: 520 }} />
-        <div className="container" style={{ position: 'relative', zIndex: 2 }}>
-          <div style={{ maxWidth: 900 }}>
-            <Reveal><p className="section-label">Portfolio</p></Reveal>
-            <Reveal delay={0.08}><h1 style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 800, fontSize: 'var(--fs-5xl)', lineHeight: 1.05, letterSpacing: '-.04em', maxWidth: 820, marginBottom: 22 }}>Digital products built to work.</h1></Reveal>
-            <Reveal delay={0.16}><p style={{ color: 'var(--gray)', fontSize: 'var(--fs-lg)', lineHeight: 1.8, maxWidth: 680, marginBottom: 30 }}>Explore selected systems, websites, platforms, and digital products delivered by SESCO STUDIO. Every live project below can be opened and inspected.</p></Reveal>
-            <Reveal delay={0.24}>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
-                <span className="portfolio-proof"><Globe2 size={14} /> Live project links</span>
-                <span className="portfolio-proof">Web · Product · Automation · Growth</span>
-              </div>
-            </Reveal>
-          </div>
+        <div className="page-hero-glow" aria-hidden="true" />
+        <div className="container page-hero-content">
+          <Reveal><p className="section-label centered">Portfolio</p></Reveal>
+          <Reveal delay={0.1}><h1>Digital products built to <span>work.</span></h1></Reveal>
+          <Reveal delay={0.2}><p>Selected systems, websites, platforms and digital products delivered for businesses, institutions and growing brands.</p></Reveal>
         </div>
       </section>
 
-      <section className="section section-light" style={{ paddingTop: 'clamp(44px,6vw,72px)' }}>
+      <section className="section section-light portfolio-section">
         <div className="container">
           <Reveal>
-            <div role="group" aria-label="Filter projects by type" style={{ display: 'flex', gap: 10, justifyContent: 'flex-start', flexWrap: 'wrap', marginBottom: 40 }}>
-              {types.map(t => (
-                <button key={t} onClick={() => setFilter(t)} aria-pressed={filter === t} className={`portfolio-filter ${filter === t ? 'is-active' : ''}`}>
-                  {t === 'all' ? 'All Projects' : t}
-                </button>
-              ))}
+            <div className="portfolio-filter" role="group" aria-label="Filter projects by category">
+              {types.map(type => <button key={type} onClick={() => setFilter(type)} aria-pressed={filter === type} className={filter === type ? 'active' : ''}>{type === 'all' ? 'All Work' : type}</button>)}
             </div>
           </Reveal>
 
-          <motion.div layout style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(310px,1fr))', gap: 22 }}>
-            <AnimatePresence mode="popLayout">
-              {filtered.map((p, index) => {
-                const liveLink = getProjectLiveLink(p.title, p.link);
-                return (
-                  <motion.article key={p.id} layout initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 18 }} transition={{ duration: 0.28 }} className="portfolio-project-card">
-                    <div className="portfolio-browser" style={{ background: p.bg }}>
-                      <div className="browser-bar">
-                        <span /><span /><span />
-                        <div className="browser-url">{liveLink ? new URL(liveLink).hostname.replace('www.', '') : 'sesco-studio.com'}</div>
-                      </div>
-                      <div className="browser-canvas">
-                        <div className="browser-grid" aria-hidden="true" />
-                        <div className="browser-project-icon" aria-hidden="true">{p.icon}</div>
-                        <div className="browser-project-name">{p.title}</div>
-                        {liveLink && <span className="live-chip"><span /> Live</span>}
-                      </div>
-                      <div className="portfolio-number">{String(index + 1).padStart(2, '0')}</div>
+          <StaggerGrid style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(300px,1fr))', gap: 24 }}>
+            {filtered.map(p => {
+              const link = p.link || LIVE_LINKS[p.title];
+              const meta = accessMeta({ ...p, link });
+              const confidential = p.visibility === 'confidential' || p.accessType === 'private_demo';
+              return (
+                <StaggerItem key={p.id}>
+                  <article className="card card-hover portfolio-card-pro">
+                    <div className="portfolio-visual" style={{ background: p.bg }}>
+                      <span className="portfolio-icon" aria-hidden="true">{p.icon}</span>
+                      <span className={`portfolio-status ${meta.tone}`}>{meta.icon}{meta.label}</span>
                     </div>
-
-                    <div style={{ padding: 24 }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12, marginBottom: 9 }}>
-                        <p style={{ fontFamily: 'Montserrat,sans-serif', fontSize: '.59rem', fontWeight: 700, letterSpacing: '.13em', textTransform: 'uppercase', color: 'var(--blue)' }}>{p.type}</p>
-                        {liveLink && <span className="live-label"><span /> Live</span>}
-                      </div>
-                      <h2 style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 800, fontSize: '1.18rem', letterSpacing: '-.015em', marginBottom: 8 }}>{p.title}</h2>
-                      <p style={{ color: 'var(--gray)', fontSize: '.88rem', lineHeight: 1.7, marginBottom: 15 }}>{p.desc}</p>
-                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 20 }}>
-                        {p.tags.slice(0, 5).map(t => <span key={t} className="portfolio-tag">{t}</span>)}
-                      </div>
-                      <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                        {liveLink ? (
-                          <a href={liveLink} target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-sm">
-                            Visit Live Site <ExternalLink size={13} />
-                          </a>
+                    <div className="portfolio-copy">
+                      <div className="portfolio-type">{p.type}</div>
+                      <h2>{p.title}</h2>
+                      <p>{p.desc}</p>
+                      <div className="portfolio-tags">{p.tags.slice(0, 4).map(t => <span key={t}>{t}</span>)}</div>
+                      <div className="portfolio-actions">
+                        <Link href={`/case-studies#project-${p.id}`} className="portfolio-case-link">View case study <ArrowUpRight size={15} /></Link>
+                        {link && !confidential ? (
+                          <a href={link} target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-sm">Visit Live Site <ExternalLink size={13} /></a>
                         ) : (
-                          <span className="portfolio-no-link">Live URL coming soon</span>
+                          <Link href="/contact" className="btn btn-outline btn-sm">{confidential ? 'Request Access' : 'Project Details'} <ArrowUpRight size={13} /></Link>
                         )}
-                        <Link href="/case-studies" className="btn btn-outline btn-sm">Case Study <ArrowRight size={13} /></Link>
                       </div>
                     </div>
-                  </motion.article>
-                );
-              })}
-            </AnimatePresence>
-          </motion.div>
-        </div>
-      </section>
-
-      <section className="section portfolio-cta">
-        <div className="container" style={{ textAlign: 'center', position: 'relative', zIndex: 1 }}>
-          <Reveal><p className="section-label centered">Your Turn</p></Reveal>
-          <Reveal delay={0.1}><h2 style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 800, fontSize: 'var(--fs-4xl)', letterSpacing: '-.03em', maxWidth: 720, margin: '0 auto 16px' }}>Let&apos;s build a system your business can actually use.</h2></Reveal>
-          <Reveal delay={0.2}><p style={{ color: 'var(--gray)', maxWidth: 560, margin: '0 auto 30px', lineHeight: 1.8 }}>Tell us what you are trying to improve. We&apos;ll help turn the idea into a polished, functional digital product.</p></Reveal>
-          <Reveal delay={0.3}><Link href="/contact" className="btn btn-primary">Start a Project <ArrowRight size={14} /></Link></Reveal>
+                  </article>
+                </StaggerItem>
+              );
+            })}
+          </StaggerGrid>
         </div>
       </section>
     </>

@@ -36,7 +36,8 @@ export function ContactInfoTabImpl() {
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
         <Field label="Instagram URL"><Input value={form.instagram || ''} onChange={e => setForm({ ...form, instagram: e.target.value })} placeholder="https://instagram.com/..." /></Field>
-        <Field label="GitHub URL"><Input value={form.github || ''} onChange={e => setForm({ ...form, github: e.target.value })} /></Field>
+        <Field label="GitHub URL 1"><Input value={form.github || ''} onChange={e => setForm({ ...form, github: e.target.value })} placeholder="https://github.com/username" /></Field>
+        <Field label="GitHub URL 2"><Input value={form.github2 || ''} onChange={e => setForm({ ...form, github2: e.target.value })} placeholder="https://github.com/username" /></Field>
       </div>
       <Field label="WhatsApp Number (with country code)"><Input value={form.whatsapp || ''} onChange={e => setForm({ ...form, whatsapp: e.target.value })} placeholder="+234..." /></Field>
     </Card>

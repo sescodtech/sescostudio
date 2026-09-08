@@ -21,6 +21,8 @@ export interface Project {
   r1?: { n: string; l: string };
   r2?: { n: string; l: string };
   link?: string;
+  visibility?: 'public' | 'confidential';
+  accessType?: 'live' | 'client_app' | 'private_demo' | 'none';
 }
 
 export interface Testimonial {
@@ -94,6 +96,7 @@ export interface CMSData {
     linkedin?: string;
     instagram?: string;
     github?: string;
+    github2?: string;
     businessHours?: string;
   };
   about: {
