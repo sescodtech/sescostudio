@@ -28,8 +28,7 @@ export async function generateMetadata(): Promise<Metadata> {
     description: seo.defaultDescription,
     keywords: ['SESCO STUDIO', 'web development', 'branding', 'AI automation', 'Nigeria'],
     openGraph: {
-      metadataBase: new URL('https://sescoconcept.name.ng'),
-    title: seo.defaultTitle,
+      title: seo.defaultTitle,
       description: seo.defaultDescription,
       type: 'website',
       images: seo.ogImage ? [seo.ogImage] : undefined,
@@ -41,8 +40,7 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     twitter: {
       card: 'summary_large_image',
-      metadataBase: new URL('https://sescoconcept.name.ng'),
-    title: seo.defaultTitle,
+      title: seo.defaultTitle,
       description: seo.defaultDescription,
       site: seo.twitterHandle || undefined,
     },
