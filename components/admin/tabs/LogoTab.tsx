@@ -32,8 +32,8 @@ export default function LogoTab() {
   const removeFav = () => { setPendingFav(null); setClearFav(true); };
 
   const swatches = [
-    { name: 'Deep Navy', hex: '#081426' }, { name: 'Electric Blue', hex: '#2F6BFF' },
-    { name: 'Premium Gold', hex: '#C9A227' }, { name: 'Gray', hex: '#A7B0C0' },
+    { name: 'Deep Navy', hex: '#0B0F1A' }, { name: 'Electric Blue', hex: '#2F6BFF' },
+    { name: 'Premium Gold', hex: '#C8A24A' }, { name: 'Gray', hex: '#A7B0C0' },
   ];
 
   const currentLogo = clearLogo ? null : (pendingLogo || data.logo);
@@ -50,7 +50,7 @@ export default function LogoTab() {
           </div>
           <div>
             <p style={{ fontFamily: 'Montserrat,sans-serif', fontSize: '.6rem', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--gray)', marginBottom: 8 }}>Favicon</p>
-            <UploadZone preview={currentFav} icon="🔖" label="Upload favicon" hint="ICO, PNG · 32×32 or 64×64 recommended" onFile={url => { setPendingFav(url); setClearFav(false); }} />
+            <UploadZone preview={currentFav} icon="🔖" label="Upload favicon" hint="PNG, SVG or ICO · square 64×64+ recommended" onFile={url => { setPendingFav(url); setClearFav(false); }} />
             {currentFav && <Btn variant="outline" size="sm" style={{ marginTop: 10, width: '100%', justifyContent: 'center' }} onClick={removeFav}>Remove Favicon</Btn>}
           </div>
         </div>

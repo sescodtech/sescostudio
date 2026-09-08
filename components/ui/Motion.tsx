@@ -87,7 +87,7 @@ export function MetricBar({ width, gold = false }: { width: number; gold?: boole
         transition={{ duration: 1.6, ease: [0.4, 0, 0.2, 1] }}
         style={{
           height: '100%', borderRadius: 4, transformOrigin: 'left',
-          background: gold ? 'linear-gradient(90deg,#C9A227,#2F6BFF)' : 'linear-gradient(90deg,#2F6BFF,#C9A227)',
+          background: gold ? 'linear-gradient(90deg,#C8A24A,#2F6BFF)' : 'linear-gradient(90deg,#2F6BFF,#C8A24A)',
           width: `${width}%`,
         }}
       />

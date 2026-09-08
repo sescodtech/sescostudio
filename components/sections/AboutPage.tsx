@@ -19,13 +19,13 @@ export default function AboutPage() {
 
   return (
     <>
-      <section className="page-hero">
+      <section style={{ padding: '160px 5% 80px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
         <div className="grid-overlay" aria-hidden="true" />
-        <div className="page-hero-glow" aria-hidden="true" />
-        <div className="container page-hero-content">
+        <div className="glow-blue" aria-hidden="true" style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', width: 600, height: 400 }} />
+        <div style={{ position: 'relative', zIndex: 2, maxWidth: 720, margin: '0 auto' }}>
           <Reveal><p className="section-label centered">About Us</p></Reveal>
-          <Reveal delay={0.1}><h1>We Are <span>SESCO STUDIO</span></h1></Reveal>
-          <Reveal delay={0.2}><p>A premium digital innovation studio combining technology, creativity, and intelligent systems to help modern businesses build, automate, and grow.</p></Reveal>
+          <Reveal delay={0.1}><h1 style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 800, fontSize: 'var(--fs-5xl)', letterSpacing: '-.025em', marginBottom: 20 }}>We Are <span style={{ color: 'var(--blue)' }}>SESCO STUDIO</span></h1></Reveal>
+          <Reveal delay={0.2}><p style={{ color: 'var(--gray)', fontSize: 'var(--fs-lg)', lineHeight: 1.8 }}>A premium digital innovation studio combining technology, creativity, and intelligent systems to help modern businesses build, automate, and grow.</p></Reveal>
         </div>
       </section>
 

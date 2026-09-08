@@ -2,24 +2,19 @@
 @import "tailwindcss";
 
 :root {
-  /* SESCO STUDIO brand palette: restrained midnight navy, confident blue, premium gold */
-  --navy:   #081426;
-  --navy2:  #0E1B2D;
-  --navy3:  #14243A;
-  --blue:   #2F6BFF;
-  --blue-strong: #2457D6;
-  --gold:   #C9A227;
+  --navy:   #07111F;
+  --navy2:  #0D1B2A;
+  --navy3:  #132238;
+  --blue:   #2563EB;
+  --gold:   #B8943F;
   --white:  #FFFFFF;
   --gray:   #A7B0C0;
   --gray2:  #4B5563;
   --border: rgba(167,176,192,.1);
   --surface-light: #F7F9FC;
-  --surface-white: #FFFFFF;
-  --ink: #081426;
-  --muted-ink: #526174;
-  --blue-a: rgba(47,107,255,.12);
-  --blue-b: rgba(47,107,255,.28);
-  --gold-a: rgba(200,162,74,.12);
+  --blue-a: rgba(37,99,235,.10);
+  --blue-b: rgba(37,99,235,.28);
+  --gold-a: rgba(184,148,63,.10);
 
   /* Type scale — fluid, clamps between mobile and desktop */
   --fs-xs:   .78rem;
@@ -78,7 +73,6 @@ a, button { transition: color .2s var(--ease), background-color .2s var(--ease),
    a light surface. */
 .section-light {
   background: var(--surface-light);
-  color: var(--ink);
   --white: var(--navy);
   --gray: #4B5563;
   --gray2: #6B7280;
@@ -87,50 +81,6 @@ a, button { transition: color .2s var(--ease), background-color .2s var(--ease),
   --border: rgba(11,15,26,.1);
 }
 .section-light .grid-overlay { opacity: .5; }
-.section-light .card { background: var(--surface-white); color: var(--ink); }
-.section-light .card p { color: var(--muted-ink); }
-.section-light .btn-outline { color: var(--ink); border-color: rgba(8,20,38,.14); }
-.section-light .btn-outline:hover { color: var(--ink); background: rgba(47,107,255,.06); border-color: rgba(47,107,255,.28); }
-.section-light .badge { background: rgba(47,107,255,.08); }
-
-/* Shared page hero: every inner page uses the same visual language. */
-.page-hero { padding: 154px 5% 78px; text-align: center; position: relative; overflow: hidden; background: var(--navy); color: #fff; }
-.page-hero-compact { padding-bottom: 64px; }
-.page-hero-content { position: relative; z-index: 2; max-width: 820px; margin: 0 auto; }
-.page-hero-content h1 { font-family: 'Plus Jakarta Sans',sans-serif; font-weight: 800; font-size: var(--fs-5xl); line-height: 1.05; letter-spacing: -.035em; margin: 0 auto 20px; }
-.page-hero-content h1 span { color: var(--blue); }
-.page-hero-content > p:last-child { color: var(--gray); font-size: var(--fs-lg); line-height: 1.8; max-width: 650px; margin: 0 auto; }
-.page-hero-glow { position: absolute; width: 760px; height: 360px; left: 50%; top: -80px; transform: translateX(-50%); background: radial-gradient(ellipse, rgba(47,107,255,.18), transparent 68%); pointer-events: none; }
-
-.portfolio-filter { display:flex; justify-content:center; gap:10px; flex-wrap:wrap; margin-bottom:48px; }
-.portfolio-filter button { padding:9px 18px; border-radius:999px; border:1px solid rgba(8,20,38,.12); background:transparent; color:var(--muted-ink); font-family:'Montserrat',sans-serif; font-size:.62rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase; cursor:pointer; }
-.portfolio-filter button:hover, .portfolio-filter button.active { background:var(--blue); border-color:var(--blue); color:#fff; }
-.portfolio-card-pro { overflow:hidden; height:100%; display:flex; flex-direction:column; }
-.portfolio-visual, .case-visual { min-height:210px; position:relative; display:flex; align-items:center; justify-content:center; overflow:hidden; }
-.portfolio-visual::after, .case-visual::after { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(47,107,255,.08),transparent 55%,rgba(201,162,39,.06)); }
-.portfolio-icon, .case-visual span { position:relative; z-index:1; font-size:3.2rem; filter:drop-shadow(0 14px 28px rgba(0,0,0,.28)); }
-.portfolio-status { position:absolute; z-index:2; top:14px; left:14px; display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; background:rgba(8,20,38,.82); border:1px solid rgba(255,255,255,.12); color:#fff; backdrop-filter:blur(10px); font-family:'Montserrat',sans-serif; font-size:.56rem; font-weight:600; letter-spacing:.07em; text-transform:uppercase; }
-.portfolio-status.gold { color:#F0D77A; }
-.portfolio-copy { padding:26px; display:flex; flex-direction:column; flex:1; }
-.portfolio-type { color:var(--blue); font-family:'Montserrat',sans-serif; font-size:.58rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; margin-bottom:8px; }
-.portfolio-copy h2, .case-copy h2 { font-family:'Plus Jakarta Sans',sans-serif; font-weight:750; font-size:1.18rem; color:var(--ink); margin-bottom:10px; }
-.portfolio-copy p, .case-description { color:var(--muted-ink); font-size:.88rem; line-height:1.7; margin-bottom:16px; }
-.portfolio-tags { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:22px; }
-.portfolio-tags span { padding:5px 8px; border-radius:6px; background:#F0F3F8; color:#536176; font-size:.62rem; font-weight:600; }
-.portfolio-actions { margin-top:auto; padding-top:16px; border-top:1px solid rgba(8,20,38,.08); display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
-.portfolio-case-link { display:inline-flex; align-items:center; gap:5px; color:var(--blue); font-size:.72rem; font-weight:700; text-decoration:none; }
-.case-card-pro { overflow:hidden; height:100%; }
-.case-copy { padding:26px; }
-.case-meta-row { display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; margin-bottom:10px; }
-.case-copy h2 { font-size:1.3rem; }
-.case-challenge { color:var(--muted-ink); font-size:.86rem; line-height:1.7; }
-.case-challenge strong { color:var(--ink); }
-.case-results { display:flex; gap:24px; flex-wrap:wrap; padding-top:18px; margin-top:18px; border-top:1px solid rgba(8,20,38,.08); }
-.case-results div { min-width:90px; }
-.case-results strong { display:block; color:var(--ink); font-family:'Plus Jakarta Sans',sans-serif; font-size:1.1rem; font-weight:800; }
-.case-results span { color:var(--muted-ink); font-family:'Montserrat',sans-serif; font-size:.55rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase; }
-@media (max-width:720px){ .page-hero{padding-top:128px}.portfolio-actions{align-items:flex-start}.portfolio-case-link{width:100%} }
-
 
 .grid-overlay {
   position: absolute; inset: 0;
@@ -265,7 +215,8 @@ a, button { transition: color .2s var(--ease), background-color .2s var(--ease),
   .floating-whatsapp-btn { right: 16px; bottom: 16px; width: 50px; height: 50px; }
 }
 
-/* Contrast guardrails: light sections should never inherit white text accidentally. */
-.section-light h1,.section-light h2,.section-light h3,.section-light h4,.section-light strong { color: var(--ink); }
-.section-light .section-label { color: var(--blue); }
-.section-light .section-label::before,.section-light .section-label::after { background: var(--blue); }
+/* SESCO STUDIO premium visual system: predictable contrast across every page. */
+.section-light .btn-outline { color: var(--navy); border-color: rgba(7,17,31,.16); }
+.section-light .btn-ghost { color: #4B5563; }
+.section-light .btn-ghost:hover { color: var(--navy); }
+.article-content p { margin-bottom: 1.2em; }

@@ -1,83 +1,89 @@
 'use client';
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
-import { ArrowUpRight, LockKeyhole, ExternalLink, ShieldCheck } from 'lucide-react';
+import { ArrowRight, ExternalLink, LockKeyhole } from 'lucide-react';
 import { useCMS } from '@/lib/CMSContext';
-import { Reveal, StaggerGrid, StaggerItem } from '@/components/ui/Motion';
-
-const LIVE_LINKS: Record<string, string> = {
-  'Mercy Hub': 'https://mercy-hub.vercel.app',
-  'Andus International': 'https://andusinternationalng.com',
-  'Olajide Property': 'https://olajide-property.vercel.app',
-  'IOCONSULTS': '',
-  'FinLens Analyzer': '',
-  'Sescohubs VTU': '',
-};
-
-function accessMeta(p: { visibility?: 'public' | 'confidential'; accessType?: 'live' | 'client_app' | 'private_demo' | 'none'; link?: string }) {
-  if (p.visibility === 'confidential' || p.accessType === 'private_demo') return { label: 'Confidential / NDA', icon: <LockKeyhole size={13} />, tone: 'gold' as const };
-  if (p.accessType === 'client_app') return { label: 'Client Web Application', icon: <ShieldCheck size={13} />, tone: 'blue' as const };
-  if (p.link || p.accessType === 'live') return { label: 'Live Project', icon: <ExternalLink size={13} />, tone: 'blue' as const };
-  return { label: 'Selected Work', icon: <ShieldCheck size={13} />, tone: 'blue' as const };
-}
+import { Reveal } from '@/components/ui/Motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function PortfolioPage() {
   const { data } = useCMS();
   const [filter, setFilter] = useState('all');
-  const types = useMemo(() => ['all', ...Array.from(new Set(data.projects.map(p => p.type)))], [data.projects]);
+
+  const types = useMemo(() => {
+    const unique = Array.from(new Set(data.projects.map(p => p.type)));
+    return ['all', ...unique];
+  }, [data.projects]);
+
   const filtered = filter === 'all' ? data.projects : data.projects.filter(p => p.type === filter);
 
   return (
     <>
-      <section className="page-hero">
+      <section style={{ padding: '160px 5% 60px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
         <div className="grid-overlay" aria-hidden="true" />
-        <div className="page-hero-glow" aria-hidden="true" />
-        <div className="container page-hero-content">
-          <Reveal><p className="section-label centered">Portfolio</p></Reveal>
-          <Reveal delay={0.1}><h1>Digital products built to <span>work.</span></h1></Reveal>
-          <Reveal delay={0.2}><p>Selected systems, websites, platforms and digital products delivered for businesses, institutions and growing brands.</p></Reveal>
+        <div style={{ position: 'relative', zIndex: 2 }}>
+          <Reveal><p className="section-label centered">Our Work</p></Reveal>
+          <Reveal delay={0.1}><h1 style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 800, fontSize: 'var(--fs-5xl)', letterSpacing: '-.025em', marginBottom: 20 }}>Selected Projects</h1></Reveal>
+          <Reveal delay={0.2}><p style={{ color: 'var(--gray)', fontSize: 'var(--fs-lg)', lineHeight: 1.8, maxWidth: 540, margin: '0 auto' }}>Real systems, real results. A showcase of digital products we&apos;ve built for businesses that chose to invest in quality.</p></Reveal>
         </div>
       </section>
 
-      <section className="section section-light portfolio-section">
+      <section className="section section-light" style={{ paddingTop: 'clamp(16px,3vw,24px)' }}>
         <div className="container">
           <Reveal>
-            <div className="portfolio-filter" role="group" aria-label="Filter projects by category">
-              {types.map(type => <button key={type} onClick={() => setFilter(type)} aria-pressed={filter === type} className={filter === type ? 'active' : ''}>{type === 'all' ? 'All Work' : type}</button>)}
+            <div role="group" aria-label="Filter projects by type" style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 48 }}>
+              {types.map(t => (
+                <button
+                  key={t}
+                  onClick={() => setFilter(t)}
+                  aria-pressed={filter === t}
+                  style={{
+                    padding: '8px 18px', borderRadius: 100, fontFamily: 'Montserrat,sans-serif', fontSize: '.62rem', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', cursor: 'pointer',
+                    background: filter === t ? 'var(--blue)' : 'transparent',
+                    color: filter === t ? '#fff' : 'var(--gray)',
+                    border: `1px solid ${filter === t ? 'var(--blue)' : 'var(--border)'}`,
+                  }}
+                >
+                  {t === 'all' ? 'All' : t}
+                </button>
+              ))}
             </div>
           </Reveal>
 
-          <StaggerGrid style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(300px,1fr))', gap: 24 }}>
-            {filtered.map(p => {
-              const link = p.link || LIVE_LINKS[p.title];
-              const meta = accessMeta({ ...p, link });
-              const confidential = p.visibility === 'confidential' || p.accessType === 'private_demo';
-              return (
-                <StaggerItem key={p.id}>
-                  <article className="card card-hover portfolio-card-pro">
-                    <div className="portfolio-visual" style={{ background: p.bg }}>
-                      <span className="portfolio-icon" aria-hidden="true">{p.icon}</span>
-                      <span className={`portfolio-status ${meta.tone}`}>{meta.icon}{meta.label}</span>
+          <motion.div layout style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(300px,1fr))', gap: 20 }}>
+            <AnimatePresence mode="popLayout">
+              {filtered.map(p => (
+                <motion.div
+                  key={p.id}
+                  layout
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <div className="card card-hover" style={{ overflow: 'hidden' }}>
+                    <div style={{ aspectRatio: '4/3', background: p.bg, position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2.5rem' }}>
+                      <span aria-hidden="true">{p.icon}</span>
+                      <div style={{ position: 'absolute', top: 10, left: 10, background: 'rgba(11,15,26,.85)', backdropFilter: 'blur(10px)', border: '1px solid var(--border)', borderRadius: 100, padding: '3px 10px', fontFamily: 'Montserrat,sans-serif', fontSize: '.58rem', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--gray)' }}>{p.type}</div>
                     </div>
-                    <div className="portfolio-copy">
-                      <div className="portfolio-type">{p.type}</div>
-                      <h2>{p.title}</h2>
-                      <p>{p.desc}</p>
-                      <div className="portfolio-tags">{p.tags.slice(0, 4).map(t => <span key={t}>{t}</span>)}</div>
-                      <div className="portfolio-actions">
-                        <Link href={`/case-studies#project-${p.id}`} className="portfolio-case-link">View case study <ArrowUpRight size={15} /></Link>
-                        {link && !confidential ? (
-                          <a href={link} target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-sm">Visit Live Site <ExternalLink size={13} /></a>
-                        ) : (
-                          <Link href="/contact" className="btn btn-outline btn-sm">{confidential ? 'Request Access' : 'Project Details'} <ArrowUpRight size={13} /></Link>
-                        )}
+                    <div style={{ padding: 20 }}>
+                      <p style={{ fontFamily: 'Montserrat,sans-serif', fontSize: '.6rem', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 8 }}>{p.type}</p>
+                      <h3 style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 700, fontSize: '1rem', marginBottom: 6 }}>{p.title}</h3>
+                      <p style={{ color: 'var(--blue)', fontSize: '.85rem', marginBottom: 10 }}>{p.results}</p>
+                      <div style={{ marginBottom: 14 }}><span className="badge" style={{ color: p.accessType === 'nda' || p.accessType === 'private' ? 'var(--gold)' : p.accessType === 'client' ? 'var(--blue)' : '#16a34a', borderColor: p.accessType === 'nda' || p.accessType === 'private' ? 'rgba(200,162,74,.28)' : undefined }}>{p.accessLabel || (p.accessType === 'nda' ? 'NDA / Confidential' : p.accessType === 'client' ? 'Client application' : p.accessType === 'private' ? 'Private project' : 'Live project')}</span></div>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: 14 }}>
+                        {p.tags.map(t => <span key={t} className="badge">{t}</span>)}
+                      </div>
+                      <div style={{ display:'flex', gap:14, alignItems:'center', flexWrap:'wrap' }}>
+                        <Link href="/case-studies" className="learn-more-link btn btn-ghost" style={{ padding: 0 }}>View Case Study <ArrowRight size={12} /></Link>
+                        {p.link && p.accessType !== 'nda' && p.accessType !== 'private' ? <a href={p.link} target="_blank" rel="noopener noreferrer" className="learn-more-link btn btn-ghost" style={{ padding:0 }}>Open {p.accessType === 'client' ? 'Portal' : 'Live Site'} <ExternalLink size={12}/></a> : <span style={{fontSize:'.7rem',color:'var(--gray)',display:'inline-flex',alignItems:'center',gap:5}}><LockKeyhole size={12}/> Access restricted</span>}
                       </div>
                     </div>
-                  </article>
-                </StaggerItem>
-              );
-            })}
-          </StaggerGrid>
+                  </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
         </div>
       </section>
     </>

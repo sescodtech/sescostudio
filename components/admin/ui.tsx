@@ -42,7 +42,7 @@ export function Btn({ variant = 'primary', size = 'md', children, ...rest }: { v
     primary: { background: 'var(--blue)', color: '#fff' },
     outline: { background: 'transparent', color: '#fff', border: '1px solid var(--border)' },
     danger: { background: 'rgba(239,68,68,.1)', color: '#ef4444', border: '1px solid rgba(239,68,68,.2)' },
-    gold: { background: 'linear-gradient(135deg,#C9A227,#e8c060)', color: '#081426' },
+    gold: { background: 'linear-gradient(135deg,#C8A24A,#e8c060)', color: '#0B0F1A' },
   };
   const sizing = size === 'sm' ? { padding: '7px 14px', fontSize: '.6rem' } : { padding: '10px 20px', fontSize: '.65rem' };
   return (
@@ -85,6 +85,10 @@ export function UploadZone({ preview, icon, label, hint, onFile }: { preview: st
   const [drag, setDrag] = useState(false);
 
   const readFile = (file: File) => {
+    if (file.size > 2 * 1024 * 1024) {
+      window.alert('Please use an image smaller than 2 MB.');
+      return;
+    }
     const reader = new FileReader();
     reader.onload = e => onFile(e.target?.result as string);
     reader.readAsDataURL(file);
@@ -98,7 +102,7 @@ export function UploadZone({ preview, icon, label, hint, onFile }: { preview: st
       onDrop={e => { e.preventDefault(); setDrag(false); const f = e.dataTransfer.files[0]; if (f) readFile(f); }}
       style={{ border: `2px dashed ${drag ? 'var(--blue)' : 'var(--border)'}`, borderRadius: 12, padding: 40, textAlign: 'center', cursor: 'pointer', transition: 'border-color .3s,background .3s', background: drag ? 'rgba(47,107,255,.08)' : 'transparent' }}
     >
-      <input ref={inputRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={e => { const f = e.target.files?.[0]; if (f) readFile(f); }} />
+      <input ref={inputRef} type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml,image/x-icon,.ico" style={{ display: 'none' }} onChange={e => { const f = e.target.files?.[0]; if (f) readFile(f); }} />
       {preview ? (
         <img src={preview} alt="preview" style={{ maxHeight: 120, margin: '0 auto 16px', objectFit: 'contain' }} />
       ) : (

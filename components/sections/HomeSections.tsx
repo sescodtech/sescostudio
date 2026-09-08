@@ -1,5 +1,5 @@
 'use client';
-import { ArrowRight, ExternalLink, LockKeyhole } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { useCMS } from '@/lib/CMSContext';
 import { Reveal, RevealLeft, RevealRight, StaggerGrid, StaggerItem, MetricBar } from '@/components/ui/Motion';
@@ -149,36 +149,37 @@ export function WhySection() {
 export function PortfolioPreview() {
   const { data } = useCMS();
   const featured = data.projects.slice(0, 3);
-  const liveLinks: Record<string, string> = {
-    'Mercy Hub': 'https://mercy-hub.vercel.app',
-    'Andus International': 'https://andusinternationalng.com',
-    'Olajide Property': 'https://olajide-property.vercel.app',
-  };
   return (
     <section className="section section-light">
       <div className="container">
         <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: 20, marginBottom: 48 }}>
-          <div><Reveal><p className="section-label">Selected Work</p></Reveal><Reveal delay={0.1}><h2 style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 800, fontSize: 'var(--fs-4xl)', letterSpacing: '-.02em' }}>Our Projects</h2></Reveal></div>
+          <div>
+            <Reveal><p className="section-label">Selected Work</p></Reveal>
+            <Reveal delay={0.1}><h2 style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 800, fontSize: 'var(--fs-4xl)', letterSpacing: '-.02em' }}>Our Projects</h2></Reveal>
+          </div>
           <Reveal delay={0.2}><Button href="/portfolio" variant="outline" size="sm">View All <ArrowRight size={13} /></Button></Reveal>
         </div>
         <StaggerGrid style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: 20 }}>
-          {featured.map(p => {
-            const confidential = p.visibility === 'confidential' || p.accessType === 'private_demo';
-            const link = p.link || liveLinks[p.title];
-            return <StaggerItem key={p.id}>
-              <article className="card card-hover portfolio-card-pro">
-                <div className="portfolio-visual" style={{ background: p.bg }}><span className="portfolio-icon" aria-hidden="true">{p.icon}</span><span className={`portfolio-status ${confidential ? 'gold' : ''}`}>{confidential ? <><LockKeyhole size={12}/> NDA / Confidential</> : <><ExternalLink size={12}/> {p.accessType === 'client_app' ? 'Client Application' : 'Live Project'}</>}</span></div>
-                <div className="portfolio-copy">
-                  <div className="portfolio-type">{p.type}</div><h2>{p.title}</h2><p>{p.desc}</p>
-                  <div className="portfolio-tags">{p.tags.slice(0,3).map(t => <span key={t}>{t}</span>)}</div>
-                  <div className="portfolio-actions">
-                    <Link href={`/case-studies#project-${p.id}`} className="portfolio-case-link">View case study <ArrowRight size={14}/></Link>
-                    {link && !confidential ? <a href={link} target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-sm">Visit <ExternalLink size={12}/></a> : <Link href="/contact" className="btn btn-outline btn-sm">{confidential ? 'Request Access' : 'Details'} <ArrowRight size={12}/></Link>}
+          {featured.map(p => (
+            <StaggerItem key={p.id}>
+              <Link href="/case-studies" className="card card-hover portfolio-card" style={{ overflow: 'hidden', display: 'block', textDecoration: 'none', color: 'inherit' }}>
+                <div style={{ aspectRatio: '16/9', background: p.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2.2rem', position: 'relative' }}>
+                  <span aria-hidden="true">{p.icon}</span>
+                  <div style={{ position: 'absolute', top: 10, left: 10, background: 'rgba(11,15,26,.85)', backdropFilter: 'blur(10px)', border: '1px solid var(--border)', borderRadius: 100, padding: '3px 10px', fontFamily: 'Montserrat,sans-serif', fontSize: '.58rem', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--gray)' }}>{p.type}</div>
+                  <div className="portfolio-card-overlay" style={{ position: 'absolute', inset: 0, background: 'rgba(11,15,26,.82)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, opacity: 0, transition: 'opacity .3s var(--ease)', fontFamily: 'Montserrat,sans-serif', fontSize: '.68rem', fontWeight: 600, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--blue)' }}>
+                    View Case Study <ArrowRight size={14} />
                   </div>
                 </div>
-              </article>
-            </StaggerItem>;
-          })}
+                <div style={{ padding: 22 }}>
+                  <h3 style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 700, fontSize: '1rem', marginBottom: 6 }}>{p.title}</h3>
+                  <p style={{ color: 'var(--gray)', fontSize: '.85rem', lineHeight: 1.6, marginBottom: 10 }}>{p.desc}</p>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
+                    {p.tags.slice(0,3).map(t => <span key={t} className="badge">{t}</span>)}
+                  </div>
+                </div>
+              </Link>
+            </StaggerItem>
+          ))}
         </StaggerGrid>
       </div>
     </section>

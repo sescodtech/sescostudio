@@ -21,8 +21,9 @@ export interface Project {
   r1?: { n: string; l: string };
   r2?: { n: string; l: string };
   link?: string;
-  visibility?: 'public' | 'confidential';
-  accessType?: 'live' | 'client_app' | 'private_demo' | 'none';
+  accessType?: 'public' | 'client' | 'nda' | 'private';
+  accessLabel?: string;
+  featured?: boolean;
 }
 
 export interface Testimonial {

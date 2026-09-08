@@ -35,13 +35,12 @@ export default function ServicesPage() {
 
   return (
     <>
-      <section className="page-hero">
+      <section style={{ padding: '160px 5% 80px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
         <div className="grid-overlay" aria-hidden="true" />
-        <div className="page-hero-glow" aria-hidden="true" />
-        <div className="container page-hero-content">
+        <div style={{ position: 'relative', zIndex: 2 }}>
           <Reveal><p className="section-label centered">What We Do</p></Reveal>
-          <Reveal delay={0.1}><h1>Digital capabilities that <span>move business forward.</span></h1></Reveal>
-          <Reveal delay={0.2}><p>Full-spectrum digital capabilities — from concept to deployment. We handle every layer of your digital infrastructure.</p></Reveal>
+          <Reveal delay={0.1}><h1 style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 800, fontSize: 'var(--fs-5xl)', letterSpacing: '-.025em', marginBottom: 20 }}>Our Services</h1></Reveal>
+          <Reveal delay={0.2}><p style={{ color: 'var(--gray)', fontSize: 'var(--fs-lg)', lineHeight: 1.8, maxWidth: 560, margin: '0 auto' }}>Full-spectrum digital capabilities — from concept to deployment. We handle every layer of your digital infrastructure.</p></Reveal>
         </div>
       </section>
 

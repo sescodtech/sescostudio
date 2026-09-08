@@ -28,13 +28,21 @@ export default function ContactPage() {
 
   return (
     <>
-      <section className="page-hero">
+      <section style={{ padding: '160px 5% 80px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
         <div className="grid-overlay" aria-hidden="true" />
-        <div className="page-hero-glow" aria-hidden="true" />
-        <div className="container page-hero-content">
+        <div style={{ position: 'relative', zIndex: 2 }}>
           <Reveal><p className="section-label centered">Get In Touch</p></Reveal>
-          <Reveal delay={0.1}><h1>Start a <span>Project.</span></h1></Reveal>
-          <Reveal delay={0.2}><p>Tell us about your project and we’ll get back to you within 24 hours with a clear next step.</p></Reveal>
+          <Reveal delay={0.1}><h1 style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 800, fontSize: 'var(--fs-5xl)', letterSpacing: '-.025em', marginBottom: 20 }}>Start a Project</h1></Reveal>
+          <Reveal delay={0.2}><p style={{ color: 'var(--gray)', fontSize: 'var(--fs-lg)', lineHeight: 1.8, maxWidth: 540, margin: '0 auto 32px' }}>Tell us about your project and we&apos;ll get back to you within 24 hours with a plan.</p></Reveal>
+          <Reveal delay={0.3}>
+            <div style={{ display: 'flex', gap: 28, justifyContent: 'center', flexWrap: 'wrap' }}>
+              {['24-Hour Response', 'Free Discovery Call', 'No Obligation Quote'].map(t => (
+                <span key={t} style={{ display: 'flex', alignItems: 'center', gap: 8, fontFamily: 'Montserrat,sans-serif', fontSize: '.68rem', fontWeight: 600, letterSpacing: '.06em', textTransform: 'uppercase', color: 'var(--gray)' }}>
+                  <Check size={13} color="var(--blue)" aria-hidden="true" /> {t}
+                </span>
+              ))}
+            </div>
+          </Reveal>
         </div>
       </section>
 
@@ -56,7 +64,7 @@ export default function ContactPage() {
                   {c.twitter && <SocIcon href={c.twitter} label="Twitter / X" icon={<span style={{fontSize:'.8rem'}} aria-hidden="true">𝕏</span>} />}
                   {c.linkedin && <SocIcon href={c.linkedin} label="LinkedIn" icon={<span style={{fontSize:'.7rem',fontWeight:700}} aria-hidden="true">in</span>} />}
                   {c.instagram && <SocIcon href={c.instagram} label="Instagram" icon={<span style={{fontSize:'.8rem'}} aria-hidden="true">◎</span>} />}
-                  <SocIcon href={c.github || 'https://github.com/sescodtech'} label="GitHub" icon={<Github size={14} aria-hidden="true" />} />{c.github2 && <SocIcon href={c.github2} label="GitHub 2" icon={<Github size={14} aria-hidden="true" />} />}
+                  <SocIcon href={c.github || 'https://github.com/sescodtech'} label="GitHub" icon={<Github size={14} aria-hidden="true" />} />
                 </div>
               </div>
             </div>

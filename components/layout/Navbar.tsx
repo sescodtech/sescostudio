@@ -40,7 +40,7 @@ export default function Navbar() {
           position: 'fixed', top: 0, left: 0, right: 0, zIndex: 200,
           height: 70, display: 'flex', alignItems: 'center', justifyContent: 'space-between',
           padding: '0 5%',
-          background: scrolled ? 'rgba(8,20,38,.92)' : 'transparent',
+          background: scrolled ? 'rgba(11,15,26,.9)' : 'transparent',
           backdropFilter: scrolled ? 'blur(20px)' : 'none',
           WebkitBackdropFilter: scrolled ? 'blur(20px)' : 'none',
           borderBottom: scrolled ? '1px solid rgba(167,176,192,.1)' : '1px solid transparent',
@@ -97,7 +97,7 @@ export default function Navbar() {
         id="mobile-nav-menu"
         style={{
           position: 'fixed', inset: 0, zIndex: 199,
-          background: 'rgba(8,20,38,.98)',
+          background: 'rgba(11,15,26,.97)',
           backdropFilter: 'blur(20px)',
           display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 28,
           opacity: mobileOpen ? 1 : 0,

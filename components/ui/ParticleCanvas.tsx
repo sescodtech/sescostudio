@@ -27,7 +27,7 @@ export default function ParticleCanvas() {
       p.vx = (Math.random() - 0.5) * 0.22;
       p.vy = (Math.random() - 0.5) * 0.22;
       p.alpha = Math.random() * 0.5 + 0.1;
-      p.color = Math.random() > 0.72 ? '#C9A227' : '#2F6BFF';
+      p.color = Math.random() > 0.72 ? '#C8A24A' : '#2F6BFF';
     };
 
     for (let i = 0; i < 70; i++) {
