@@ -298,7 +298,21 @@ export function getCMSData(): CMSData {
 /** Writes to the local cache only — used internally as an optimistic update. */
 function cacheLocally(data: CMSData): void {
   if (typeof window === 'undefined') return;
-  localStorage.setItem(CMS_KEY, JSON.stringify(data));
+  try {
+    localStorage.setItem(CMS_KEY, JSON.stringify(data));
+  } catch (error) {
+    // A large image must never prevent a valid Supabase save from completing.
+    try {
+      const lightweight = {
+        ...data,
+        projects: data.projects.map(project => ({ ...project, preview: undefined })),
+        media: data.media.slice(0, 20),
+      };
+      localStorage.setItem(CMS_KEY, JSON.stringify(lightweight));
+    } catch {
+      console.warn('CMS local cache skipped:', error);
+    }
+  }
 }
 
 /** Pulls the latest CMS document from Supabase and updates the local cache. */

@@ -61,21 +61,41 @@ export default function PortfolioPage() {
                   exit={{ opacity: 0, scale: 0.9 }}
                   transition={{ duration: 0.3 }}
                 >
-                  <div className="card card-hover" style={{ overflow: 'hidden' }}>
-                    <div style={{ aspectRatio: '4/3', background: p.bg, position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2.5rem' }}>
-                      <span aria-hidden="true">{p.icon}</span>
-                      <div style={{ position: 'absolute', top: 10, left: 10, background: 'rgba(11,15,26,.85)', backdropFilter: 'blur(10px)', border: '1px solid var(--border)', borderRadius: 100, padding: '3px 10px', fontFamily: 'Montserrat,sans-serif', fontSize: '.58rem', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--gray)' }}>{p.type}</div>
-                    </div>
-                    <div style={{ padding: 20 }}>
-                      <p style={{ fontFamily: 'Montserrat,sans-serif', fontSize: '.6rem', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 8 }}>{p.type}</p>
-                      <h3 style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 700, fontSize: '1rem', marginBottom: 6 }}>{p.title}</h3>
-                      <p style={{ color: 'var(--blue)', fontSize: '.85rem', marginBottom: 10 }}>{p.results}</p>
-                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: 14 }}>
-                        {p.tags.map(t => <span key={t} className="badge">{t}</span>)}
+                  <article className="portfolio-project-card">
+                    <div className="portfolio-browser-frame">
+                      <div className="portfolio-browser-bar">
+                        <span className="portfolio-browser-dot" />
+                        <span className="portfolio-browser-dot" />
+                        <span className="portfolio-browser-dot" />
+                        <div className="portfolio-browser-address">{p.link ? p.link.replace(/^https?:\/\//, '').replace(/\/$/, '') : 'Website preview'}</div>
                       </div>
-                      <div className="portfolio-actions">{p.link && <a href={p.link} target="_blank" rel="noopener noreferrer" className="portfolio-visit-btn">Visit Website ↗</a>}<Link href="/case-studies" className="learn-more-link btn btn-ghost" style={{ padding: 0 }}>View Case Study <ArrowRight size={12} /></Link></div>
+                      <div className="portfolio-project-preview">
+                        {p.preview ? (
+                          <img src={p.preview} alt={`${p.title} website preview`} loading="lazy" />
+                        ) : (
+                          <div className="portfolio-preview-placeholder">
+                            <strong>Website Preview</strong>
+                            <small>Project screenshot will appear here</small>
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  </div>
+                    <div className="portfolio-project-body">
+                      <div className="portfolio-project-meta">
+                        <span className="portfolio-project-type">{p.type}</span>
+                        <span className="portfolio-result">{p.results}</span>
+                      </div>
+                      <h3>{p.title}</h3>
+                      <p className="portfolio-project-desc">{p.desc}</p>
+                      <div className="portfolio-tech-list">
+                        {p.tags.map(t => <span key={t} className="portfolio-tech">{t}</span>)}
+                      </div>
+                      <div className="portfolio-actions">
+                        {p.link && <a href={p.link} target="_blank" rel="noopener noreferrer" className="portfolio-visit-btn">View Live Site <ArrowRight size={13} /></a>}
+                        <Link href="/case-studies" className="portfolio-case-btn">Case Study <ArrowRight size={13} /></Link>
+                      </div>
+                    </div>
+                  </article>
                 </motion.div>
               ))}
             </AnimatePresence>

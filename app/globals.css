@@ -216,10 +216,36 @@ a, button { transition: color .2s var(--ease), background-color .2s var(--ease),
 }
 
 
-/* Portfolio website previews */
-.portfolio-project-preview{width:100%;aspect-ratio:16/9;overflow:hidden;background:#0B1F3A;border-bottom:1px solid rgba(255,255,255,.1)}
-.portfolio-project-preview img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s ease}
-.portfolio-card:hover .portfolio-project-preview img{transform:scale(1.025)}
-.portfolio-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:14px}
-.portfolio-visit-btn{display:inline-flex;align-items:center;justify-content:center;padding:10px 16px;border-radius:8px;background:#fff;color:#0B5ED7!important;border:2px solid #fff;text-decoration:none!important;font-weight:800;font-size:.72rem;letter-spacing:.02em;box-shadow:0 5px 18px rgba(0,0,0,.18)}
-.portfolio-visit-btn:hover{background:#B8943F;color:#07111F!important;border-color:#B8943F;transform:translateY(-1px)}
+/* Professional portfolio project cards */
+.portfolio-project-card{background:#fff;border:1px solid #DDE3EC;border-radius:18px;overflow:hidden;box-shadow:0 10px 30px rgba(11,15,26,.07);transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease}
+.portfolio-project-card:hover{transform:translateY(-7px);box-shadow:0 22px 55px rgba(11,15,26,.13);border-color:rgba(47,107,255,.28)}
+.portfolio-browser-frame{background:#0B1220;border-bottom:1px solid #DDE3EC}
+.portfolio-browser-bar{height:38px;padding:0 12px;display:flex;align-items:center;gap:6px;background:#101827;border-bottom:1px solid rgba(255,255,255,.08)}
+.portfolio-browser-dot{width:7px;height:7px;border-radius:50%;background:#718096;display:block;flex:none}
+.portfolio-browser-address{margin-left:7px;min-width:0;flex:1;height:22px;display:flex;align-items:center;padding:0 10px;border-radius:5px;background:rgba(255,255,255,.07);color:#A7B0C0;font-size:.62rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.portfolio-project-preview{width:100%;aspect-ratio:16/9;overflow:hidden;background:#E9EEF6;position:relative}
+.portfolio-project-preview img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;transition:transform .5s ease}
+.portfolio-project-card:hover .portfolio-project-preview img{transform:scale(1.02)}
+.portfolio-preview-placeholder{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;color:#334155;background:linear-gradient(135deg,#EEF3FA,#E3EAF4);text-align:center}
+.portfolio-preview-placeholder strong{font-family:'Plus Jakarta Sans',sans-serif;font-size:.9rem;font-weight:800}
+.portfolio-preview-placeholder small{font-size:.68rem;color:#64748B}
+.portfolio-project-body{padding:22px 22px 20px;background:#fff}
+.portfolio-project-meta{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
+.portfolio-project-type{font-family:'Montserrat',sans-serif;font-size:.58rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#2F6BFF}
+.portfolio-result{font-size:.68rem;font-weight:700;color:#64748B;text-align:right}
+.portfolio-project-body h3{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.18rem;font-weight:800;color:#0B0F1A;margin-bottom:8px;letter-spacing:-.02em}
+.portfolio-project-desc{font-size:.82rem;line-height:1.7;color:#64748B;margin-bottom:16px;min-height:55px}
+.portfolio-tech-list{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px}
+.portfolio-tech{display:inline-flex;align-items:center;padding:5px 9px;border-radius:999px;background:#F3F6FB;border:1px solid #E2E8F0;color:#475569;font-family:'Montserrat',sans-serif;font-size:.55rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase}
+.portfolio-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:2px;padding-top:16px;border-top:1px solid #E8ECF2}
+.portfolio-visit-btn,.portfolio-case-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:40px;padding:10px 14px;border-radius:8px;text-decoration:none!important;font-family:'Montserrat',sans-serif;font-size:.62rem;font-weight:700;letter-spacing:.05em;transition:transform .2s ease,background .2s ease,border-color .2s ease,box-shadow .2s ease}
+.portfolio-visit-btn{background:#2F6BFF;color:#fff!important;border:1px solid #2F6BFF;box-shadow:0 7px 18px rgba(47,107,255,.18)}
+.portfolio-visit-btn:hover{background:#174FD1;border-color:#174FD1;transform:translateY(-1px);box-shadow:0 10px 24px rgba(47,107,255,.25)}
+.portfolio-case-btn{background:#fff;color:#0B0F1A!important;border:1px solid #D6DDE8}
+.portfolio-case-btn:hover{border-color:#2F6BFF;color:#2F6BFF!important;transform:translateY(-1px)}
+@media (max-width:720px){
+  .portfolio-project-body{padding:18px}
+  .portfolio-project-desc{min-height:0}
+  .portfolio-project-meta{align-items:flex-start}
+  .portfolio-result{max-width:48%;}
+}

@@ -83,29 +83,75 @@ export function Tr({ children }: { children: React.ReactNode }) {
 export function UploadZone({ preview, icon, label, hint, onFile }: { preview: string | null; icon: string; label: string; hint: string; onFile: (dataUrl: string) => void }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [drag, setDrag] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState('');
 
-  const readFile = (file: File) => {
+  const compressImage = (file: File): Promise<string> => new Promise((resolve, reject) => {
+    if (!file.type.startsWith('image/')) return reject(new Error('Please select an image file.'));
     const reader = new FileReader();
-    reader.onload = e => onFile(e.target?.result as string);
+    reader.onerror = () => reject(new Error('Could not read the image.'));
+    reader.onload = () => {
+      const source = new Image();
+      source.onerror = () => reject(new Error('The selected image could not be processed.'));
+      source.onload = () => {
+        const maxWidth = 1440;
+        const maxHeight = 900;
+        const scale = Math.min(1, maxWidth / source.width, maxHeight / source.height);
+        const canvas = document.createElement('canvas');
+        canvas.width = Math.max(1, Math.round(source.width * scale));
+        canvas.height = Math.max(1, Math.round(source.height * scale));
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return reject(new Error('Your browser could not prepare the image.'));
+        ctx.drawImage(source, 0, 0, canvas.width, canvas.height);
+
+        // Keep project screenshots compact so the CMS JSON document remains saveable.
+        const qualities = [0.78, 0.68, 0.58, 0.48];
+        let output = '';
+        for (const quality of qualities) {
+          output = canvas.toDataURL('image/webp', quality);
+          if (output.length <= 420000) break;
+        }
+        if (output.length > 420000) output = canvas.toDataURL('image/jpeg', 0.55);
+        if (output.length > 420000) return reject(new Error('This screenshot is too large after compression. Please use a smaller screenshot.'));
+        resolve(output);
+      };
+      source.src = reader.result as string;
+    };
     reader.readAsDataURL(file);
+  });
+
+  const readFile = async (file: File) => {
+    setError('');
+    setBusy(true);
+    try {
+      onFile(await compressImage(file));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Image upload failed.');
+    } finally {
+      setBusy(false);
+    }
   };
 
   return (
     <div
-      onClick={() => inputRef.current?.click()}
-      onDragOver={e => { e.preventDefault(); setDrag(true); }}
+      onClick={() => !busy && inputRef.current?.click()}
+      onDragOver={e => { e.preventDefault(); if (!busy) setDrag(true); }}
       onDragLeave={() => setDrag(false)}
-      onDrop={e => { e.preventDefault(); setDrag(false); const f = e.dataTransfer.files[0]; if (f) readFile(f); }}
-      style={{ border: `2px dashed ${drag ? 'var(--blue)' : 'var(--border)'}`, borderRadius: 12, padding: 40, textAlign: 'center', cursor: 'pointer', transition: 'border-color .3s,background .3s', background: drag ? 'rgba(47,107,255,.08)' : 'transparent' }}
+      onDrop={e => { e.preventDefault(); setDrag(false); const f = e.dataTransfer.files[0]; if (f && !busy) void readFile(f); }}
+      style={{ border: `2px dashed ${drag ? 'var(--blue)' : 'var(--border)'}`, borderRadius: 12, padding: 18, textAlign: 'center', cursor: busy ? 'wait' : 'pointer', transition: 'border-color .3s,background .3s', background: drag ? 'rgba(47,107,255,.08)' : 'transparent', minHeight: 190 }}
     >
-      <input ref={inputRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={e => { const f = e.target.files?.[0]; if (f) readFile(f); }} />
+      <input ref={inputRef} type="file" accept="image/png,image/jpeg,image/webp" style={{ display: 'none' }} onChange={e => { const f = e.target.files?.[0]; if (f) void readFile(f); e.currentTarget.value = ''; }} />
       {preview ? (
-        <img src={preview} alt="preview" style={{ maxHeight: 120, margin: '0 auto 16px', objectFit: 'contain' }} />
+        <div style={{ position: 'relative', marginBottom: 12 }}>
+          <img src={preview} alt="Selected website preview" style={{ width: '100%', maxHeight: 150, borderRadius: 8, objectFit: 'cover', display: 'block', border: '1px solid var(--border)' }} />
+          <span style={{ position: 'absolute', left: 8, bottom: 8, background: 'rgba(11,15,26,.85)', color: '#fff', borderRadius: 6, padding: '5px 8px', fontSize: '.62rem', fontWeight: 700 }}>Preview ready</span>
+        </div>
       ) : (
-        <span style={{ fontSize: '2.5rem', marginBottom: 12, display: 'block' }}>{icon}</span>
+        <span aria-hidden="true" style={{ fontSize: '2rem', marginBottom: 8, display: 'block', opacity: .8 }}>{icon}</span>
       )}
-      <p style={{ color: 'var(--gray)', fontSize: '.88rem', marginBottom: 8 }}>{label}</p>
-      <p style={{ color: 'var(--gray2)', fontSize: '.75rem' }}>{hint}</p>
+      <p style={{ color: 'var(--white)', fontSize: '.84rem', fontWeight: 600, marginBottom: 6 }}>{busy ? 'Optimizing preview…' : label}</p>
+      <p style={{ color: 'var(--gray2)', fontSize: '.72rem', lineHeight: 1.5 }}>{hint}</p>
+      {error && <p style={{ color: '#ef4444', fontSize: '.7rem', marginTop: 9, lineHeight: 1.45 }}>{error}</p>}
     </div>
   );
 }

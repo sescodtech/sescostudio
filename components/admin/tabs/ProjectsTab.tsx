@@ -74,7 +74,7 @@ export default function ProjectsTab() {
         </div>
         <Field label="Description"><Textarea value={form.desc || ''} onChange={e => setForm({ ...form, desc: e.target.value })} /></Field>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-          <Field label="Project Preview"><UploadZone preview={form.preview || null} icon="▣" label="Upload website screenshot / preview" hint="PNG, JPG or WebP · Recommended 16:10 or 16:9" onFile={url => setForm({ ...form, preview: url })} /></Field>
+          <Field label="Website Preview Screenshot"><UploadZone preview={form.preview || null} icon="▣" label="Upload the live website screenshot" hint="PNG, JPG or WebP · 16:9 recommended · automatically optimized for saving" onFile={url => setForm(prev => ({ ...prev, preview: url }))} /></Field>
           <Field label="Live Website URL"><Input value={form.link || ''} onChange={e => setForm({ ...form, link: e.target.value })} placeholder="https://clientwebsite.com" /></Field>
           <Field label="Icon (optional)"><Input value={form.icon || ''} onChange={e => setForm({ ...form, icon: e.target.value })} /></Field>
           <Field label="Key Results"><Input value={form.results || ''} onChange={e => setForm({ ...form, results: e.target.value })} /></Field>
