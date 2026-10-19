@@ -1,8 +1,8 @@
 'use client';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ExternalLink, Monitor, Zap, Palette, Bot, TrendingUp, Target, Settings2, Gem } from 'lucide-react';
 import Link from 'next/link';
 import { useCMS } from '@/lib/CMSContext';
-import { Reveal, RevealLeft, RevealRight, StaggerGrid, StaggerItem, MetricBar } from '@/components/ui/Motion';
+import { Reveal, RevealLeft, RevealRight, StaggerGrid, StaggerItem } from '@/components/ui/Motion';
 import Button from '@/components/ui/Button';
 
 /* ─── TRUSTED BY ─── */
@@ -19,7 +19,7 @@ export function TrustedBy() {
 }
 
 /* ─── ABOUT PREVIEW ─── */
-const PILLARS = [{ ico: '⚡', t: 'Technology' }, { ico: '🎨', t: 'Design' }, { ico: '🤖', t: 'Automation' }, { ico: '📈', t: 'Growth' }];
+const PILLARS = [{ ico: Zap, t: 'Technology' }, { ico: Palette, t: 'Design' }, { ico: Bot, t: 'Automation' }, { ico: TrendingUp, t: 'Growth' }];
 export function AboutPreview() {
   const { data } = useCMS();
   return (
@@ -32,7 +32,7 @@ export function AboutPreview() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 32 }}>
             {PILLARS.map(p => (
               <div key={p.t} className="hover-lift-card" style={{ background: 'var(--navy2)', border: '1px solid var(--border)', borderRadius: 12, padding: 20 }}>
-                <div style={{ fontSize: '1.2rem', marginBottom: 8 }} aria-hidden="true">{p.ico}</div>
+                <div style={{ fontSize: '1.2rem', marginBottom: 8 }} aria-hidden="true"><p.ico size={23} color="var(--blue)" /></div>
                 <div style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 700, fontSize: '.88rem' }}>{p.t}</div>
               </div>
             ))}
@@ -95,16 +95,15 @@ export function ProcessSection() {
 
 /* ─── WHY SESCO ─── */
 const BENS = [
-  { ico: '🎯', t: 'Strategic Thinking', d: 'Every project starts with your business goals. We align technology and design to your growth strategy.' },
-  { ico: '⚙️', t: 'Modern Technology', d: 'We build with Next.js, React, AI APIs, and cloud infrastructure to future-proof your investment.' },
-  { ico: '💎', t: 'Creative Excellence', d: 'Premium aesthetics with pixel-perfect execution. Every system communicates your brand\'s true value.' },
-  { ico: '📈', t: 'Business Growth', d: 'We measure success by your results — traffic, conversions, efficiency, and revenue.' },
+  { ico: Target, t: 'Strategic Thinking', d: 'Every project starts with your business goals. We align technology and design to your growth strategy.' },
+  { ico: Settings2, t: 'Modern Technology', d: 'We build with Next.js, React, AI APIs, and cloud infrastructure to future-proof your investment.' },
+  { ico: Gem, t: 'Creative Excellence', d: 'Premium aesthetics with pixel-perfect execution. Every system communicates your brand\'s true value.' },
+  { ico: TrendingUp, t: 'Business Growth', d: 'We measure success by your results — traffic, conversions, efficiency, and revenue.' },
 ];
-const METRICS = [
-  { l: 'Client Retention Rate', v: '94%', w: 94, gold: false },
-  { l: 'On-Time Project Delivery', v: '97%', w: 97, gold: false },
-  { l: 'Average Performance Uplift', v: '3.5×', w: 87, gold: true },
-  { l: 'Industries Served', v: '10+', w: 70, gold: true },
+const DELIVERY_VALUES = [
+  { number: '01', title: 'Purpose-led strategy', detail: 'A clear brief and measurable business objectives before design begins.' },
+  { number: '02', title: 'Thoughtful engineering', detail: 'Responsive interfaces, maintainable systems and sensible integrations.' },
+  { number: '03', title: 'Long-term partnership', detail: 'A focus on usability, support and sustainable improvements.' },
 ];
 export function WhySection() {
   return (
@@ -117,7 +116,7 @@ export function WhySection() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
             {BENS.map(b => (
               <div key={b.t} style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
-                <div style={{ width: 42, height: 42, background: 'rgba(47,107,255,.12)', border: '1px solid rgba(47,107,255,.2)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem', flexShrink: 0 }} aria-hidden="true">{b.ico}</div>
+                <div style={{ width: 42, height: 42, background: 'rgba(47,107,255,.12)', border: '1px solid rgba(47,107,255,.2)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem', flexShrink: 0 }} aria-hidden="true"><b.ico size={24} color="var(--blue)" /></div>
                 <div>
                   <div style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 700, fontSize: '.95rem', marginBottom: 3 }}>{b.t}</div>
                   <div style={{ color: 'var(--gray)', fontSize: '.85rem', lineHeight: 1.6 }}>{b.d}</div>
@@ -129,13 +128,12 @@ export function WhySection() {
         <RevealRight delay={0.2}>
           <div style={{ background: 'var(--navy2)', border: '1px solid var(--border)', borderRadius: 20, padding: 40, position: 'relative', overflow: 'hidden' }}>
             <div style={{ position: 'absolute', top: -60, right: -60, width: 240, height: 240, background: 'radial-gradient(circle,rgba(200,162,74,.1) 0%,transparent 70%)' }} aria-hidden="true" />
-            {METRICS.map((m, i) => (
-              <div key={m.l} style={{ position: 'relative', zIndex: 1, marginTop: i > 0 ? 24 : 0, paddingTop: i > 0 ? 24 : 0, borderTop: i > 0 ? '1px solid var(--border)' : 'none' }}>
-                <p style={{ fontFamily: 'Montserrat,sans-serif', fontSize: '.62rem', fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--gray)', marginBottom: 8 }}>{m.l}</p>
-                <MetricBar width={m.w} gold={m.gold} />
-                <p style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 800, fontSize: '1.5rem', marginTop: 6, color: m.gold ? 'var(--gold)' : '#fff' }}>
-                  {m.v.replace(/[×%+]/, '')}<small style={{ color: m.gold ? 'var(--gold)' : 'var(--blue)', fontSize: '.9rem' }}>{m.v.match(/[×%+]/)?.[0]}</small>
-                </p>
+            <p className="section-label">Our commitment</p>
+            <h3 style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontSize: 'clamp(1.4rem,2vw,2rem)', lineHeight: 1.2, marginBottom: 24 }}>Beautiful on the surface. Built to work underneath.</h3>
+            {DELIVERY_VALUES.map(item => (
+              <div key={item.number} className="sesco-value-row">
+                <span>{item.number}</span>
+                <div><h4>{item.title}</h4><p>{item.detail}</p></div>
               </div>
             ))}
           </div>
@@ -148,39 +146,40 @@ export function WhySection() {
 /* ─── PORTFOLIO PREVIEW ─── */
 export function PortfolioPreview() {
   const { data } = useCMS();
-  const featured = data.projects.slice(0, 3);
+  const featured = data.projects.slice(0, 4);
   return (
-    <section className="section section-light">
+    <section className="section section-light sesco-featured-work" id="featured-work">
       <div className="container">
-        <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: 20, marginBottom: 48 }}>
+        <div className="sesco-featured-heading">
           <div>
-            <Reveal><p className="section-label">Selected Work</p></Reveal>
-            <Reveal delay={0.1}><h2 style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 800, fontSize: 'var(--fs-4xl)', letterSpacing: '-.02em' }}>Our Projects</h2></Reveal>
+            <Reveal><p className="section-label">Selected Work / Our Portfolio</p></Reveal>
+            <Reveal delay={0.1}><h2>Digital experiences.<br/><span>Built for real businesses.</span></h2></Reveal>
+            <p>Explore a selection of websites and digital products we have developed. Our public showcase is only part of the work we do.</p>
           </div>
-          <Reveal delay={0.2}><Button href="/portfolio" variant="outline" size="sm">View All <ArrowRight size={13} /></Button></Reveal>
+          <Button href="/portfolio" variant="outline" size="sm">Explore all projects <ArrowRight size={15} /></Button>
         </div>
-        <StaggerGrid style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: 20 }}>
-          {featured.map(p => (
-            <StaggerItem key={p.id}>
-              <Link href="/case-studies" className="card card-hover portfolio-card" style={{ overflow: 'hidden', display: 'block', textDecoration: 'none', color: 'inherit' }}>
-                <div style={{ aspectRatio: '16/9', background: p.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2.2rem', position: 'relative' }}>
-                  <span aria-hidden="true">{p.icon}</span>
-                  <div style={{ position: 'absolute', top: 10, left: 10, background: 'rgba(11,15,26,.85)', backdropFilter: 'blur(10px)', border: '1px solid var(--border)', borderRadius: 100, padding: '3px 10px', fontFamily: 'Montserrat,sans-serif', fontSize: '.58rem', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--gray)' }}>{p.type}</div>
-                  <div className="portfolio-card-overlay" style={{ position: 'absolute', inset: 0, background: 'rgba(11,15,26,.82)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, opacity: 0, transition: 'opacity .3s var(--ease)', fontFamily: 'Montserrat,sans-serif', fontSize: '.68rem', fontWeight: 600, letterSpacing: '.08em', textTransform: 'uppercase', color: 'var(--blue)' }}>
-                    View Case Study <ArrowRight size={14} />
-                  </div>
+        <div className="sesco-featured-grid">
+          {featured.map((project, index) => (
+            <article className="sesco-work-card" key={project.id}>
+              <div className="sesco-work-visual">
+                <div className="sesco-browser-bar" aria-hidden="true"><span/><span/><span/><div>{project.link ? (() => { try { return new URL(project.link).hostname; } catch { return 'Project preview'; } })() : 'Project preview'}</div></div>
+                {project.preview ? <img src={project.preview} alt={`${project.title} website screenshot`} loading="lazy" /> : <div className="sesco-preview-placeholder"><Monitor size={38} strokeWidth={1.3}/><span>Website preview coming soon</span></div>}
+                <span className="sesco-work-number">{String(index + 1).padStart(2, '0')}</span>
+              </div>
+              <div className="sesco-work-content">
+                <span className="sesco-work-category">{project.type}</span>
+                <h3>{project.title}</h3>
+                <p>{project.desc}</p>
+                <div className="sesco-work-tags">{project.tags.slice(0,3).map(tag => <span key={tag}>{tag}</span>)}</div>
+                <div className="sesco-work-actions">
+                  {project.link && /^https?:\/\//i.test(project.link) && <a href={project.link} target="_blank" rel="noopener noreferrer" className="sesco-work-live">Visit live website <ExternalLink size={15}/></a>}
+                  <Link href="/case-studies" className="sesco-work-case">Explore case studies <ArrowRight size={15}/></Link>
                 </div>
-                <div style={{ padding: 22 }}>
-                  <h3 style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 700, fontSize: '1rem', marginBottom: 6 }}>{p.title}</h3>
-                  <p style={{ color: 'var(--gray)', fontSize: '.85rem', lineHeight: 1.6, marginBottom: 10 }}>{p.desc}</p>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
-                    {p.tags.slice(0,3).map(t => <span key={t} className="badge">{t}</span>)}
-                  </div>
-                </div>
-              </Link>
-            </StaggerItem>
+              </div>
+            </article>
           ))}
-        </StaggerGrid>
+        </div>
+        <p className="sesco-featured-footnote">Have a project in mind? <Link href="/contact">Let’s create something exceptional <ArrowRight size={14}/></Link></p>
       </div>
     </section>
   );

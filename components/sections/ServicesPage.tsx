@@ -1,18 +1,20 @@
 'use client';
 import { useState } from 'react';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Code2, Blocks, ShoppingBag, Palette, Bot, LineChart, Layers3 } from 'lucide-react';
 import { useCMS } from '@/lib/CMSContext';
 import { Reveal, StaggerGrid, StaggerItem } from '@/components/ui/Motion';
 import Button from '@/components/ui/Button';
 
+const serviceIcons = [Code2, Blocks, ShoppingBag, Palette, Bot, LineChart, Layers3];
+
 function FAQItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
+    <div className="card premium-faq-card" style={{ padding: 0, overflow: 'hidden' }}>
       <button
         onClick={() => setOpen(o => !o)}
         aria-expanded={open}
-        style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, padding: '18px 22px', background: 'none', border: 'none', color: '#fff', textAlign: 'left', cursor: 'pointer', fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 700, fontSize: '.95rem' }}
+        style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, padding: '18px 22px', background: 'none', border: 'none', color: 'var(--white)', textAlign: 'left', cursor: 'pointer', fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 700, fontSize: '.95rem' }}
       >
         {q}
         <ChevronDown size={16} color="var(--gray)" aria-hidden="true" style={{ flexShrink: 0, transform: open ? 'rotate(180deg)' : 'none', transition: 'transform .25s var(--ease)' }} />
@@ -25,9 +27,9 @@ function FAQItem({ q, a }: { q: string; a: string }) {
 }
 
 const PRICING = [
-  { tier: 'Starter', tag: 'Small Projects', items: ['Landing page or brochure site', 'Brand identity design', '3 revisions included', '2-week delivery', '30-day support'], cta: 'Get a Quote', style: 'outline' },
-  { tier: 'Growth', tag: 'Full Digital System', featured: true, items: ['Full-stack web application', 'Complete brand system', 'Admin CMS dashboard', 'SEO & performance setup', 'AI/automation integration', '90-day support'], cta: 'Start a Project →', style: 'primary' },
-  { tier: 'Enterprise', tag: 'Strategic Partnership', items: ['Full digital transformation', 'Multi-platform systems', 'AI automation suite', 'Social media management', 'Dedicated project manager', 'Ongoing retainer'], cta: "Let's Talk →", style: 'gold' },
+  { tier: 'Starter', tag: 'Small Projects', items: ['Landing page or brochure site', 'Brand identity design', 'Responsive implementation', 'Content and launch guidance', 'Support options tailored to scope'], cta: 'Get a Quote', style: 'outline' },
+  { tier: 'Growth', tag: 'Full Digital System', featured: true, items: ['Full-stack web application', 'Complete brand system', 'Admin CMS dashboard', 'SEO & performance setup', 'AI/automation integration', 'Deployment and handover'], cta: 'Start a Project →', style: 'primary' },
+  { tier: 'Enterprise', tag: 'Strategic Partnership', items: ['Full digital transformation', 'Multi-platform systems', 'AI automation suite', 'Social media management', 'Project governance', 'Support arrangements by agreement'], cta: "Let's Talk →", style: 'gold' },
 ];
 
 export default function ServicesPage() {
@@ -49,9 +51,9 @@ export default function ServicesPage() {
           <StaggerGrid style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(300px,1fr))', gap: 22 }}>
             {data.services.map((svc, i) => (
               <StaggerItem key={svc.id}>
-                <div className={`card card-hover card-top-line${svc.color === 'gold' ? ' gold' : ''}`} style={{ padding: 44, position: 'relative', overflow: 'hidden', height: '100%' }}>
+                <div className={`card card-hover card-top-line premium-service-card${svc.color === 'gold' ? ' gold' : ''}`} style={{ padding: 44, position: 'relative', overflow: 'hidden', height: '100%' }}>
                   <p style={{ fontFamily: 'Montserrat,sans-serif', fontSize: '.6rem', fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', color: 'var(--blue)', marginBottom: 16 }}>0{i + 1}</p>
-                  <div style={{ width: 52, height: 52, background: 'rgba(47,107,255,.12)', border: '1px solid rgba(47,107,255,.2)', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', marginBottom: 20 }} aria-hidden="true">{svc.icon}</div>
+                  <div className="premium-service-icon" aria-hidden="true">{(() => { const Icon = serviceIcons[i % serviceIcons.length]; return <Icon size={25} strokeWidth={1.8} />; })()}</div>
                   <h3 style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 700, fontSize: 'var(--fs-xl)', marginBottom: 10 }}>{svc.title}</h3>
                   <p style={{ color: 'var(--gray)', fontSize: '.92rem', lineHeight: 1.75, marginBottom: 22 }}>{svc.desc}</p>
                   {svc.items && (
@@ -74,8 +76,8 @@ export default function ServicesPage() {
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: 52 }}>
             <Reveal><p className="section-label centered">Pricing</p></Reveal>
-            <Reveal delay={0.1}><h2 style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 800, fontSize: 'var(--fs-4xl)', letterSpacing: '-.02em', marginBottom: 16 }}>Transparent Pricing</h2></Reveal>
-            <Reveal delay={0.2}><p style={{ color: 'var(--gray)', fontSize: 'var(--fs-base)', lineHeight: 1.8, maxWidth: 480, margin: '0 auto' }}>Flexible packages designed to meet you where you are — with room to scale.</p></Reveal>
+            <Reveal delay={0.1}><h2 style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 800, fontSize: 'var(--fs-4xl)', letterSpacing: '-.02em', marginBottom: 16 }}>Solutions Built Around Your Goals</h2></Reveal>
+            <Reveal delay={0.2}><p style={{ color: 'var(--gray)', fontSize: 'var(--fs-base)', lineHeight: 1.8, maxWidth: 480, margin: '0 auto' }}>Every project is scoped to your requirements, timeline and business priorities. Request a tailored proposal.</p></Reveal>
           </div>
           <StaggerGrid style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))', gap: 20, alignItems: 'center' }}>
             {PRICING.map(p => (
@@ -90,7 +92,7 @@ export default function ServicesPage() {
                     zIndex: p.featured ? 1 : undefined,
                   }}
                 >
-                  {p.featured && <div style={{ position: 'absolute', top: 0, right: 0, background: 'var(--blue)', color: '#fff', fontFamily: 'Montserrat,sans-serif', fontSize: '.58rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', padding: '4px 12px', borderBottomLeftRadius: 8 }}>Most Popular</div>}
+                  {p.featured && <div style={{ position: 'absolute', top: 0, right: 0, background: 'var(--blue)', color: '#fff', fontFamily: 'Montserrat,sans-serif', fontSize: '.58rem', fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', padding: '4px 12px', borderBottomLeftRadius: 8 }}>Full-service</div>}
                   <p style={{ fontFamily: 'Montserrat,sans-serif', fontSize: '.62rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 8 }}>{p.tier}</p>
                   <p style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 800, fontSize: 'var(--fs-3xl)', marginBottom: 4 }}>Custom</p>
                   <p style={{ color: 'var(--gray)', fontSize: '.8rem', marginBottom: 24 }}>{p.tag}</p>
@@ -127,8 +129,8 @@ export default function ServicesPage() {
         <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at center,rgba(47,107,255,.1) 0%,transparent 70%)' }} aria-hidden="true" />
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <Reveal><h2 style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 800, fontSize: 'var(--fs-3xl)', letterSpacing: '-.02em', marginBottom: 16 }}>Not Sure Which Service You Need?</h2></Reveal>
-          <Reveal delay={0.1}><p style={{ color: 'var(--gray)', fontSize: 'var(--fs-base)', lineHeight: 1.8, maxWidth: 520, margin: '0 auto 32px' }}>Book a free 30-minute strategy call. We&apos;ll diagnose your situation and recommend the right system.</p></Reveal>
-          <Reveal delay={0.2}><Button href="/contact" variant="primary">Book a Free Call →</Button></Reveal>
+          <Reveal delay={0.1}><p style={{ color: 'var(--gray)', fontSize: 'var(--fs-base)', lineHeight: 1.8, maxWidth: 520, margin: '0 auto 32px' }}>Tell us what you want to achieve. We&apos;ll review your requirements and recommend a practical approach.</p></Reveal>
+          <Reveal delay={0.2}><Button href="/contact" variant="primary">Discuss Your Project →</Button></Reveal>
         </div>
       </section>
     </>

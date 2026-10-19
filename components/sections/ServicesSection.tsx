@@ -1,8 +1,10 @@
 'use client';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Code2, Blocks, ShoppingBag, Palette, Bot, LineChart, Layers3 } from 'lucide-react';
 import { useCMS } from '@/lib/CMSContext';
 import { Reveal, StaggerGrid, StaggerItem } from '@/components/ui/Motion';
 import Button from '@/components/ui/Button';
+
+const serviceIcons = [Code2, Blocks, ShoppingBag, Palette, Bot, LineChart, Layers3];
 
 export default function ServicesSection() {
   const { data } = useCMS();
@@ -17,11 +19,11 @@ export default function ServicesSection() {
         </div>
 
         <StaggerGrid style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: 20 }}>
-          {data.services.map(svc => (
+          {data.services.map((svc, i) => (
             <StaggerItem key={svc.id}>
-              <div className={`card card-hover card-top-line${svc.color === 'gold' ? ' gold' : ''}`} style={{ padding: 40, position: 'relative', overflow: 'hidden', height: '100%' }}>
+              <div className={`card card-hover card-top-line premium-service-card${svc.color === 'gold' ? ' gold' : ''}`} style={{ padding: 40, position: 'relative', overflow: 'hidden', height: '100%' }}>
                 <span className={`badge${svc.color === 'gold' ? ' badge-gold' : ''}`} style={{ marginBottom: 20 }}>{svc.tag}</span>
-                <div style={{ width: 50, height: 50, background: 'rgba(47,107,255,.12)', border: '1px solid rgba(47,107,255,.2)', borderRadius: 11, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.4rem', marginBottom: 20 }} aria-hidden="true">{svc.icon}</div>
+                <div className="premium-service-icon" aria-hidden="true">{(() => { const Icon = serviceIcons[i % serviceIcons.length]; return <Icon size={24} strokeWidth={1.8} />; })()}</div>
                 <h3 style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 700, fontSize: 'var(--fs-xl)', marginBottom: 10 }}>{svc.title}</h3>
                 <p style={{ color: 'var(--gray)', fontSize: '.9rem', lineHeight: 1.7, marginBottom: 22 }}>{svc.desc}</p>
                 <Button href="/services" variant="ghost" className="learn-more-link">Learn More <ArrowRight size={12} /></Button>

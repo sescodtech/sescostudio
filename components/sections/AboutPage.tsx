@@ -1,17 +1,17 @@
 'use client';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Zap, Network, Handshake, Lightbulb, Crosshair, Globe2 } from 'lucide-react';
 import { useCMS } from '@/lib/CMSContext';
 import { Reveal, RevealLeft, RevealRight, StaggerGrid, StaggerItem } from '@/components/ui/Motion';
 import { CTASection } from '@/components/sections/HomeSections';
 import Button from '@/components/ui/Button';
 
 const VALUES = [
-  { ico: '⚡', t: 'Excellence', d: 'We hold ourselves to the highest standard in every project — from strategic thinking to pixel-level execution.' },
-  { ico: '🔗', t: 'Systems Thinking', d: 'We design holistically. Every component connects to a larger ecosystem that serves your business goals.' },
-  { ico: '🤝', t: 'Partnership', d: "We don't take jobs. We form partnerships. Your growth is our growth, and we invest in your long-term success." },
-  { ico: '🚀', t: 'Innovation', d: 'We stay at the frontier of technology — adopting AI, automation, and emerging tools before they become mainstream.' },
-  { ico: '🎯', t: 'Precision', d: 'We are obsessive about detail. Clean code, sharp design, and tested systems are non-negotiable for us.' },
-  { ico: '🌍', t: 'Impact', d: 'Every system we deliver should measurably improve your business outcomes. Impact is the only metric that matters.' },
+  { ico: Zap, t: 'Excellence', d: 'We hold ourselves to the highest standard in every project — from strategic thinking to pixel-level execution.' },
+  { ico: Network, t: 'Systems Thinking', d: 'We design holistically. Every component connects to a larger ecosystem that serves your business goals.' },
+  { ico: Handshake, t: 'Partnership', d: "We don't take jobs. We form partnerships. Your growth is our growth, and we invest in your long-term success." },
+  { ico: Lightbulb, t: 'Innovation', d: 'We stay at the frontier of technology — adopting AI, automation, and emerging tools before they become mainstream.' },
+  { ico: Crosshair, t: 'Precision', d: 'We are obsessive about detail. Clean code, sharp design, and tested systems are non-negotiable for us.' },
+  { ico: Globe2, t: 'Impact', d: 'Every system we deliver should measurably improve your business outcomes. Impact is the only metric that matters.' },
 ];
 
 export default function AboutPage() {
@@ -58,8 +58,8 @@ export default function AboutPage() {
           <StaggerGrid style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: 20 }}>
             {VALUES.map(v => (
               <StaggerItem key={v.t}>
-                <div className="card card-hover" style={{ padding: 36, height: '100%' }}>
-                  <div style={{ fontSize: '2rem', marginBottom: 16 }} aria-hidden="true">{v.ico}</div>
+                <div className="card card-hover premium-value-card" style={{ padding: 36, height: '100%' }}>
+                  <div className="premium-value-icon" aria-hidden="true"><v.ico size={24} strokeWidth={1.8} /></div>
                   <h3 style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 700, fontSize: '1.1rem', marginBottom: 10 }}>{v.t}</h3>
                   <p style={{ color: 'var(--gray)', fontSize: '.9rem', lineHeight: 1.7 }}>{v.d}</p>
                 </div>
@@ -78,7 +78,7 @@ export default function AboutPage() {
           <StaggerGrid style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: 20 }}>
             {data.team.map(m => (
               <StaggerItem key={m.id}>
-                <div className="card card-hover" style={{ padding: 32, textAlign: 'center', height: '100%', background: 'var(--navy2)' }}>
+                <div className="card card-hover premium-team-card" style={{ padding: 32, textAlign: 'center', height: '100%' }}>
                   <div style={{ width: 80, height: 80, borderRadius: '50%', background: 'rgba(47,107,255,.12)', border: '2px solid rgba(47,107,255,.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 800, fontSize: '1.5rem', color: 'var(--blue)', margin: '0 auto 16px' }} aria-hidden="true">{m.initials}</div>
                   <h3 style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 700, fontSize: '1rem', marginBottom: 4 }}>{m.name}</h3>
                   <p style={{ fontFamily: 'Montserrat,sans-serif', fontSize: '.62rem', fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 12 }}>{m.role}</p>

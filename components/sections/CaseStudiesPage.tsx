@@ -1,5 +1,7 @@
 'use client';
 import { useCMS } from '@/lib/CMSContext';
+import Link from 'next/link';
+import { ArrowUpRight } from 'lucide-react';
 import { Reveal, StaggerGrid, StaggerItem } from '@/components/ui/Motion';
 
 export default function CaseStudiesPage() {
@@ -18,13 +20,13 @@ export default function CaseStudiesPage() {
 
       <section style={{ padding: '20px 5% 110px', position: 'relative', zIndex: 1 }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-          <StaggerGrid style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(420px,1fr))', gap: 24 }}>
+          <StaggerGrid style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(min(100%,360px),1fr))', gap: 24 }}>
             {data.projects.map(p => (
               <StaggerItem key={p.id}>
                 <div style={{ background: 'var(--navy3)', border: '1px solid var(--border)', borderRadius: 16, overflow: 'hidden', cursor: 'default', transition: 'transform .3s,border-color .3s' }}
                   onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'translateY(-4px)'; (e.currentTarget as HTMLElement).style.borderColor = 'rgba(47,107,255,.3)'; }}
                   onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = ''; (e.currentTarget as HTMLElement).style.borderColor = 'var(--border)'; }}>
-                  <div style={{ aspectRatio: '16/9', background: p.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '3rem', padding: 40 }}>{p.icon}</div>
+                  <div className="portfolio-project-preview portfolio-scroll-preview">{p.preview ? <img src={p.preview} alt={`${p.title} project screenshot`} loading="lazy" /> : <div className="portfolio-preview-placeholder"><strong>Project showcase</strong><small>Screenshot coming soon</small></div>}</div>
                   <div style={{ padding: 28 }}>
                     <p style={{ fontFamily: 'Montserrat,sans-serif', fontSize: '.58rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 8 }}>{p.type}</p>
                     <h3 style={{ fontFamily: 'Plus Jakarta Sans,sans-serif', fontWeight: 700, fontSize: '1.2rem', marginBottom: 10 }}>{p.title}</h3>
@@ -49,6 +51,7 @@ export default function CaseStudiesPage() {
                         </div>
                       )}
                     </div>
+                    <div className="case-study-actions"><Link href={`/case-studies/${p.id}`}>Explore case study <ArrowUpRight size={16}/></Link>{p.link && <a href={p.link} target="_blank" rel="noopener noreferrer">Visit live website <ArrowUpRight size={16}/></a>}</div>
                   </div>
                 </div>
               </StaggerItem>

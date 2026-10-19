@@ -69,9 +69,9 @@ export default function PortfolioPage() {
                         <span className="portfolio-browser-dot" />
                         <div className="portfolio-browser-address">{p.link ? p.link.replace(/^https?:\/\//, '').replace(/\/$/, '') : 'Website preview'}</div>
                       </div>
-                      <div className="portfolio-project-preview">
+                      <div className="portfolio-project-preview portfolio-scroll-preview">
                         {p.preview ? (
-                          <img src={p.preview} alt={`${p.title} website preview`} loading="lazy" />
+                          <img src={p.preview} alt={`${p.title} website screenshot`} loading="lazy" />
                         ) : (
                           <div className="portfolio-preview-placeholder">
                             <strong>Website Preview</strong>
@@ -92,7 +92,7 @@ export default function PortfolioPage() {
                       </div>
                       <div className="portfolio-actions">
                         {p.link && <a href={p.link} target="_blank" rel="noopener noreferrer" className="portfolio-visit-btn">View Live Site <ArrowRight size={13} /></a>}
-                        <Link href="/case-studies" className="portfolio-case-btn">Case Study <ArrowRight size={13} /></Link>
+                        <Link href={`/case-studies/${p.id}`} className="portfolio-case-btn">Case Study <ArrowRight size={13} /></Link>
                       </div>
                     </div>
                   </article>
@@ -101,6 +101,7 @@ export default function PortfolioPage() {
             </AnimatePresence>
           </motion.div>
         </div>
+          <p className="portfolio-curation-note">This portfolio is a selection of our work. Additional websites, digital products and custom business systems are not included in this public showcase.</p>
       </section>
     </>
   );

@@ -8,6 +8,7 @@ import { NavLink } from '@/types/cms';
 export default function NavigationTab() {
   const { data, save } = useCMS();
   const { toast } = useToast();
+  const [saving, setSaving] = useState(false);
   const [prevNav, setPrevNav] = useState(data.navigation);
   const [links, setLinks] = useState<NavLink[]>(data.navigation.links);
   const [ctaLabel, setCtaLabel] = useState(data.navigation.ctaLabel);
@@ -25,17 +26,22 @@ export default function NavigationTab() {
   const addLink = () => setLinks([...links, { id: Date.now(), label: 'New Link', href: '/' }]);
 
   const handleSave = async () => {
+    if (saving) return;
     if (links.some(l => !l.label.trim() || !l.href.trim())) { toast('Every link needs a label and a URL', 'error'); return; }
+    if (links.some(l => !/^(\/|https?:\/\/|mailto:|tel:|#)/i.test(l.href.trim()))) { toast('Use a site path (/services) or a valid URL', 'error'); return; }
+    setSaving(true);
     try {
       await save({ navigation: { links, ctaLabel } });
       toast('Navigation updated');
     } catch {
       toast('Failed to save — check your connection', 'error');
+    } finally {
+      setSaving(false);
     }
   };
 
   return (
-    <Card title="Navigation" action={<Btn variant="primary" size="sm" onClick={handleSave}>Save Changes</Btn>}>
+    <Card title="Navigation" action={<Btn variant="primary" size="sm" onClick={handleSave} disabled={saving}>{saving ? "Saving…" : "Save Changes"}</Btn>}>
       <p style={{ color: 'var(--gray)', fontSize: '.82rem', marginBottom: 16 }}>Controls the header menu (desktop and mobile) and footer navigation column.</p>
       <Table headers={['Label', 'URL', '']}>
         {links.map(l => (

@@ -1,5 +1,5 @@
 'use client';
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { CMSData } from '@/types/cms';
 import { getCMSData, fetchCMSData, saveCMSData, resetCMSData } from '@/lib/cms';
 import { emitNotification } from '@/lib/notificationBus';
@@ -17,12 +17,15 @@ const CMSContext = createContext<CMSContextType | null>(null);
 export function CMSProvider({ children }: { children: React.ReactNode }) {
   const [data, setData] = useState<CMSData>(getCMSData);
   const [loading, setLoading] = useState(true);
+  const saveQueue = useRef<Promise<void>>(Promise.resolve());
+  const latestData = useRef(data);
+  latestData.current = data;
 
   useEffect(() => {
     // 1. Paint instantly from local cache (set above via getCMSData)
     // 2. Then reconcile with the source of truth in Supabase
     fetchCMSData()
-      .then(fresh => setData(fresh))
+      .then(fresh => { latestData.current = fresh; setData(fresh); })
       .catch(err => console.error('CMS fetch failed:', err))
       .finally(() => setLoading(false));
   }, []);
@@ -31,19 +34,26 @@ export function CMSProvider({ children }: { children: React.ReactNode }) {
     setData(prev => ({ ...prev, ...partial }));
   };
 
-  const save = async (partial: Partial<CMSData>) => {
-    const next = { ...data, ...partial };
-    setData(next); // optimistic UI update
-    try {
-      await saveCMSData(next);
-    } catch (err) {
-      const isMediaChange = 'media' in partial || 'logo' in partial || 'favicon' in partial;
-      emitNotification({
-        type: isMediaChange ? 'upload_failed' : 'save_failed',
-        message: isMediaChange ? 'An upload failed to save to Supabase' : 'A content save failed to sync to Supabase',
-      });
-      throw err;
-    }
+  const save = (partial: Partial<CMSData>): Promise<void> => {
+    // Serialize writes: a second editor cannot overwrite the first editor's update
+    // using an outdated React render snapshot.
+    const operation = saveQueue.current.catch(() => undefined).then(async () => {
+      const next = { ...latestData.current, ...partial };
+      try {
+        await saveCMSData(next);
+        latestData.current = next;
+        setData(next);
+      } catch (err) {
+        const isMediaChange = 'media' in partial || 'logo' in partial || 'favicon' in partial;
+        emitNotification({
+          type: isMediaChange ? 'upload_failed' : 'save_failed',
+          message: isMediaChange ? 'An upload failed to save to Supabase' : 'A content save failed to sync to Supabase',
+        });
+        throw err;
+      }
+    });
+    saveQueue.current = operation;
+    return operation;
   };
 
   const reset = async () => {

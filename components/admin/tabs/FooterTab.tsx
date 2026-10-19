@@ -7,6 +7,7 @@ import { Card, Field, Textarea, Btn } from '@/components/admin/ui';
 export default function FooterTab() {
   const { data, save } = useCMS();
   const { toast } = useToast();
+  const [saving, setSaving] = useState(false);
   const [prevFooter, setPrevFooter] = useState(data.footer);
   const [tagline, setTagline] = useState(data.footer.tagline);
   const [servicesLinks, setServicesLinks] = useState(data.footer.servicesLinks.join('\n'));
@@ -18,16 +19,20 @@ export default function FooterTab() {
   }
 
   const handleSave = async () => {
+    if (saving) return;
+    setSaving(true);
     try {
       await save({ footer: { tagline, servicesLinks: servicesLinks.split('\n').map(s => s.trim()).filter(Boolean) } });
       toast('Footer updated');
     } catch {
       toast('Failed to save — check your connection', 'error');
+    } finally {
+      setSaving(false);
     }
   };
 
   return (
-    <Card title="Footer" action={<Btn variant="primary" size="sm" onClick={handleSave}>Save Changes</Btn>}>
+    <Card title="Footer" action={<Btn variant="primary" size="sm" onClick={handleSave} disabled={saving}>{saving ? "Saving…" : "Save Changes"}</Btn>}>
       <Field label="Tagline (use a newline for a second line)">
         <Textarea value={tagline} onChange={e => setTagline(e.target.value)} style={{ minHeight: 70 }} />
       </Field>

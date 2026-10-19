@@ -341,7 +341,6 @@ export async function fetchCMSData(): Promise<CMSData> {
 
 /** Persists a partial or full CMS update to Supabase (and the local cache). */
 export async function saveCMSData(data: CMSData): Promise<void> {
-  cacheLocally(data); // optimistic local update so the UI feels instant
   const { error } = await supabase
     .from(TABLE)
     .upsert({ id: ROW_ID, content: data, updated_at: new Date().toISOString() });
@@ -350,6 +349,7 @@ export async function saveCMSData(data: CMSData): Promise<void> {
     console.error('Supabase save error:', error.message);
     throw error;
   }
+  cacheLocally(data);
 }
 
 export async function resetCMSData(): Promise<void> {

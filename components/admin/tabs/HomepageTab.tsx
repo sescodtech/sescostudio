@@ -7,6 +7,7 @@ import { Card, Field, Textarea, Btn } from '@/components/admin/ui';
 export default function HomepageTab() {
   const { data, save } = useCMS();
   const { toast } = useToast();
+  const [saving, setSaving] = useState(false);
   const [prevHeadline, setPrevHeadline] = useState(data.heroHeadline);
   const [prevSub, setPrevSub] = useState(data.heroSub);
   const [headline, setHeadline] = useState(data.heroHeadline);
@@ -20,17 +21,21 @@ export default function HomepageTab() {
   }
 
   const handleSave = async () => {
+    if (saving) return;
+    setSaving(true);
     try {
       await save({ heroHeadline: headline, heroSub: sub });
       toast('Homepage updated');
     } catch {
       toast('Failed to save — check your connection', 'error');
+    } finally {
+      setSaving(false);
     }
   };
 
   return (
     <div>
-      <Card title="Hero Section" action={<Btn variant="primary" size="sm" onClick={handleSave}>Save Changes</Btn>}>
+      <Card title="Hero Section" action={<Btn variant="primary" size="sm" onClick={handleSave} disabled={saving}>{saving ? "Saving…" : "Save Changes"}</Btn>}>
         <Field label="Hero Headline (use a newline for a second line)">
           <Textarea value={headline} onChange={e => setHeadline(e.target.value)} style={{ minHeight: 60 }} />
         </Field>
@@ -39,9 +44,9 @@ export default function HomepageTab() {
         </Field>
       </Card>
 
-      <Card title="Coming in a Future Update">
+      <Card title="CMS Scope">
         <p style={{ color: 'var(--gray)', fontSize: '.85rem', lineHeight: 1.7 }}>
-          The Stats Bar (Projects Delivered, Years Experience, etc.), CTA button labels, and per-page SEO metadata are not yet editable from here — they&apos;re still hardcoded in the site&apos;s components. These are good candidates for the next CMS expansion phase.
+          This editor manages the homepage hero copy. Navigation, footer, SEO, services, projects, testimonials and FAQs have dedicated editing sections. Changes are saved to the configured CMS database.
         </p>
       </Card>
     </div>
